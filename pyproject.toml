@@ -1,0 +1,47 @@
+[build-system]
+requires = ["hatchling>=1.27,<2"]
+build-backend = "hatchling.build"
+
+[project]
+name = "python-ui-library"
+version = "0.1.0a0"
+description = "Reusable PySide6 Qt Widgets with the Alpaca Light theme"
+readme = "README.md"
+requires-python = ">=3.11,<3.14"
+license = "MIT"
+license-files = ["LICENSE", "THIRD_PARTY_NOTICES.md"]
+authors = [{ name = "darizae" }]
+classifiers = [
+  "Development Status :: 2 - Pre-Alpha",
+  "Environment :: Win32 (MS Windows)",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: Microsoft :: Windows",
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Topic :: Software Development :: User Interfaces",
+]
+dependencies = ["PySide6-Essentials>=6.11,<6.12"]
+
+[project.optional-dependencies]
+dev = [
+  "build>=1.3,<2",
+  "pytest>=8.4,<10",
+  "pytest-qt>=4.5,<5",
+  "ruff>=0.14,<1",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/python_ui_library"]
+
+[tool.pytest.ini_options]
+addopts = "-ra"
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP"]

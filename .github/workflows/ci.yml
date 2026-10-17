@@ -1,0 +1,32 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: windows-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.11", "3.12", "3.13"]
+
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: pip
+      - name: Install tested Qt and development tools
+        run: python -m pip install -e ".[dev]" "PySide6-Essentials==6.11.2"
+      - name: Lint
+        run: python -m ruff check .
+      - name: Check formatting
+        run: python -m ruff format --check .
+      - name: Test
+        env:
+          QT_QPA_PLATFORM: offscreen
+        run: python -m pytest
+      - name: Build distributions
+        run: python -m build
