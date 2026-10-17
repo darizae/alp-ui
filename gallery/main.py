@@ -249,9 +249,7 @@ def build_window() -> QWidget:
                 title=intent.title(),
                 intent=intent,
                 action=(
-                    Button("Dismiss", variant="outline", size="small")
-                    if intent == "info"
-                    else None
+                    Button("Dismiss", variant="outline", size="small") if intent == "info" else None
                 ),
             )
         )

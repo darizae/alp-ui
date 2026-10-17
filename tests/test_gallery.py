@@ -3,6 +3,7 @@ from __future__ import annotations
 from pathlib import Path
 
 from PySide6.QtCore import Qt
+from PySide6.QtGui import QAccessible
 from PySide6.QtWidgets import QApplication, QGroupBox, QLabel, QLineEdit, QPushButton
 
 from gallery.main import build_window
@@ -100,4 +101,29 @@ def test_gallery_and_docs_cover_exact_public_component_surface(qapp: QApplicatio
 
     readme = (ROOT / "README.md").read_text(encoding="utf-8")
     assert ".venv\\Scripts\\python -m gallery.main" in readme
+    window.close()
+
+
+def test_gallery_interactive_controls_are_named_and_focusable(qapp: QApplication) -> None:
+    install_theme(qapp)
+    window = build_window()
+    window.show()
+    qapp.processEvents()
+
+    interactive = [
+        *window.findChildren(QPushButton),
+        *window.findChildren(CheckBox),
+        *window.findChildren(Switch),
+        *(field.control for field in window.findChildren(TextInput)),
+        *(field.control for field in window.findChildren(NumberInput)),
+        *(field.control for field in window.findChildren(SelectInput)),
+        *window.findChildren(DataTable),
+    ]
+    for control in interactive:
+        interface = QAccessible.queryAccessibleInterface(control)
+        assert interface is not None
+        assert interface.text(QAccessible.Text.Name), type(control).__name__
+        if control.isEnabled():
+            assert control.focusPolicy() != Qt.FocusPolicy.NoFocus
+
     window.close()

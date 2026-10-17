@@ -32,11 +32,15 @@ def _validate_intent(intent: str) -> None:
 def _tint(foreground: str, background: str, opacity: float = 0.12) -> str:
     foreground_color = QColor(foreground)
     background_color = QColor(background)
-    return QColor.fromRgbF(
-        foreground_color.redF() * opacity + background_color.redF() * (1 - opacity),
-        foreground_color.greenF() * opacity + background_color.greenF() * (1 - opacity),
-        foreground_color.blueF() * opacity + background_color.blueF() * (1 - opacity),
-    ).name().upper()
+    return (
+        QColor.fromRgbF(
+            foreground_color.redF() * opacity + background_color.redF() * (1 - opacity),
+            foreground_color.greenF() * opacity + background_color.greenF() * (1 - opacity),
+            foreground_color.blueF() * opacity + background_color.blueF() * (1 - opacity),
+        )
+        .name()
+        .upper()
+    )
 
 
 def _intent_colors(intent: Intent) -> tuple[str, str]:
