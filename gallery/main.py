@@ -14,16 +14,21 @@ from PySide6.QtWidgets import (
     QGroupBox,
     QLabel,
     QScrollArea,
+    QStyle,
     QVBoxLayout,
     QWidget,
 )
 
 from python_ui_library.components import (
+    Alert,
+    Badge,
     Button,
     Card,
     CheckBox,
     Divider,
+    EmptyState,
     NumberInput,
+    ProgressBar,
     SelectInput,
     Switch,
     Text,
@@ -164,6 +169,33 @@ def build_window() -> QWidget:
     field_layout.addWidget(check_box, 3, 0)
     field_layout.addWidget(disabled_check_box, 3, 1)
     layout.addWidget(fields_group)
+
+    feedback = QGroupBox("Feedback")
+    feedback_layout = QVBoxLayout(feedback)
+    badge_layout = QGridLayout()
+    for column, intent in enumerate(("neutral", "info", "success", "warning", "danger")):
+        badge_layout.addWidget(Badge(intent.title(), intent=intent), 0, column)
+    feedback_layout.addLayout(badge_layout)
+    for intent in ("neutral", "info", "success", "warning", "danger"):
+        feedback_layout.addWidget(
+            Alert(
+                f"This is generic {intent} feedback.",
+                title=intent.title(),
+                intent=intent,
+            )
+        )
+    feedback_layout.addWidget(ProgressBar(value=64))
+    feedback_layout.addWidget(ProgressBar(minimum=0, maximum=0))
+    empty_action = Button("Add item", variant="outline", size="small")
+    feedback_layout.addWidget(
+        EmptyState(
+            "Nothing here yet",
+            text="Add an item to populate this view.",
+            icon=window.style().standardIcon(QStyle.StandardPixmap.SP_FileDialogInfoView),
+            action=empty_action,
+        )
+    )
+    layout.addWidget(feedback)
     layout.addStretch()
 
     scroll = QScrollArea(window)

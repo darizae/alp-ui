@@ -106,5 +106,50 @@ automatic = Switch("Update automatically")
 automatic.toggled.connect(on_automatic_changed)
 ```
 
+## Feedback
+
+`Badge(text, parent=None, *, intent="neutral")` subclasses `QLabel`. `Alert(text,
+parent=None, *, title="", intent="neutral", action=None)` subclasses `QFrame` and owns
+an optional consumer-supplied action widget. Their generic intents are `neutral`, `info`,
+`success`, `warning`, and `danger`; unknown values fail at construction. Visible text and
+accessible descriptions carry meaning in addition to the semantic color treatment.
+
+```python
+from python_ui_library.components import Alert, Badge, Button
+
+state = Badge("Available", intent="success")
+retry = Button("Retry", variant="outline", size="small")
+message = Alert(
+    "Try again when the connection returns.",
+    title="Connection unavailable",
+    intent="danger",
+    action=retry,
+)
+retry.clicked.connect(retry_connection)
+```
+
+`ProgressBar(parent=None, *, minimum=0, maximum=100, value=0)` subclasses
+`QProgressBar`. Use the native `valueChanged` signal and setters. A `minimum` and
+`maximum` of zero select Qt's indeterminate mode; the Component never starts or tracks
+application work.
+
+`EmptyState(title, parent=None, *, text="", icon=None, action=None)` is a `QWidget`
+composition. The optional `QIcon` is decorative and the optional action is a normal
+consumer-owned widget that the EmptyState reparents through its layout.
+
+```python
+from PySide6.QtWidgets import QStyle
+
+from python_ui_library.components import EmptyState, ProgressBar
+
+progress = ProgressBar(value=40)
+waiting = ProgressBar(minimum=0, maximum=0)
+empty = EmptyState(
+    "No items",
+    text="Add an item to get started.",
+    icon=app.style().standardIcon(QStyle.SP_FileDialogInfoView),
+)
+```
+
 Run `python gallery/main.py` from an editable installation to inspect variants, field
 feedback, disabled states, resizing, and keyboard focus.

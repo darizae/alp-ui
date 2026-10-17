@@ -4,10 +4,14 @@ from PySide6.QtWidgets import QApplication, QLineEdit, QPushButton
 
 from gallery.main import build_window
 from python_ui_library.components import (
+    Alert,
+    Badge,
     Button,
     Card,
     CheckBox,
+    EmptyState,
     NumberInput,
+    ProgressBar,
     SelectInput,
     Switch,
     TextInput,
@@ -33,4 +37,8 @@ def test_theme_gallery_builds_with_keyboard_controls(qapp: QApplication) -> None
     assert window.findChild(SelectInput) is not None
     assert window.findChildren(CheckBox)
     assert window.findChild(Switch) is not None
+    assert len(window.findChildren(Badge)) == 5
+    assert len(window.findChildren(Alert)) == 5
+    assert len(window.findChildren(ProgressBar)) == 2
+    assert window.findChild(EmptyState) is not None
     window.close()
