@@ -1,0 +1,21 @@
+# Local design evidence and source references are never versioned or shipped.
+/references/
+/alpaca-ui-frontend/
+/ui_library/
+/alpaca-ui-frontend.zip
+/ui_library.zip
+
+# Python build and test output.
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+.venv/
+build/
+dist/
+
+# Editors and operating systems.
+.idea/
+.vscode/
+.DS_Store
