@@ -1,12 +1,23 @@
 # python-ui-library
 
-**Status:** pre-alpha (`0.1.0a0`); Tasks 00–01 are in progress.  
+**Status:** pre-alpha (`0.1.0a0`); theme foundation implemented.
 **Python:** 3.11–3.13  
 **Qt:** PySide6-Essentials 6.11.x
 
 A standalone, reusable, styled library of **PySide6 Qt Widgets** for general-purpose desktop applications. The first named visual preset is **Alpaca Light**, faithfully grounded in the uploaded `alpaca-ui-frontend` MUI theme. The component architecture takes useful principles from the uploaded React/TypeScript `ui_library` without translating its runtime or its application-specific components.
 
 This repository is **not** Alpaca Desktop and has no knowledge of scientific artifacts, workflows, backend services, storage, routing, or jobs. There is **no plotting integration** in the roadmap.
+
+```python
+from PySide6.QtWidgets import QApplication
+
+from python_ui_library.theme import install_theme
+
+app = QApplication([])
+install_theme(app)
+```
+
+See [docs/theme.md](docs/theme.md) for typed overrides and the local Theme Gallery.
 
 ## Development
 
