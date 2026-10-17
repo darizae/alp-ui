@@ -32,10 +32,10 @@ native Qt style and installs no global stylesheet. It loads bundled, unmodified 
 and JetBrains Mono files offline. If a resource cannot load, a `RuntimeWarning` names
 the deterministic system fallback.
 
-Run the current Theme Gallery from an editable installation:
+Run the Theme Gallery from the repository root after an editable installation:
 
 ```bash
-python gallery/main.py
+python -m gallery.main
 ```
 
 ## Style probe

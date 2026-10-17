@@ -1,6 +1,6 @@
 # python-ui-library
 
-**Status:** pre-alpha (`0.1.0a0`); theme and core/form components implemented.
+**Status:** pre-alpha (`0.1.0a0`); v0.1 Components, native Gallery, and public docs implemented.
 **Python:** 3.11–3.13  
 **Qt:** PySide6-Essentials 6.11.x
 
@@ -23,6 +23,23 @@ name = TextInput(label="Name", placeholder="Ada Lovelace")
 
 See [docs/theme.md](docs/theme.md) for typed overrides and
 [docs/components.md](docs/components.md) for component constructors and native Qt APIs.
+
+## Gallery
+
+After the editable development install, launch the offline native Qt Gallery from the
+repository root. It contains every public Component and requires no backend:
+
+```bash
+# macOS or Linux
+.venv/bin/python -m gallery.main
+
+# Windows
+.venv\Scripts\python -m gallery.main
+```
+
+Click the first action and use Tab or Shift+Tab to inspect keyboard focus. The Gallery
+also includes disabled/error states, all feedback intents, and empty and 10,000-row
+table models.
 
 ## Development
 

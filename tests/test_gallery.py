@@ -1,8 +1,12 @@
 from __future__ import annotations
 
-from PySide6.QtWidgets import QApplication, QLineEdit, QPushButton
+from pathlib import Path
+
+from PySide6.QtCore import Qt
+from PySide6.QtWidgets import QApplication, QGroupBox, QLabel, QLineEdit, QPushButton
 
 from gallery.main import build_window
+from python_ui_library import components
 from python_ui_library.components import (
     Alert,
     Badge,
@@ -10,14 +14,18 @@ from python_ui_library.components import (
     Card,
     CheckBox,
     DataTable,
+    Divider,
     EmptyState,
     NumberInput,
     ProgressBar,
     SelectInput,
     Switch,
+    Text,
     TextInput,
 )
 from python_ui_library.theme import install_theme
+
+ROOT = Path(__file__).parents[1]
 
 
 def test_theme_gallery_builds_with_keyboard_controls(qapp: QApplication) -> None:
@@ -25,24 +33,71 @@ def test_theme_gallery_builds_with_keyboard_controls(qapp: QApplication) -> None
     window = build_window()
 
     assert window.accessibleName() == "Alpaca Light Theme Gallery"
+    categories = {group.title() for group in window.findChildren(QGroupBox)}
+    assert {"Actions", "Typography", "Surfaces", "Fields", "Feedback", "Data"} <= categories
+    focus_help = window.findChild(QLabel, "focusInstructions")
+    assert focus_help is not None
+    assert "Tab and Shift+Tab" in focus_help.text()
     assert window.findChildren(QPushButton)
     field = window.findChild(QLineEdit)
     assert field is not None
     assert field.focusPolicy().value != 0
     assert field.accessibleName() == "Theme demo text field"
-    assert len(window.findChildren(Button)) >= 8
+    buttons = window.findChildren(Button)
+    assert {button.variant for button in buttons} == {
+        "primary",
+        "secondary",
+        "outline",
+        "danger",
+    }
+    assert {button.component_size for button in buttons} == {"small", "medium", "large"}
+    assert any(not button.isEnabled() for button in buttons)
     assert any(button.isLoading() for button in window.findChildren(Button))
-    assert window.findChild(Card) is not None
-    assert window.findChildren(TextInput)
-    assert window.findChild(NumberInput) is not None
+    assert window.findChild(QPushButton, "nativeButtonComparison") is not None
+    assert {text.role for text in window.findChildren(Text)} == {
+        "body",
+        "caption",
+        "heading",
+        "overline",
+    }
+    cards = window.findChildren(Card)
+    assert any(card.graphicsEffect() is not None for card in cards)
+    assert any(card.graphicsEffect() is None for card in cards)
+    assert {divider.orientation for divider in window.findChildren(Divider)} == {
+        Qt.Orientation.Horizontal,
+        Qt.Orientation.Vertical,
+    }
+    text_inputs = window.findChildren(TextInput)
+    assert text_inputs
+    assert any(field.errorText() for field in text_inputs)
+    assert {field.kind for field in window.findChildren(NumberInput)} == {"integer", "decimal"}
     assert window.findChild(SelectInput) is not None
-    assert window.findChildren(CheckBox)
-    assert window.findChild(Switch) is not None
-    assert len(window.findChildren(Badge)) == 5
-    assert len(window.findChildren(Alert)) == 5
-    assert len(window.findChildren(ProgressBar)) == 2
+    assert any(box.isChecked() for box in window.findChildren(CheckBox))
+    switches = window.findChildren(Switch)
+    assert {switch.isChecked() for switch in switches} == {False, True}
+    assert any(not switch.isEnabled() for switch in switches)
+    intents = {"neutral", "info", "success", "warning", "danger"}
+    assert {badge.intent for badge in window.findChildren(Badge)} == intents
+    assert {alert.intent for alert in window.findChildren(Alert)} == intents
+    progress_bars = window.findChildren(ProgressBar)
+    assert {(bar.minimum(), bar.maximum()) for bar in progress_bars} == {(0, 0), (0, 100)}
     assert window.findChild(EmptyState) is not None
     tables = window.findChildren(DataTable)
     assert len(tables) == 2
     assert {table.model().rowCount() for table in tables} == {0, 10_000}
+    window.close()
+
+
+def test_gallery_and_docs_cover_exact_public_component_surface(qapp: QApplication) -> None:
+    install_theme(qapp)
+    window = build_window()
+    docs = (ROOT / "docs" / "components.md").read_text(encoding="utf-8")
+
+    for name in components.__all__:
+        component_type = getattr(components, name)
+        assert window.findChild(component_type) is not None, name
+        assert f"## {name}\n" in docs
+
+    readme = (ROOT / "README.md").read_text(encoding="utf-8")
+    assert ".venv\\Scripts\\python -m gallery.main" in readme
     window.close()

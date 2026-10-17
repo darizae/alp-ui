@@ -13,7 +13,9 @@ from PySide6.QtWidgets import (
     QFrame,
     QGridLayout,
     QGroupBox,
+    QHBoxLayout,
     QLabel,
+    QPushButton,
     QScrollArea,
     QStyle,
     QVBoxLayout,
@@ -118,6 +120,13 @@ def build_window() -> QWidget:
     heading.setAccessibleName("Theme heading")
     layout.addWidget(heading)
     layout.addWidget(QLabel("Semantic tokens applied to native PySide6 Qt Widgets."))
+    focus_help = QLabel(
+        "Keyboard focus check: click Primary, then use Tab and Shift+Tab; "
+        "the blue outline marks focus."
+    )
+    focus_help.setObjectName("focusInstructions")
+    focus_help.setWordWrap(True)
+    layout.addWidget(focus_help)
 
     swatches = QGroupBox("Colors")
     swatch_layout = QGridLayout(swatches)
@@ -127,7 +136,7 @@ def build_window() -> QWidget:
         swatch_layout.addWidget(_swatch(name, value), index // 2, index % 2)
     layout.addWidget(swatches)
 
-    typography = QGroupBox("Typography components")
+    typography = QGroupBox("Typography")
     type_layout = QVBoxLayout(typography)
     type_layout.addWidget(Text("Build clear desktop interfaces", role="heading"))
     type_layout.addWidget(
@@ -148,9 +157,14 @@ def build_window() -> QWidget:
     disabled = Button("Disabled")
     disabled.setEnabled(False)
     action_layout.addWidget(Button("Small", size="small"), 1, 0)
-    action_layout.addWidget(Button("Large", size="large"), 1, 1)
-    action_layout.addWidget(disabled, 1, 2)
-    action_layout.addWidget(Button("Load", loading=True), 1, 3)
+    action_layout.addWidget(Button("Medium", size="medium"), 1, 1)
+    action_layout.addWidget(Button("Large", size="large"), 1, 2)
+    action_layout.addWidget(disabled, 2, 0)
+    action_layout.addWidget(Button("Load", loading=True), 2, 1)
+    native_button = QPushButton("Native QPushButton")
+    native_button.setObjectName("nativeButtonComparison")
+    action_layout.addWidget(native_button, 3, 0, 1, 2)
+    action_layout.addWidget(Button("Styled Button", variant="outline"), 3, 2, 1, 2)
     layout.addWidget(actions)
 
     surfaces = QGroupBox("Surfaces")
@@ -165,6 +179,19 @@ def build_window() -> QWidget:
         )
     )
     surface_layout.addWidget(card)
+    flat_card = Card(shadow=False)
+    flat_card.content_layout.addWidget(Text("Card without shadow", role="heading"))
+    flat_card.content_layout.addWidget(
+        Text("Use the opt-out for dense or repeated surfaces.", word_wrap=True)
+    )
+    surface_layout.addWidget(flat_card)
+    divider_row = QWidget()
+    divider_layout = QHBoxLayout(divider_row)
+    divider_layout.setContentsMargins(0, 0, 0, 0)
+    divider_layout.addWidget(Text("Left"))
+    divider_layout.addWidget(Divider(Qt.Orientation.Vertical))
+    divider_layout.addWidget(Text("Right"))
+    surface_layout.addWidget(divider_row)
     layout.addWidget(surfaces)
 
     fields_group = QGroupBox("Fields")
@@ -178,7 +205,8 @@ def build_window() -> QWidget:
     text_input.setCompleter(QCompleter(["Ada Lovelace", "Grace Hopper"], text_input))
     invalid_input = TextInput(label="Reference", error="A reference is required")
     masked_input = TextInput(label="Code", input_mask="AA-0000;_", placeholder="AB-1234")
-    number_input = NumberInput(
+    integer_input = NumberInput(kind="integer", value=2, minimum=0, maximum=10, label="Count")
+    decimal_input = NumberInput(
         kind="decimal",
         value=2.5,
         minimum=0,
@@ -188,18 +216,24 @@ def build_window() -> QWidget:
     )
     select_input = SelectInput(("First", "Second", "Third"), label="Choice")
     check_box = CheckBox("Use compact results")
+    check_box.setChecked(True)
     disabled_check_box = CheckBox("Disabled option")
     disabled_check_box.setEnabled(False)
-    switch = Switch("Enable summaries")
-    switch.setChecked(True)
+    enabled_switch = Switch("Enabled setting")
+    enabled_switch.setChecked(True)
+    disabled_switch = Switch("Disabled setting")
+    disabled_switch.setEnabled(False)
     field_layout.addWidget(text_input, 0, 0)
     field_layout.addWidget(invalid_input, 0, 1)
-    field_layout.addWidget(number_input, 1, 0)
+    field_layout.addWidget(masked_input, 1, 0)
     field_layout.addWidget(select_input, 1, 1)
-    field_layout.addWidget(masked_input, 2, 0)
-    field_layout.addWidget(switch, 2, 1)
+    field_layout.addWidget(integer_input, 2, 0)
+    field_layout.addWidget(decimal_input, 2, 1)
     field_layout.addWidget(check_box, 3, 0)
     field_layout.addWidget(disabled_check_box, 3, 1)
+    field_layout.addWidget(enabled_switch, 4, 0)
+    field_layout.addWidget(Switch("Setting off"), 4, 1)
+    field_layout.addWidget(disabled_switch, 5, 0)
     layout.addWidget(fields_group)
 
     feedback = QGroupBox("Feedback")
@@ -214,10 +248,19 @@ def build_window() -> QWidget:
                 f"This is generic {intent} feedback.",
                 title=intent.title(),
                 intent=intent,
+                action=(
+                    Button("Dismiss", variant="outline", size="small")
+                    if intent == "info"
+                    else None
+                ),
             )
         )
-    feedback_layout.addWidget(ProgressBar(value=64))
-    feedback_layout.addWidget(ProgressBar(minimum=0, maximum=0))
+    progress = ProgressBar(value=64)
+    progress.setAccessibleName("Example operation progress")
+    feedback_layout.addWidget(progress)
+    waiting = ProgressBar(minimum=0, maximum=0)
+    waiting.setAccessibleName("Example operation waiting")
+    feedback_layout.addWidget(waiting)
     empty_action = Button("Add item", variant="outline", size="small")
     feedback_layout.addWidget(
         EmptyState(
@@ -233,6 +276,7 @@ def build_window() -> QWidget:
     data_layout = QVBoxLayout(data_group)
     data_layout.addWidget(Text("10,000-row caller model", role="overline"))
     large_table = DataTable()
+    large_table.setAccessibleName("10,000-row example table")
     large_model = _GalleryTableModel(10_000, large_table)
     large_table.setModel(large_model)
     large_table.horizontalHeader().setStretchLastSection(True)
@@ -240,6 +284,7 @@ def build_window() -> QWidget:
     data_layout.addWidget(large_table)
     data_layout.addWidget(Text("Empty caller model", role="overline"))
     empty_table = DataTable()
+    empty_table.setAccessibleName("Empty example table")
     empty_model = _GalleryTableModel(0, empty_table)
     empty_table.setModel(empty_model)
     empty_table.setMinimumHeight(120)
