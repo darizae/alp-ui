@@ -2,7 +2,9 @@ from __future__ import annotations
 
 import subprocess
 import sys
+import tarfile
 import zipfile
+from email.parser import BytesParser
 from pathlib import Path
 
 ROOT = Path(__file__).parents[1]
@@ -19,9 +21,27 @@ FONT_FILES = {
 }
 
 
-def test_wheel_contains_theme_fonts_and_notices(tmp_path: Path) -> None:
+PACKAGE_FILES = {
+    "python_ui_library/__init__.py",
+    "python_ui_library/components/__init__.py",
+    "python_ui_library/components/actions.py",
+    "python_ui_library/components/data.py",
+    "python_ui_library/components/feedback.py",
+    "python_ui_library/components/inputs.py",
+    "python_ui_library/components/surfaces.py",
+    "python_ui_library/components/typography.py",
+    "python_ui_library/theme/__init__.py",
+    "python_ui_library/theme/alpaca_light.py",
+    "python_ui_library/theme/fonts.py",
+    "python_ui_library/theme/install.py",
+    "python_ui_library/theme/tokens.py",
+}
+FORBIDDEN_PARTS = {"references", "alpaca-ui-frontend", "ui_library", "evidence.md"}
+
+
+def test_distributions_are_complete_and_clean(tmp_path: Path) -> None:
     result = subprocess.run(
-        [sys.executable, "-m", "build", "--wheel", "--no-isolation", "--outdir", str(tmp_path)],
+        [sys.executable, "-m", "build", "--no-isolation", "--outdir", str(tmp_path)],
         cwd=ROOT,
         check=False,
         capture_output=True,
@@ -29,8 +49,44 @@ def test_wheel_contains_theme_fonts_and_notices(tmp_path: Path) -> None:
     )
     assert result.returncode == 0, result.stderr
     wheel = next(tmp_path.glob("*.whl"))
+    sdist = next(tmp_path.glob("*.tar.gz"))
+
+    checked = subprocess.run(
+        [sys.executable, "-m", "twine", "check", str(wheel), str(sdist)],
+        check=False,
+        capture_output=True,
+        text=True,
+    )
+    assert checked.returncode == 0, checked.stdout + checked.stderr
+
     with zipfile.ZipFile(wheel) as archive:
         names = set(archive.namelist())
+        metadata_name = next(name for name in names if name.endswith(".dist-info/METADATA"))
+        metadata = BytesParser().parsebytes(archive.read(metadata_name))
     resource_root = "python_ui_library/theme/resources/fonts/"
+    assert PACKAGE_FILES <= names
     assert {resource_root + filename for filename in FONT_FILES} <= names
-    assert not any(name.startswith("references/") for name in names)
+    assert any(name.endswith(".dist-info/licenses/LICENSE") for name in names)
+    assert any(name.endswith(".dist-info/licenses/THIRD_PARTY_NOTICES.md") for name in names)
+    assert metadata["Name"] == "python-ui-library"
+    assert metadata["Version"] == "0.1.0a0"
+    runtime_requirements = [
+        requirement
+        for requirement in metadata.get_all("Requires-Dist", [])
+        if "; extra ==" not in requirement
+    ]
+    assert runtime_requirements == ["pyside6-essentials<6.12,>=6.11"]
+
+    with tarfile.open(sdist) as archive:
+        sdist_names = set(archive.getnames())
+    root = "python_ui_library-0.1.0a0/"
+    assert {
+        root + "LICENSE",
+        root + "THIRD_PARTY_NOTICES.md",
+        root + "examples/consumer_app/main.py",
+        *(root + "src/" + name for name in PACKAGE_FILES),
+        *(root + "src/" + resource_root + filename for filename in FONT_FILES),
+    } <= sdist_names
+
+    for name in names | sdist_names:
+        assert not FORBIDDEN_PARTS.intersection(Path(name).parts), name
