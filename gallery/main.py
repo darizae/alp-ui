@@ -1,4 +1,4 @@
-"""Small native Qt Gallery for the Alpaca Light theme foundation."""
+"""Small native Qt Gallery for Alpaca Light and public components."""
 
 from __future__ import annotations
 
@@ -8,17 +8,27 @@ from dataclasses import fields
 from PySide6.QtGui import QColor, QFont, QPalette
 from PySide6.QtWidgets import (
     QApplication,
+    QCompleter,
     QFrame,
     QGridLayout,
     QGroupBox,
     QLabel,
-    QLineEdit,
-    QPushButton,
     QScrollArea,
     QVBoxLayout,
     QWidget,
 )
 
+from python_ui_library.components import (
+    Button,
+    Card,
+    CheckBox,
+    Divider,
+    NumberInput,
+    SelectInput,
+    Switch,
+    Text,
+    TextInput,
+)
 from python_ui_library.theme import ALPACA_LIGHT, install_theme
 
 
@@ -80,35 +90,80 @@ def build_window() -> QWidget:
         swatch_layout.addWidget(_swatch(name, value), index // 2, index % 2)
     layout.addWidget(swatches)
 
-    typography = QGroupBox("Typography")
+    typography = QGroupBox("Typography components")
     type_layout = QVBoxLayout(typography)
-    body = QLabel("DM Sans body — The quick brown fox jumps over the lazy dog.")
-    body.setFont(_font(theme.typography.body_family, theme.typography.body_size, 400))
-    type_layout.addWidget(body)
-    metadata = QLabel("JETBRAINS MONO · METADATA · 0123456789")
-    metadata.setFont(
-        _font(
-            theme.typography.metadata_family,
-            theme.typography.overline_size,
-            theme.typography.metadata_weight,
+    type_layout.addWidget(Text("Build clear desktop interfaces", role="heading"))
+    type_layout.addWidget(
+        Text(
+            "Body text wraps safely when the window narrows or translations grow longer.",
+            word_wrap=True,
+            selectable=True,
         )
     )
-    type_layout.addWidget(metadata)
+    type_layout.addWidget(Text("Supporting caption text", role="caption"))
+    type_layout.addWidget(Text("JETBRAINS MONO · OVERLINE · 0123456789", role="overline"))
     layout.addWidget(typography)
 
-    controls = QGroupBox("Native Qt controls")
-    control_layout = QGridLayout(controls)
-    action = QPushButton("Action")
-    action.setAccessibleName("Theme demo action")
-    disabled = QPushButton("Disabled")
+    actions = QGroupBox("Actions")
+    action_layout = QGridLayout(actions)
+    for column, variant in enumerate(("primary", "secondary", "outline", "danger")):
+        action_layout.addWidget(Button(variant.title(), variant=variant), 0, column)
+    disabled = Button("Disabled")
     disabled.setEnabled(False)
-    field = QLineEdit()
-    field.setPlaceholderText("Focus this field with Tab")
-    field.setAccessibleName("Theme demo text field")
-    control_layout.addWidget(action, 0, 0)
-    control_layout.addWidget(disabled, 0, 1)
-    control_layout.addWidget(field, 1, 0, 1, 2)
-    layout.addWidget(controls)
+    action_layout.addWidget(Button("Small", size="small"), 1, 0)
+    action_layout.addWidget(Button("Large", size="large"), 1, 1)
+    action_layout.addWidget(disabled, 1, 2)
+    action_layout.addWidget(Button("Load", loading=True), 1, 3)
+    layout.addWidget(actions)
+
+    surfaces = QGroupBox("Surfaces")
+    surface_layout = QVBoxLayout(surfaces)
+    card = Card()
+    card.content_layout.addWidget(Text("Card title", role="heading"))
+    card.content_layout.addWidget(Divider())
+    card.content_layout.addWidget(
+        Text(
+            "Cards own presentation and layout, while consumer applications own data.",
+            word_wrap=True,
+        )
+    )
+    surface_layout.addWidget(card)
+    layout.addWidget(surfaces)
+
+    fields_group = QGroupBox("Fields")
+    field_layout = QGridLayout(fields_group)
+    text_input = TextInput(
+        label="Name",
+        description="Native textChanged and editingFinished signals are preserved.",
+        placeholder="Focus this field with Tab",
+    )
+    text_input.control.setAccessibleName("Theme demo text field")
+    text_input.setCompleter(QCompleter(["Ada Lovelace", "Grace Hopper"], text_input))
+    invalid_input = TextInput(label="Reference", error="A reference is required")
+    masked_input = TextInput(label="Code", input_mask="AA-0000;_", placeholder="AB-1234")
+    number_input = NumberInput(
+        kind="decimal",
+        value=2.5,
+        minimum=0,
+        maximum=10,
+        step=0.5,
+        label="Quantity",
+    )
+    select_input = SelectInput(("First", "Second", "Third"), label="Choice")
+    check_box = CheckBox("Use compact results")
+    disabled_check_box = CheckBox("Disabled option")
+    disabled_check_box.setEnabled(False)
+    switch = Switch("Enable summaries")
+    switch.setChecked(True)
+    field_layout.addWidget(text_input, 0, 0)
+    field_layout.addWidget(invalid_input, 0, 1)
+    field_layout.addWidget(number_input, 1, 0)
+    field_layout.addWidget(select_input, 1, 1)
+    field_layout.addWidget(masked_input, 2, 0)
+    field_layout.addWidget(switch, 2, 1)
+    field_layout.addWidget(check_box, 3, 0)
+    field_layout.addWidget(disabled_check_box, 3, 1)
+    layout.addWidget(fields_group)
     layout.addStretch()
 
     scroll = QScrollArea(window)

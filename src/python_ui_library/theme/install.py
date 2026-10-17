@@ -13,6 +13,17 @@ _THEME_PROPERTY = "python_ui_library_theme"
 _METADATA_FONT_PROPERTY = "python_ui_library_metadata_font"
 
 
+def _current_theme() -> Theme:
+    """Return the startup Theme, or the default for component previews."""
+
+    app = QApplication.instance()
+    if isinstance(app, QApplication):
+        theme = app.property(_THEME_PROPERTY)
+        if isinstance(theme, Theme):
+            return theme
+    return ALPACA_LIGHT
+
+
 def _palette(theme: Theme) -> QPalette:
     colors = theme.colors
     palette = QPalette()

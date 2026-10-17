@@ -23,6 +23,7 @@ class ColorTokens:
     warning: str
     danger: str
     info: str
+    shadow: str
 
     def __post_init__(self) -> None:
         for field in fields(self):

@@ -23,6 +23,7 @@ ALPACA_LIGHT = Theme(
         warning="#D97706",
         danger="#DC2626",
         info="#2563EB",
+        shadow="#000000",
     ),
     typography=TypographyTokens(
         body_family="DM Sans",

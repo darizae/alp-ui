@@ -28,6 +28,7 @@ EXPECTED_COLORS = {
     "warning": "#D97706",
     "danger": "#DC2626",
     "info": "#2563EB",
+    "shadow": "#000000",
 }
 
 

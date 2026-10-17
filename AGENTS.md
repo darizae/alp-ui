@@ -50,4 +50,4 @@ If a locked decision is unworkable, **stop the affected portion**, show concrete
 
 ## Spec/implementation review discipline
 
-Follow the spirit of Alpaca Desktop's `SPEC_WRITING_AND_IMPLEMENTATION_PRINCIPLES.md`: search first, reuse the authoritative implementation, name actual consumers, enforce invariants at owning boundaries, test through public contracts, avoid duplicate derived state, and do not extract infrastructure preemptively. This is an independent UI repository, so Alpaca-specific persistence and domain rules do **not** become part of this package.
+Search first, reuse the authoritative implementation, name actual consumers, enforce invariants at owning boundaries, test through public contracts, avoid duplicate derived state, and do not extract infrastructure preemptively. This is an independent UI repository, so Alpaca-specific persistence and domain rules do **not** become part of this package.

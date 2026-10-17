@@ -1,6 +1,6 @@
 # python-ui-library
 
-**Status:** pre-alpha (`0.1.0a0`); theme foundation implemented.
+**Status:** pre-alpha (`0.1.0a0`); theme and core/form components implemented.
 **Python:** 3.11–3.13  
 **Qt:** PySide6-Essentials 6.11.x
 
@@ -11,13 +11,18 @@ This repository is **not** Alpaca Desktop and has no knowledge of scientific art
 ```python
 from PySide6.QtWidgets import QApplication
 
+from python_ui_library.components import Button, TextInput
 from python_ui_library.theme import install_theme
 
 app = QApplication([])
 install_theme(app)
+
+save = Button("Save", variant="primary")
+name = TextInput(label="Name", placeholder="Ada Lovelace")
 ```
 
-See [docs/theme.md](docs/theme.md) for typed overrides and the local Theme Gallery.
+See [docs/theme.md](docs/theme.md) for typed overrides and
+[docs/components.md](docs/components.md) for component constructors and native Qt APIs.
 
 ## Development
 

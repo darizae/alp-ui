@@ -15,6 +15,7 @@ def test_import_has_no_qapplication_side_effect() -> None:
             "-c",
             (
                 "import python_ui_library, python_ui_library.theme; "
+                "import python_ui_library.components; "
                 "from PySide6.QtWidgets import QApplication; "
                 "assert QApplication.instance() is None"
             ),
