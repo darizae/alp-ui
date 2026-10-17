@@ -4,7 +4,7 @@
 
 ## Read first
 
-`AGENTS.md`, `COMPONENT_CATALOG.md`, `SPEC.md` (§5), `THEME_ALPACA_LIGHT.md`, `QUALITY.md`.
+`AGENTS.md`, `docs/project/COMPONENT_CATALOG.md`, `docs/project/SPEC.md` (§5), `docs/project/THEME_ALPACA_LIGHT.md`, `docs/project/QUALITY.md`.
 
 ## Work
 

@@ -1,4 +1,4 @@
-# Primer — reusable styled desktop UI for Python
+# Project primer — reusable styled desktop UI for Python
 
 ## The user need
 

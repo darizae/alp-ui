@@ -1,21 +1,33 @@
-# Repository tree to implement
+# Repository structure
 
-The tree below describes the repository layout and remains illustrative as implementation
-progresses.
+The tree below describes the maintained repository layout. Human guides, internal
+project contracts, and legal notices are deliberately separated.
 
 ```text
 python-ui-library/
-├── README.md                          # project README, updated after implementation
-├── AGENTS.md                          # agent onboarding
-├── PRIMER.md
-├── GLOSSARY.md
-├── DECISIONS.md
-├── SPEC.md
-├── IMPLEMENTATION_PLAN.md
-├── THEME_ALPACA_LIGHT.md
-├── COMPONENT_CATALOG.md
-├── QUALITY.md
-├── REPO_STRUCTURE.md
+├── README.md                          # human-facing project overview
+├── AGENTS.md                          # agent onboarding and authority
+├── LICENSE                            # MIT source license
+├── pyproject.toml                     # build and package metadata
+├── docs/
+│   ├── getting-started.md             # human-oriented introduction
+│   ├── components.md                  # public Component guide
+│   ├── theme.md                       # public Theme guide
+│   ├── legal/
+│   │   └── THIRD_PARTY_NOTICES.md
+│   └── project/                       # internal contracts and plans
+│       ├── PRIMER.md
+│       ├── GLOSSARY.md
+│       ├── DECISIONS.md
+│       ├── SPEC.md
+│       ├── IMPLEMENTATION_PLAN.md
+│       ├── THEME_ALPACA_LIGHT.md
+│       ├── COMPONENT_CATALOG.md
+│       ├── QUALITY.md
+│       ├── REPO_STRUCTURE.md
+│       └── reports/
+│           ├── quality-and-compatibility.md
+│           └── release-readiness.md
 ├── references/
 │   ├── SOURCE_MAP.md
 │   └── LICENSE_AND_RESEARCH.md
@@ -29,9 +41,6 @@ python-ui-library/
 │   ├── 06-gallery-and-docs.md
 │   ├── 07-quality-and-compatibility.md
 │   └── 08-consumer-and-release.md
-├── pyproject.toml                      # FUTURE
-├── LICENSE                             # FUTURE: MIT license text
-├── THIRD_PARTY_NOTICES.md             # FUTURE: fonts / Qt acknowledgements
 ├── src/
 │   └── python_ui_library/
 │       ├── __init__.py
@@ -50,16 +59,11 @@ python-ui-library/
 │           ├── feedback.py
 │           └── data.py
 ├── gallery/
-│   └── main.py                         # FUTURE: component showcase app
+│   └── main.py                         # native component showcase app
 ├── examples/
-│   └── consumer_app/                   # FUTURE: clean-wheel consuming app
-├── tests/
-│   ├── test_theme.py
-│   ├── test_components.py
-│   ├── test_data_table.py
-│   └── test_packaging.py
-└── docs/
-    └── components/                    # FUTURE: public API/examples
+│   └── consumer_app/                   # clean-wheel consuming app
+├── tests/                              # behavior, Gallery, and package tests
+└── .github/workflows/ci.yml            # Windows 3.11-3.13 matrix
 ```
 
 This tree is illustrative for **internal module arrangement**, not a strict mandate to create one class/file per symbol. Subpackages are acceptable if a real group becomes too large. No monorepo or duplicate `core`, `base`, `helpers`, `ui2` etc. without evidence.

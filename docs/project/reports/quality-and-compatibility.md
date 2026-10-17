@@ -1,4 +1,4 @@
-# Quality and compatibility report
+# Quality and compatibility report — v0.1 candidate
 
 Checked on 2026-10-18 for the v0.1 release candidate. This report distinguishes
 automated evidence from platform checks that still require Windows hardware.

@@ -1,4 +1,4 @@
-# Quality, tests, and release acceptance
+# Project quality, tests, and release acceptance
 
 ## Test pyramid
 

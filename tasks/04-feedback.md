@@ -4,7 +4,7 @@
 
 ## Read first
 
-`AGENTS.md`, `GLOSSARY.md`, `COMPONENT_CATALOG.md`, `THEME_ALPACA_LIGHT.md`, `SPEC.md`, `QUALITY.md`, and the visual references listed for this task in the ignored `references/SOURCE_MAP.md`.
+`AGENTS.md`, `docs/project/GLOSSARY.md`, `docs/project/COMPONENT_CATALOG.md`, `docs/project/THEME_ALPACA_LIGHT.md`, `docs/project/SPEC.md`, `docs/project/QUALITY.md`, and the visual references listed for this task in the ignored `references/SOURCE_MAP.md`.
 
 ## Work
 

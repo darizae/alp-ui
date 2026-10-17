@@ -4,13 +4,13 @@
 
 ## Read first
 
-`AGENTS.md`, `SPEC.md`, `COMPONENT_CATALOG.md`, `THEME_ALPACA_LIGHT.md`, `QUALITY.md`, `references/SOURCE_MAP.md`; use TypeScript Storybook and regression app **for intent, not code**.
+`AGENTS.md`, `docs/project/SPEC.md`, `docs/project/COMPONENT_CATALOG.md`, `docs/project/THEME_ALPACA_LIGHT.md`, `docs/project/QUALITY.md`, `references/SOURCE_MAP.md`; use TypeScript Storybook and regression app **for intent, not code**.
 
 ## Work
 
 1. Finish native Qt Gallery as a standalone local app that displays every v0.1 Component categorized into Actions, Typography, Surfaces, Fields, Feedback, Data.
 2. Show Theme swatches/type specimens, required variants, focus and disabled states, field errors, alerts/intents, determinate/indeterminate progress, blank and large-model tables.
-3. Provide self-contained user docs per public Component: import path, when to use it, constructor args, Qt inherited signals, example usage, accessibility caveats. Ensure wording follows `GLOSSARY.md` and does not mention Alpaca workflows.
+3. Provide self-contained user docs per public Component: import path, when to use it, constructor args, Qt inherited signals, example usage, accessibility caveats. Ensure wording follows `docs/project/GLOSSARY.md` and does not mention Alpaca workflows.
 4. Offer a clear interactive way to inspect keyboard focus; gallery pages are demonstrative, not a second theme editor or design tool.
 5. Make gallery invocable from a documented dev command; use package absolute imports. Avoid Storybook, HTTP servers, generated JS, and non-PySide UI dependencies.
 6. Ensure gallery covers actually shipped public surface. Do not promote a component without tests/docs or add backlog widgets merely to fill navigation tabs.

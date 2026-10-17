@@ -1,4 +1,4 @@
-# Release-readiness handoff
+# Release readiness report — v0.1 candidate
 
 Checked on 2026-10-18 for package version `0.1.0a0`. No package upload, tag, GitHub
 release, or public publication was performed.
@@ -17,7 +17,7 @@ commit. See [quality-and-compatibility.md](quality-and-compatibility.md).
   `python_ui_library-0.1.0a0.tar.gz`.
 - `twine check` passes both archives.
 - The wheel contains all public modules, seven unmodified font files, both OFL texts,
-  the MIT `LICENSE`, and `THIRD_PARTY_NOTICES.md`.
+  the MIT `LICENSE`, and `docs/legal/THIRD_PARTY_NOTICES.md`.
 - The sdist additionally contains the Gallery, public docs, tests, and independent
   consumer example.
 - Neither archive contains `references/`, ignored evidence, the source design
@@ -49,7 +49,8 @@ shutdown. A real Windows launch remains outstanding.
   `darizae`; no ownership identity was invented during this task.
 - The DM Sans and JetBrains Mono OFL copyright/license texts remain intact beside the
   unmodified font files and in wheel license metadata.
-- The library wheel does not bundle Qt. `THIRD_PARTY_NOTICES.md` distinguishes the MIT
+- The library wheel does not bundle Qt. The
+  [third-party notice](../../legal/THIRD_PARTY_NOTICES.md) distinguishes the MIT
   library from Qt and font terms and points downstream distributors to Qt obligations.
 - Runtime imports are limited to PySide6 QtCore, QtGui, and QtWidgets. No external UI
   framework, Qt Addon, plotting, networking, or domain dependency was added.

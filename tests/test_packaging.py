@@ -67,7 +67,8 @@ def test_distributions_are_complete_and_clean(tmp_path: Path) -> None:
     assert PACKAGE_FILES <= names
     assert {resource_root + filename for filename in FONT_FILES} <= names
     assert any(name.endswith(".dist-info/licenses/LICENSE") for name in names)
-    assert any(name.endswith(".dist-info/licenses/THIRD_PARTY_NOTICES.md") for name in names)
+    notice_suffix = ".dist-info/licenses/docs/legal/THIRD_PARTY_NOTICES.md"
+    assert any(name.endswith(notice_suffix) for name in names)
     assert metadata["Name"] == "python-ui-library"
     assert metadata["Version"] == "0.1.0a0"
     runtime_requirements = [
@@ -82,7 +83,7 @@ def test_distributions_are_complete_and_clean(tmp_path: Path) -> None:
     root = "python_ui_library-0.1.0a0/"
     assert {
         root + "LICENSE",
-        root + "THIRD_PARTY_NOTICES.md",
+        root + "docs/legal/THIRD_PARTY_NOTICES.md",
         root + "examples/consumer_app/main.py",
         *(root + "src/" + name for name in PACKAGE_FILES),
         *(root + "src/" + resource_root + filename for filename in FONT_FILES),

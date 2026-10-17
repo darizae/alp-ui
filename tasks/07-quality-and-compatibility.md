@@ -4,7 +4,7 @@
 
 ## Read first
 
-`AGENTS.md`, `DECISIONS.md`, `SPEC.md`, `QUALITY.md`, `references/LICENSE_AND_RESEARCH.md`, tests and all public component docs.
+`AGENTS.md`, `docs/project/DECISIONS.md`, `docs/project/SPEC.md`, `docs/project/QUALITY.md`, `references/LICENSE_AND_RESEARCH.md`, tests and all public component docs.
 
 ## Work
 
@@ -21,7 +21,7 @@ Quality report with matrices/screenshots, tightened tests, minimal bug fixes, up
 
 ## Acceptance
 
-- [ ] Every item in `QUALITY.md` release matrix addressed with test evidence or documented owner-approved exception.
+- [ ] Every item in `docs/project/QUALITY.md` release matrix addressed with test evidence or documented owner-approved exception.
 - [ ] Focus/keyboard/accessible text checked for all interactive controls.
 - [ ] Installed resources work without internet and at normal/high DPI.
 - [ ] Runtime remains PySide6-Essentials only, GPL-only Qt imports absent, plotting absent.

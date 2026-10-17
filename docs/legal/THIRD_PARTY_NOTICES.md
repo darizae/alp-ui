@@ -1,4 +1,4 @@
-# Third-party notices
+# Third-party licenses and notices
 
 `python-ui-library` source is MIT-licensed. The following dependencies and assets keep
 their own licenses.

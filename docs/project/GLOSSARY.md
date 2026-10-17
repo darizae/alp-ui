@@ -1,4 +1,4 @@
-# Ubiquitous language
+# Project glossary and ubiquitous language
 
 Use these exact terms in documentation, code, tests, examples, issues, and task reports. These terms are **library concepts**; they do not rename concepts in other projects.
 

@@ -22,6 +22,6 @@ from changing the import result:
 ```
 
 Use `--smoke` with either command for an automated open-and-clean-shutdown check. On
-Windows, use the environment's `Scripts\\python.exe` path instead of `bin/python` and
+Windows, use the environment's `Scripts\python.exe` path instead of `bin/python` and
 place the virtual environment outside the repository in any suitable temporary
 directory.

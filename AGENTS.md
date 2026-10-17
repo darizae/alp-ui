@@ -1,53 +1,108 @@
 # Agent instructions — python-ui-library
 
-## Mandatory onboarding (before every delegated task)
+## Documentation authority
+
+Human-facing documentation lives in `README.md` and `docs/`. Keep implementation
+contracts and agent planning under `docs/project/`; do not leak task history or source
+research into the user guide.
+
+Completed quality and release evidence belongs in `docs/project/reports/`. Legal
+notices belong in `docs/legal/`.
+
+When documents disagree, follow this order:
+
+1. `docs/project/DECISIONS.md`
+2. `docs/project/SPEC.md`
+3. `docs/project/THEME_ALPACA_LIGHT.md`,
+   `docs/project/COMPONENT_CATALOG.md`, and `docs/project/QUALITY.md`
+4. The assigned file in `tasks/`
+
+`docs/project/GLOSSARY.md` governs naming everywhere. External references provide
+evidence, not an alternative contract. Do not silently change a locked decision.
+
+## Mandatory onboarding before every delegated task
 
 Read these in order:
 
-1. `PRIMER.md`
-2. `GLOSSARY.md`
-3. `DECISIONS.md`
-4. `SPEC.md`
-5. `THEME_ALPACA_LIGHT.md` and `COMPONENT_CATALOG.md`
-6. `QUALITY.md` and `REPO_STRUCTURE.md`
-7. `IMPLEMENTATION_PLAN.md`
+1. `docs/project/PRIMER.md`
+2. `docs/project/GLOSSARY.md`
+3. `docs/project/DECISIONS.md`
+4. `docs/project/SPEC.md`
+5. `docs/project/THEME_ALPACA_LIGHT.md` and
+   `docs/project/COMPONENT_CATALOG.md`
+6. `docs/project/QUALITY.md` and `docs/project/REPO_STRUCTURE.md`
+7. `docs/project/IMPLEMENTATION_PLAN.md`
 8. The assigned file in `tasks/`
-9. `references/SOURCE_MAP.md` and `references/LICENSE_AND_RESEARCH.md` when working with source styling, dependencies, licenses, packaging, or release
+9. `references/SOURCE_MAP.md` and `references/LICENSE_AND_RESEARCH.md` when working
+   with styling sources, dependencies, licenses, packaging, or release
 
-The read-only design references are available at
-`/Users/danie/Downloads/ui_library` and
-`/Users/danie/Downloads/alpaca-ui-frontend`. They are not repositories to convert or
-sources to copy into this package. Inspect the cited files there before implementing
-borrowed behavior or design. Do not import Alpaca's obsolete navigation/workflows into
-this general-purpose library. Keep file-level mappings, excerpts, screenshots, and
-inspection notes only in ignored `references/` or `docs/evidence.md`; tracked documents
-may contain the library contract and independently authored implementation decisions.
+## External design evidence
+
+The read-only references are `/Users/danie/Downloads/ui_library` and
+`/Users/danie/Downloads/alpaca-ui-frontend`. They are design evidence, not repositories
+to convert or sources to copy. Inspect cited originals before implementing borrowed
+behavior or design. Do not import obsolete navigation or application workflows into
+this general-purpose library.
+
+Keep file mappings, excerpts, screenshots, and inspection notes only in ignored
+`references/` or `docs/evidence.md`. Tracked documents may contain the library contract
+and independently authored implementation decisions.
 
 ## Invariants
 
-- Follow `GLOSSARY.md` everywhere; if a missing shared technical concept must be named, add one definition instead of inventing synonyms.
-- Use **PySide6 Qt Widgets**, not QML/Qt Quick, browser UI, React, or TypeScript.
-- The core runtime dependency is **PySide6-Essentials** only; no MUI, QFluentWidgets, qt-material, PyQt, superqt, plotting, icon packs, or networking dependencies.
-- The library source is MIT-licensed; third-party Qt and font terms remain separate. Apply the licensing checklist to any distributed application and to bundled fonts.
-- **Alpaca Light** is the first theme. Colors must be semantic tokens rather than component literals.
-- Reuse native Qt controls, Qt signals, model/view interfaces, keyboard handling, and accessibility where possible.
-- Do not create wrappers that add no reusable styling, behavior, or contract.
-- No domain models or app-specific controllers, status enums, persistence, routing, or pipeline assumptions.
-- No backward compatibility requirement for the old TypeScript library or Alpaca UI.
-- Keep Qt UI work on the GUI thread. Never insert application computation into a widget.
-- Do not create public helpers/speculative knobs without a documented consumer.
+- Follow `docs/project/GLOSSARY.md`; define one missing shared term instead of
+  inventing synonyms.
+- Use PySide6 Qt Widgets, not QML/Qt Quick, browser UI, React, or TypeScript.
+- The only runtime dependency is PySide6-Essentials. Do not add external UI
+  frameworks, Qt Addons, plotting, icon-pack, or networking dependencies.
+- The source is MIT-licensed; Qt and bundled fonts retain separate terms. Keep
+  `docs/legal/THIRD_PARTY_NOTICES.md` and downstream compliance guidance accurate.
+- Alpaca Light is the first Theme. Components consume semantic tokens rather than
+  embedding brand colors.
+- Prefer native Qt controls, signals, model/view interfaces, keyboard behavior, and
+  accessibility.
+- Do not create wrappers without reusable styling, behavior, or contract.
+- Do not add domain models, app controllers, persistence, routing, application status
+  enums, or pipeline assumptions.
+- No backward compatibility is required for the old TypeScript library or Alpaca UI.
+- Keep UI work on the GUI thread; widgets never own application computation.
+- Do not add public helpers or speculative options without a documented consumer.
 
-## How to execute one task
+## Development and verification
 
-1. Inspect repository state and search for existing equivalents before adding a class, function, or module.
-2. Restate scope, external dependencies, artifacts to change, and the precise Qt primitive being reused.
-3. Implement **only** the assigned task's work. Each task ends at a runnable/testable seam; do not silently implement the next one.
-4. Add focused unit/interaction tests through public component APIs, relevant gallery states, and concise documentation.
-5. Validate keyboard behavior, focus, accessibility naming, layout scaling, theme colors, and packaging as applicable.
-6. Report: changed files; acceptance criteria passed/failed; tests run; newly found limitations; third-party license review; proposed decisions needing owner approval.
+Use the repository environment and keep generated output in ignored locations:
 
-If a locked decision is unworkable, **stop the affected portion**, show concrete evidence (file/API/version/test), propose the smallest correction, and request a decision. Continue only independent work. Do not silently alter `DECISIONS.md`.
+```bash
+.venv/bin/python -m pytest
+.venv/bin/python -m ruff check .
+.venv/bin/python -m ruff format --check .
+.venv/bin/python -m build
+.venv/bin/python -m twine check dist/*
+```
 
-## Spec/implementation review discipline
+On Windows, use `.venv\Scripts\python`. The committed CI matrix covers Windows
+with Python 3.11, 3.12, and 3.13. `dist/`, build output, and local visual evidence are
+ignored; do not commit them.
 
-Search first, reuse the authoritative implementation, name actual consumers, enforce invariants at owning boundaries, test through public contracts, avoid duplicate derived state, and do not extract infrastructure preemptively. This is an independent UI repository, so Alpaca-specific persistence and domain rules do **not** become part of this package.
+## Executing a task
+
+1. Inspect repository state and search for existing equivalents before adding a class,
+   function, or module.
+2. Restate scope, external dependencies, changed artifacts, callers, tests, fixtures,
+   exports, and the Qt primitive being reused.
+3. Implement only the assigned work and stop at its runnable/testable seam.
+4. Test through public Component APIs and add relevant Gallery/docs coverage.
+5. Validate keyboard behavior, focus, accessibility names, layout scaling, Theme
+   colors, and packaging as applicable.
+6. Report changed files, acceptance results, tests, visual review, limitations,
+   dependency/license changes, and decisions needing owner approval.
+
+If a locked decision is unworkable, stop that portion, provide concrete evidence,
+propose the smallest correction, and request a decision. Continue independent work.
+
+## Review discipline
+
+Search first, reuse the authoritative implementation, name actual consumers, enforce
+invariants at owning boundaries, test public contracts, avoid duplicate derived state,
+and do not extract infrastructure preemptively. This repository is independent, so
+application-specific persistence and domain rules do not enter the package.

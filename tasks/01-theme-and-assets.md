@@ -4,7 +4,7 @@
 
 ## Read first
 
-`AGENTS.md`, `THEME_ALPACA_LIGHT.md`, `DECISIONS.md`, `SPEC.md`, `QUALITY.md`, `references/SOURCE_MAP.md`, `references/LICENSE_AND_RESEARCH.md`.
+`AGENTS.md`, `docs/project/THEME_ALPACA_LIGHT.md`, `docs/project/DECISIONS.md`, `docs/project/SPEC.md`, `docs/project/QUALITY.md`, `references/SOURCE_MAP.md`, `references/LICENSE_AND_RESEARCH.md`.
 
 ## Work
 
@@ -22,7 +22,7 @@
 
 ## Acceptance
 
-- [ ] All 12 exact source color values match `THEME_ALPACA_LIGHT.md`.
+- [ ] All 12 exact source color values match `docs/project/THEME_ALPACA_LIGHT.md`.
 - [ ] Theme remains immutable and can be overridden at application startup.
 - [ ] One-time install works with ordinary `QApplication` and no global QSS.
 - [ ] Font binaries + correct official notices present and load in isolated installed wheel **offline**.

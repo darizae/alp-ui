@@ -1,6 +1,6 @@
-# General implementation specification — python-ui-library
+# Project specification — python-ui-library
 
-**Normative scope:** first public version `0.1.0`; deliver reusable PySide6 Qt Widgets styled with **Alpaca Light**. All requirements here are independent of Alpaca Desktop. `DECISIONS.md` is the highest-level locked contract.
+**Normative scope:** first public version `0.1.0`; deliver reusable PySide6 Qt Widgets styled with **Alpaca Light**. All requirements here are independent of Alpaca Desktop. `docs/project/DECISIONS.md` is the highest-level locked contract.
 
 ## 1. Product and non-goals
 
@@ -14,7 +14,7 @@ No page routing framework, domain data, job execution, network calls, window man
 - **Target platform:** Windows x86-64 for release. Aim for portability; do not claim other platforms are certified until tested.
 - **Packaging:** standard `pyproject.toml` and wheel. Implement as one distribution under `src/python_ui_library`. Avoid ad hoc import path manipulation, requirements copied from React, and bundling Qt binaries ourselves.
 - **Resources:** the wheel contains the official unmodified font binaries required to display DM Sans/JetBrains Mono offline and complete OFL notices. Build tests verify these assets are packaged and load using installed resource paths.
-- **Licenses:** `LICENSE` for MIT project source and `THIRD_PARTY_NOTICES.md` or equivalent for bundled licensed assets. Do not redistribute source repos or their copied components.
+- **Licenses:** `LICENSE` for MIT project source and `docs/legal/THIRD_PARTY_NOTICES.md` or equivalent for bundled licensed assets. Do not redistribute source repos or their copied components.
 
 ## 3. Public interface contract
 
@@ -23,7 +23,7 @@ Initial recommended stable exports (task agents may refine **method** details on
 - `python_ui_library.theme`: `Theme`, `ALPACA_LIGHT`, `install_theme(app, theme=ALPACA_LIGHT)`.
 - `python_ui_library.components`: `Button`, `Text`, `Card`, `Divider`, `TextInput`, `NumberInput`, `SelectInput`, `CheckBox`, `Switch`, `Badge`, `Alert`, `ProgressBar`, `DataTable`, `EmptyState`.
 - Class names are public, QWidget-compatible; no private Qt shims required by consumers. Fine-grained submodule imports also work and have no surprise side effects.
-- Use typed constructors or a documented bounded set of setters; rely on inherited methods for ordinary Qt behavior. Define `variant`, `size`, and `intent` consistently with `GLOSSARY.md`/`COMPONENT_CATALOG.md`. Invalid values fail early with actionable errors at component construction.
+- Use typed constructors or a documented bounded set of setters; rely on inherited methods for ordinary Qt behavior. Define `variant`, `size`, and `intent` consistently with `docs/project/GLOSSARY.md`/`docs/project/COMPONENT_CATALOG.md`. Invalid values fail early with actionable errors at component construction.
 - Theme install accepts the consumer-owned `QApplication`. Passing a non-QApplication or attempting installation after UI construction is documented as unsupported; reject clearly where detectable. `install_theme` must not silently construct or replace the QApplication.
 - Default theme may be used for component preview when not installed but **normal documented consumer path requires startup installation**. Avoid global singleton registries unless there is a demonstrated consumer need.
 - Public APIs must be explainable and reasonably typed. Preserve Qt signals/slots and `QObject` parenting. No async framework dependency.
@@ -34,11 +34,11 @@ Initial recommended stable exports (task agents may refine **method** details on
 
 Font resources must use explicit offline loading (`QFontDatabase` or appropriate Qt API), safely handle repeat use, and fall back gracefully. No `@font-face` from web is available. Browser `rem`, CSS grids, and arbitrary Tailwind classes do not transfer to Qt.
 
-`ALPACA_LIGHT` uses exact colors and salient styling in `THEME_ALPACA_LIGHT.md`. Arbitrary consumer Themes work via semantic values rather than conditionals recognizing Alpaca. No hardcoded color hex literal in individual components besides a clearly justified UI state fallback.
+`ALPACA_LIGHT` uses exact colors and salient styling in `docs/project/THEME_ALPACA_LIGHT.md`. Arbitrary consumer Themes work via semantic values rather than conditionals recognizing Alpaca. No hardcoded color hex literal in individual components besides a clearly justified UI state fallback.
 
 ## 5. Component behavior
 
-`COMPONENT_CATALOG.md` is the authoritative v0.1 inventory. Each Component's implementation must declare: native base control, bounded variants/roles, constructor/Qt signals, ownership of child widgets (if composed), label/accessibility mappings, data boundary, states, and tests. Prefer subclassing the native control when it preserves public Qt behavior; prefer composition when it must supply label/error/help content.
+`docs/project/COMPONENT_CATALOG.md` is the authoritative v0.1 inventory. Each Component's implementation must declare: native base control, bounded variants/roles, constructor/Qt signals, ownership of child widgets (if composed), label/accessibility mappings, data boundary, states, and tests. Prefer subclassing the native control when it preserves public Qt behavior; prefer composition when it must supply label/error/help content.
 
 **Forms:** Native validators, input masks, completers, and Qt spin boxes remain authoritative. A field may show error text; it does not silently alter, sanitize, or persist caller data. All errors must be accessible and visually connected to the label/control. Keyboard focus remains on the proper input widget. Consumers may update a `QCompleter` model from their own application work; the library does not fetch suggestions or own asynchronous work.
 
@@ -61,7 +61,7 @@ Gallery is a normal PySide6 application with a list/tree of component examples (
 
 ## 8. Release contract and gating
 
-All delegated tasks in `IMPLEMENTATION_PLAN.md` complete, `QUALITY.md` gates pass, licenses/notices included, metadata/wheel validated, and a consumer example from a fresh venv runs successfully on Windows x86-64. Release only components actually implemented and tested. Missing gallery/test coverage means the component remains private or out of scope.
+All delegated tasks in `docs/project/IMPLEMENTATION_PLAN.md` complete, `docs/project/QUALITY.md` gates pass, licenses/notices included, metadata/wheel validated, and a consumer example from a fresh venv runs successfully on Windows x86-64. Release only components actually implemented and tested. Missing gallery/test coverage means the component remains private or out of scope.
 
 ## 9. Open implementation choices (not permission to change decisions)
 

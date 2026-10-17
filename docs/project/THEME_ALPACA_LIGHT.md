@@ -1,4 +1,4 @@
-# Theme specification — Alpaca Light
+# Project Theme specification — Alpaca Light
 
 ## Provenance and authority
 

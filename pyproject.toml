@@ -11,7 +11,7 @@ requires-python = ">=3.11,<3.14"
 license = "MIT"
 license-files = [
   "LICENSE",
-  "THIRD_PARTY_NOTICES.md",
+  "docs/legal/THIRD_PARTY_NOTICES.md",
   "src/python_ui_library/theme/resources/fonts/*OFL.txt",
 ]
 authors = [{ name = "darizae" }]

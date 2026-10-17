@@ -1,4 +1,4 @@
-# Component catalog and public API boundaries
+# Project component catalog and public API boundaries
 
 **Rule:** use existing Qt behavior first. A public component needs tangible added visual consistency or generic interaction. Names below are intended public concepts, not exhaustive method signatures. Keep ordinary Qt inherited methods/signals available.
 

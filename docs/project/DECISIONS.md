@@ -1,4 +1,4 @@
-# Locked decisions
+# Locked project decisions
 
 **Status:** LOCKED for the initial release. Only the repo owner may change a locked decision after an explicit ADR-like note showing evidence and consequences. A task agent may raise a correction but must not silently change one.
 

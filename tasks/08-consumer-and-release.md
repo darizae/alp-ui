@@ -4,7 +4,7 @@
 
 ## Read first
 
-`AGENTS.md`, `SPEC.md` (§8), `QUALITY.md`, `DECISIONS.md`, `references/LICENSE_AND_RESEARCH.md`, `REPO_STRUCTURE.md`.
+`AGENTS.md`, `docs/project/SPEC.md` (§8), `docs/project/QUALITY.md`, `docs/project/DECISIONS.md`, `references/LICENSE_AND_RESEARCH.md`, `docs/project/REPO_STRUCTURE.md`.
 
 ## Work
 
