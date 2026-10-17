@@ -24,6 +24,7 @@ and independently authored Qt implementation requirements.
 | `warning` | `#D97706` | Warning state |
 | `danger` | `#DC2626` | Errors and destructive actions |
 | `info` | `#2563EB` | Informational and focus state |
+| `shadow` | `#000000` | Card shadow RGB base; component sets opacity |
 
 The red semantic token is named `danger`; add an `error` alias only if a concrete
 consumer requires it. `primary_hover` is the centralized interaction color. Secondary

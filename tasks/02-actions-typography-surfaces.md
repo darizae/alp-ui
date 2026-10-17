@@ -8,9 +8,9 @@
 
 ## Work
 
-1. Implement public `Button` reusing `QPushButton`, with documented `primary`, `secondary`, `outline`, `danger` variants; sizes only where useful; native `clicked`, keyboard activation, icon/text support via existing Qt API. Test loading semantics only if a documented consumer requires them; do not add a worker controller.
+1. Implement public `Button` reusing `QPushButton`, with documented `primary`, `secondary`, `outline`, `danger` variants; sizes only where useful; native `clicked`, keyboard activation, icon/text support via existing Qt API. Provide the owner-requested consumer-controlled loading presentation without adding a worker controller.
 2. Implement `Text` from `QLabel` using typed roles `body`, `caption`, `heading`, `overline`, honoring DM Sans/JetBrains Mono and safe text selection/wrap behavior.
-3. Implement `Card` as a container wrapping Qt layout(s), using white surface, 1px slate border, 10px rounding and 24px content padding; a subtle shadow is optional only when cheap and rendered consistently. Avoid many nested pseudo-components unless consumers justify them.
+3. Implement `Card` as a container wrapping Qt layout(s), using white surface, 1px slate border, 10px rounding, 24px content padding, and the theme-defined subtle shadow with an opt-out for dense/repeated use. Avoid many nested pseudo-components unless consumers justify them.
 4. Implement `Divider` on native separator behavior and the `border` token.
 5. Add focused component tests for variant validation, theme inheritance, focus and disabled, click signal exactly once, proper parenting/lifetime, long text and resizing. Add representative Gallery sections/examples for these widgets (final gallery structure comes later).
 6. Document constructor choices and Qt inherited methods. Avoid implementing framework-like `asChild`, `Slot`, or JSX composition contracts.
@@ -22,6 +22,7 @@
 ## Acceptance
 
 - [ ] Buttons have required variants, clickable/disabled/focus behavior, and no duplicate clicked signal.
+- [ ] Loading presentation disables activation, is accessible, restores caller state, and starts no work.
 - [ ] Source theme's semibold sentence-case buttons and font choices visible.
 - [ ] Card/Divider honor semantic theme colors and Qt layout resizing.
 - [ ] All exported classes are ordinary QWidget-compatible objects, installed package imports succeed.

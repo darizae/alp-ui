@@ -7,7 +7,7 @@
 | 00 | [Verify evidence, scaffold project](tasks/00-evidence-and-scaffold.md) | Wheel skeleton installs; license/source decisions verified | None |
 | 01 | [Build typed Alpaca Light theme](tasks/01-theme-and-assets.md) | Palette/font application and packaging tests pass | 00 |
 | 02 | [Core actions, text, surfaces](tasks/02-actions-typography-surfaces.md) | Button, Text, Card, Divider meet API/state/gallery tests | 01 |
-| 03 | [Form field components](tasks/03-inputs.md) | TextInput, NumberInput, SelectInput, CheckBox validated | 02 |
+| 03 | [Form field components](tasks/03-inputs.md) | TextInput, NumberInput, SelectInput, CheckBox, Switch validated | 02 |
 | 04 | [Feedback components](tasks/04-feedback.md) | Badge, Alert, ProgressBar, EmptyState validated | 03 |
 | 05 | [Data table](tasks/05-data-table.md) | Model/view integration, large-model tests, table header appearance | 04 |
 | 06 | [Gallery and public docs](tasks/06-gallery-and-docs.md) | Every exported component documented/shown and interaction-tested | 05 |

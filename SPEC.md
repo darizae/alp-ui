@@ -21,7 +21,7 @@ No page routing framework, domain data, job execution, network calls, window man
 Initial recommended stable exports (task agents may refine **method** details only within existing semantics):
 
 - `python_ui_library.theme`: `Theme`, `ALPACA_LIGHT`, `install_theme(app, theme=ALPACA_LIGHT)`.
-- `python_ui_library.components`: `Button`, `Text`, `Card`, `Divider`, `TextInput`, `NumberInput`, `SelectInput`, `CheckBox`, `Badge`, `Alert`, `ProgressBar`, `DataTable`, `EmptyState`.
+- `python_ui_library.components`: `Button`, `Text`, `Card`, `Divider`, `TextInput`, `NumberInput`, `SelectInput`, `CheckBox`, `Switch`, `Badge`, `Alert`, `ProgressBar`, `DataTable`, `EmptyState`.
 - Class names are public, QWidget-compatible; no private Qt shims required by consumers. Fine-grained submodule imports also work and have no surprise side effects.
 - Use typed constructors or a documented bounded set of setters; rely on inherited methods for ordinary Qt behavior. Define `variant`, `size`, and `intent` consistently with `GLOSSARY.md`/`COMPONENT_CATALOG.md`. Invalid values fail early with actionable errors at component construction.
 - Theme install accepts the consumer-owned `QApplication`. Passing a non-QApplication or attempting installation after UI construction is documented as unsupported; reject clearly where detectable. `install_theme` must not silently construct or replace the QApplication.
@@ -40,7 +40,7 @@ Font resources must use explicit offline loading (`QFontDatabase` or appropriate
 
 `COMPONENT_CATALOG.md` is the authoritative v0.1 inventory. Each Component's implementation must declare: native base control, bounded variants/roles, constructor/Qt signals, ownership of child widgets (if composed), label/accessibility mappings, data boundary, states, and tests. Prefer subclassing the native control when it preserves public Qt behavior; prefer composition when it must supply label/error/help content.
 
-**Forms:** Native validators and Qt spin boxes remain authoritative. A field may show error text; it does not silently alter, sanitize, or persist caller data. All errors must be accessible and visually connected to the label/control. Keyboard focus remains on the proper input widget.
+**Forms:** Native validators, input masks, completers, and Qt spin boxes remain authoritative. A field may show error text; it does not silently alter, sanitize, or persist caller data. All errors must be accessible and visually connected to the label/control. Keyboard focus remains on the proper input widget. Consumers may update a `QCompleter` model from their own application work; the library does not fetch suggestions or own asynchronous work.
 
 **Tables:** `DataTable` is a themed `QTableView` consuming a caller-provided `QAbstractItemModel`. Sorting/selection behavior should be normal Qt behavior; do not invent the table's data format or hold redundant row copies. Header style approximates the MUI visual source; scrolling is native Qt behavior. Large models remain responsive.
 

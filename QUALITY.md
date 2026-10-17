@@ -23,8 +23,10 @@
 ## Component specific critical tests
 
 - Buttons: emits **one** native clicked event per activation; disabled button does not activate; focus indicator exists.
+- Button loading: visible text, accessible name, no activation, caller enabled state restored, and no worker created.
 - Text and Cards: respect Qt layout resizing and ownership; nested text can wrap; no redundant shadow effects in large lists.
 - Inputs: native `textChanged` / value changed preserved; validation feedback visible; tab and label focus forwarding work.
+- Switch: native checked signal fires once for keyboard activation; disabled state does not toggle; focus remains visible.
 - Badge/Alert: semantic intent displayed with accessible text; unknown intent fails meaningfully.
 - ProgressBar: handles minimum/maximum, value boundaries and native indefinite mode; no worker thread created.
 - DataTable: accepts normal `QAbstractItemModel`, uses native scrollbar, honors model reset/dataChanged notifications, selection, column resizing; no `setCellWidget` per row, no implicit sorting/re-ordering. A model of **10,000 rows** must open and scroll without 10,000 child widgets (do not assert arbitrary benchmark time without a measured baseline).

@@ -6,14 +6,15 @@
 
 | Component | Qt foundation | Public choices / behavior | Explicit non-responsibility |
 |---|---|---|---|
-| `Button` | `QPushButton` | `variant`: `primary`, `secondary`, `outline`, `danger`; optional `size` (small/medium/large); native `clicked`; disabled + focus states | Does not execute jobs, persist state, or manage application-wide async operations. |
+| `Button` | `QPushButton` | `variant`: `primary`, `secondary`, `outline`, `danger`; optional `size` (small/medium/large); native `clicked`; disabled, focus, and consumer-controlled loading presentation | Does not execute jobs, persist state, or manage application-wide async operations. |
 | `Text` | `QLabel` | Semantic role `body`, `caption`, `heading`, `overline`; optional selectable text | Does not implement markdown editor or layout engine. |
-| `Card` | `QFrame`/`QWidget` + Qt layout | Background, border, padding, optional header/content layout slots where evidence justifies | Does not store a data object or own navigation. |
+| `Card` | `QFrame`/`QWidget` + Qt layout | Background, border, padding, theme-defined subtle shadow with opt-out | Does not store a data object or own navigation. |
 | `Divider` | `QFrame` | Horizontal/vertical separator, theme border | No page system. |
-| `TextInput` | `QLineEdit` | Label/description/error presentation; placeholder; native `textChanged`, `editingFinished`; optional validator passthrough | Does not own form submission or schema validation. |
+| `TextInput` | `QLineEdit` | Label/description/error presentation; placeholder; native `textChanged`, `editingFinished`, validator, input-mask, and `QCompleter` APIs | Does not own form submission, schema validation, asynchronous work, or suggestion loading. |
 | `NumberInput` | `QSpinBox`/`QDoubleSpinBox` | Type-specific native limits/step/decimals; label/error presentation | No manual string-number parser or magical units conversion. |
 | `SelectInput` | `QComboBox` | Label/help/error; native model/items and `currentIndexChanged` | No app-specific dropdown data loader. |
-| `CheckBox` | `QCheckBox` | Consistent typography/spacing, native checkable state/signal | No custom switch painting in v0.1. |
+| `CheckBox` | `QCheckBox` | Consistent typography/spacing, native checkable state/signal | Does not imply the immediate-action semantics of a Switch. |
+| `Switch` | `QCheckBox` | Two-state switch appearance; native checked state, signal, keyboard, focus, and accessibility behavior | No tri-state meaning, persistence, or feature-flag service. |
 | `Badge` | `QLabel` or small custom `QWidget` | `intent`: neutral/info/success/warning/danger; outlined/filled only when tests justify both | No domain status mapping. |
 | `Alert` | `QFrame` + labels/layout | Intent, title/body, optional actions supplied by consumer | No global notification bus or persistence. |
 | `ProgressBar` | `QProgressBar` | Determinate/indeterminate using native semantics; theme styles | No computation/thread/process controller. |
@@ -24,7 +25,7 @@
 
 ## Post-v0.1 candidates — outside initial release
 
-- `IconButton` (only after icon design is satisfactory), `ButtonGroup` (Qt native group may suffice), `SearchInput` (likely `TextInput` composition), `Switch` (custom interaction costs), `Tabs`, `Sidebar`, `PageHeader`, `ConfirmDialog`, `FilePicker`, `FolderPicker`, `DropZone`, advanced date/range widgets, and toasts.
+- `IconButton` (only after icon design is satisfactory), `ButtonGroup` (Qt native group may suffice), `SearchInput` (likely `TextInput` composition), `Tabs`, `Sidebar`, `PageHeader`, `ConfirmDialog`, `FilePicker`, `FolderPicker`, `DropZone`, advanced date/range widgets, and toasts.
 - These are **backlog candidates, not authorized phase deliverables**. Promote an item only after a consumer demonstrates need, it is specified, and a named task is approved. Native `QTabWidget`, `QFileDialog`, `QMessageBox`, etc. can already be used directly by consumers.
 - **No plots or chart adapters in any phase.**
 

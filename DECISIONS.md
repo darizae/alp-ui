@@ -23,7 +23,8 @@
 | D17 | No implicit `QApplication` creation, network access, telemetry, background work, global persistence, or application navigation framework. | Library does not become a second application. |
 | D18 | No backwards-compatibility requirement with the TypeScript library or Alpaca UI app. | Copy patterns and values, not obsolete implementation surfaces. |
 | D19 | Respect Qt/PySide6 LGPLv3 **in each redistributed application**, even though our own library is MIT; use eligible LGPL modules and dynamically supplied Qt libraries. Do not claim license-free closed-source distribution. | Legally conservative, explicit separation of source license and dependency obligations. |
-| D20 | Do not include `ui_library.zip` or `alpaca-ui-frontend.zip` in the package/wheel or copy their source. | Reference-only source inspection; no unverified IP transfer. |
+| D20 | Do not include the `ui_library` or `alpaca-ui-frontend` reference directories/archives in the package or wheel, or copy their source. | Reference-only source inspection; no unverified IP transfer. |
+| D21 | Owner-approved v0.1 expansion: `Switch` retains `QCheckBox` behavior with custom painting; `Button` may present a consumer-controlled loading state; `TextInput` forwards native validator, input-mask, and `QCompleter` APIs. | Meets the named consumer request without a validation engine, async controller, network behavior, or added dependency. |
 
 ## License decision, plainly
 
@@ -32,3 +33,20 @@ The cleanest viable option **within the user's fixed PySide6 requirement** is: *
 ## Scope-change procedure
 
 Document a proposed change as: problem and named consumer → investigated alternatives → effect on licenses/dependencies → minimal change → tests. Obtain owner approval before changing this file, then update specification, glossary, plan, and affected tasks in one coherent revision.
+
+## 2026-10-18 owner-approved component amendment
+
+- **Problem and consumer:** the repository owner requested implementation of the
+  deliberately deferred Card shadow, Button loading presentation, input masks,
+  suggestions, validation access, and Switch.
+- **Alternatives inspected:** design review confirmed the requested presentation
+  patterns; Qt already provides `QValidator`, input masks, `QCompleter`,
+  and `QCheckBox` behavior. Application-owned asynchronous work remains outside the
+  library. Detailed inspection notes remain in ignored local evidence.
+- **Dependencies/licenses:** no dependency or license change. External implementations
+  are behavioral evidence only; no code or assets are copied.
+- **Minimal change:** add presentational states and native API forwarding, plus a
+  painted two-state `QCheckBox` subclass. Do not add a form schema, worker, networking,
+  or suggestion loader.
+- **Tests:** public behavior, keyboard activation, accessibility, rendering state,
+  gallery coverage, and built-wheel import remain required.
