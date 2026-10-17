@@ -14,7 +14,14 @@ Read these in order:
 8. The assigned file in `tasks/`
 9. `references/SOURCE_MAP.md` and `references/LICENSE_AND_RESEARCH.md` when working with source styling, dependencies, licenses, packaging, or release
 
-Source archives `ui_library.zip` and `alpaca-ui-frontend.zip` are **read-only design references**, not repositories to convert. Inspect cited source files before implementing behavior or design borrowed from them. Do not import Alpaca's obsolete navigation/workflows into this general-purpose library.
+The read-only design references are available at
+`/Users/danie/Downloads/ui_library` and
+`/Users/danie/Downloads/alpaca-ui-frontend`. They are not repositories to convert or
+sources to copy into this package. Inspect the cited files there before implementing
+borrowed behavior or design. Do not import Alpaca's obsolete navigation/workflows into
+this general-purpose library. Keep file-level mappings, excerpts, screenshots, and
+inspection notes only in ignored `references/` or `docs/evidence.md`; tracked documents
+may contain the library contract and independently authored implementation decisions.
 
 ## Invariants
 

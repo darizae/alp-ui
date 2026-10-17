@@ -8,7 +8,7 @@
 
 ## Work
 
-1. Build wheel and sdist via standard Python packaging. Verify metadata and `twine check` (dev utility). Inspect archives to confirm correct modules, fonts, MIT LICENSE, OFL notices, and no reference ZIPs/source code/assets.
+1. Build wheel and sdist via standard Python packaging. Verify metadata and `twine check` (dev utility). Inspect distribution archives to confirm correct modules, fonts, MIT LICENSE, OFL notices, and no external reference directories/source code/assets.
 2. In a **fresh** virtual environment **outside the repository**, install built wheel. Ensure source repo is not on `sys.path`. Create a tiny consuming Qt Widgets application: caller creates QApplication, installs ALPACA_LIGHT, lays out Button, TextInput, Badge, and DataTable backed by its own Qt model, and handles signals.
 3. Repeat installation at least once with an overridden color token Theme to demonstrate application customization without source edits.
 4. Run consumer and Gallery using only installed assets offline on Windows x86-64. Verify import paths, native Qt plugin loading, fonts and resource relative paths, clean shutdown.

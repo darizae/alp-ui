@@ -51,7 +51,6 @@ Supporting references:
 - [QUALITY.md](QUALITY.md) — test matrix, gallery standards, release gates.
 - [REPO_STRUCTURE.md](REPO_STRUCTURE.md) — target directory layout **to create later**.
 - `references/` contains local-only source evidence and is intentionally ignored by Git.
-- [docs/evidence.md](docs/evidence.md) records implementation-time verification.
 
 ## Authority
 

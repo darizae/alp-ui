@@ -8,7 +8,7 @@
 
 ## Work
 
-1. Inspect the attached `ui_library.zip` and `alpaca-ui-frontend.zip` (if present) at the exact referenced paths. Confirm colors, typography, reusable architecture, and unlicensed TypeScript-package status. Never copy their source/assets into the new package.
+1. Inspect the external design references at the exact roots and paths listed in the ignored `references/SOURCE_MAP.md`. Confirm colors, typography, reusable architecture, and license status. Never copy their source/assets into the new package or tracked evidence files.
 2. Verify exact Python/PySide6-Essentials 6.11.x platform support and installed module licenses against current official documentation/package metadata. Record tested patch version. Confirm `QtCore`, `QtGui`, and `QtWidgets` imports work with **only** PySide6-Essentials installed.
 3. Create a new Git repository named `python-ui-library` with one `src/python_ui_library` package and a standard `pyproject.toml`, initialized at pre-release version. Use explicit Python bounds 3.11–3.13 and a bounded PySide6-Essentials 6.11.x runtime requirement. Avoid exact-patch pinning for consumers unless required; pin tested environments in CI.
 4. Add MIT `LICENSE` with accurate copyright holder (obtain repository owner identity when available; **do not invent**); add `THIRD_PARTY_NOTICES.md` skeleton that accurately distinguishes future bundled font assets and Qt obligations; CI/dev dependency setup with minimal test/lint/build tools.

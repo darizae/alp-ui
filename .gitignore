@@ -1,5 +1,6 @@
 # Local design evidence and source references are never versioned or shipped.
 /references/
+/docs/evidence.md
 /alpaca-ui-frontend/
 /ui_library/
 /alpaca-ui-frontend.zip

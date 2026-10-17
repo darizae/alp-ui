@@ -1,6 +1,7 @@
 # Repository tree to implement
 
-The **present ZIP contains only specification Markdown**. The tree below is **a target for the implementing agent**; it must not be mistaken for files already created.
+The tree below describes the repository layout and remains illustrative as implementation
+progresses.
 
 ```text
 python-ui-library/
@@ -63,4 +64,6 @@ python-ui-library/
 
 This tree is illustrative for **internal module arrangement**, not a strict mandate to create one class/file per symbol. Subpackages are acceptable if a real group becomes too large. No monorepo or duplicate `core`, `base`, `helpers`, `ui2` etc. without evidence.
 
-The original design reference archives are **not** shipped in the new repository. They may be staged outside it for one-time inspection, per `references/SOURCE_MAP.md`.
+The external read-only design references are **not** shipped in this repository or its
+distributions. Their local roots and file-level mappings belong only in the ignored
+`references/SOURCE_MAP.md`.
