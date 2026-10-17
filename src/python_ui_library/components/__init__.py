@@ -1,6 +1,7 @@
 """Public reusable Qt Widget components."""
 
 from python_ui_library.components.actions import Button
+from python_ui_library.components.data import DataTable
 from python_ui_library.components.feedback import Alert, Badge, EmptyState, ProgressBar
 from python_ui_library.components.inputs import (
     CheckBox,
@@ -18,6 +19,7 @@ __all__ = [
     "Button",
     "Card",
     "CheckBox",
+    "DataTable",
     "Divider",
     "EmptyState",
     "NumberInput",

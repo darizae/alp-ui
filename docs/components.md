@@ -151,5 +151,30 @@ empty = EmptyState(
 )
 ```
 
+## Data
+
+`DataTable(parent=None, *, model=None)` subclasses `QTableView`. Pass any valid
+caller-owned `QAbstractItemModel` at construction or later with inherited `setModel()`.
+The Component owns header, row, selection, focus, and scrollbar presentation; the
+consumer owns records, column meaning, edits, sort/filter proxy models, and persistence.
+It never copies rows or installs widgets in cells.
+
+```python
+from PySide6.QtCore import QSortFilterProxyModel
+
+from python_ui_library.components import DataTable
+
+proxy = QSortFilterProxyModel()
+proxy.setSourceModel(application_model)
+table = DataTable(model=proxy)
+table.clicked.connect(open_selected_record)
+table.horizontalHeader().setStretchLastSection(True)
+```
+
+Native `clicked`, `doubleClicked`, `activated`, keyboard navigation, selection model,
+header resizing, and scrollbars remain available. Sorting is not enabled implicitly;
+configure a Qt proxy model and sorting behavior in the consumer when needed. Set a more
+specific accessible name when the surrounding label does not identify the table.
+
 Run `python gallery/main.py` from an editable installation to inspect variants, field
 feedback, disabled states, resizing, and keyboard focus.

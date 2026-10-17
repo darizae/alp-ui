@@ -9,6 +9,7 @@ from python_ui_library.components import (
     Button,
     Card,
     CheckBox,
+    DataTable,
     EmptyState,
     NumberInput,
     ProgressBar,
@@ -41,4 +42,7 @@ def test_theme_gallery_builds_with_keyboard_controls(qapp: QApplication) -> None
     assert len(window.findChildren(Alert)) == 5
     assert len(window.findChildren(ProgressBar)) == 2
     assert window.findChild(EmptyState) is not None
+    tables = window.findChildren(DataTable)
+    assert len(tables) == 2
+    assert {table.model().rowCount() for table in tables} == {0, 10_000}
     window.close()

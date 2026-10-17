@@ -5,6 +5,7 @@ from __future__ import annotations
 import sys
 from dataclasses import fields
 
+from PySide6.QtCore import QAbstractTableModel, QModelIndex, Qt
 from PySide6.QtGui import QColor, QFont, QPalette
 from PySide6.QtWidgets import (
     QApplication,
@@ -25,6 +26,7 @@ from python_ui_library.components import (
     Button,
     Card,
     CheckBox,
+    DataTable,
     Divider,
     EmptyState,
     NumberInput,
@@ -35,6 +37,36 @@ from python_ui_library.components import (
     TextInput,
 )
 from python_ui_library.theme import ALPACA_LIGHT, install_theme
+
+
+class _GalleryTableModel(QAbstractTableModel):
+    """Computed demo records that do not allocate a second 10,000-row collection."""
+
+    def __init__(self, rows: int, parent: QWidget | None = None) -> None:
+        super().__init__(parent)
+        self._rows = rows
+
+    def rowCount(self, parent: QModelIndex = QModelIndex()) -> int:  # noqa: N802
+        return 0 if parent.isValid() else self._rows
+
+    def columnCount(self, parent: QModelIndex = QModelIndex()) -> int:  # noqa: N802
+        return 0 if parent.isValid() else 3
+
+    def data(self, index: QModelIndex, role: int = Qt.ItemDataRole.DisplayRole):
+        if role != Qt.ItemDataRole.DisplayRole or not index.isValid():
+            return None
+        row = index.row()
+        return (f"Item {row + 1:05}", f"Group {row % 5 + 1}", row * 4)[index.column()]
+
+    def headerData(  # noqa: N802
+        self,
+        section: int,
+        orientation: Qt.Orientation,
+        role: int = Qt.ItemDataRole.DisplayRole,
+    ):
+        if orientation == Qt.Orientation.Horizontal and role == Qt.ItemDataRole.DisplayRole:
+            return ("Item", "Category", "Value")[section]
+        return None
 
 
 def _font(family: str, size: float, weight: int) -> QFont:
@@ -196,6 +228,23 @@ def build_window() -> QWidget:
         )
     )
     layout.addWidget(feedback)
+
+    data_group = QGroupBox("Data")
+    data_layout = QVBoxLayout(data_group)
+    data_layout.addWidget(Text("10,000-row caller model", role="overline"))
+    large_table = DataTable()
+    large_model = _GalleryTableModel(10_000, large_table)
+    large_table.setModel(large_model)
+    large_table.horizontalHeader().setStretchLastSection(True)
+    large_table.setMinimumHeight(240)
+    data_layout.addWidget(large_table)
+    data_layout.addWidget(Text("Empty caller model", role="overline"))
+    empty_table = DataTable()
+    empty_model = _GalleryTableModel(0, empty_table)
+    empty_table.setModel(empty_model)
+    empty_table.setMinimumHeight(120)
+    data_layout.addWidget(empty_table)
+    layout.addWidget(data_group)
     layout.addStretch()
 
     scroll = QScrollArea(window)
