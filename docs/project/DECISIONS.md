@@ -50,3 +50,24 @@ Document a proposed change as: problem and named consumer → investigated alter
   or suggestion loader.
 - **Tests:** public behavior, keyboard activation, accessibility, rendering state,
   gallery coverage, and built-wheel import remain required.
+
+## 2026-10-18 owner-approved visual refinement amendment
+
+The owner explicitly approved refinement of existing Components rather than v0.2
+feature expansion. This **extends D07/D08/D10** without changing the core decisions:
+
+- **D07 extension:** add `Theme.density` (`standard` or `compact`), typed derived
+  `InteractionTokens`, and new `title`, `subheading`, `caption` typography metrics.
+  Alpaca Light's locked semantic hex values are unchanged. Startup-only application
+  remains the contract.
+- **D08 extension:** local QSS may normalize outline/height/chrome; draw only
+  minimal checkbox, switch, select chevron, and spinbox arrows with QPainter. Preserve
+  native Qt activation, popup, model, signal, focus, and keyboard behavior. A
+  consistent focus border must not change border width (no layout shift).
+- **D10 extension:** original lightweight Qt-painted icons, without external asset or
+  new runtime dependencies, replace inconsistent generic stock icon imagery where
+  appropriate. `make_icon` is a small theme utility, not a general icon library.
+- **D12 extension:** sample navigation and page layout belong to `gallery/showcase.py`
+  only. Do **not** expose them as new public components without a named consumer.
+- **Non-goals remain:** no plots, no dark Theme, no runtime theme switching, no new
+  runtime dependencies, no application domain logic, and no compatibility adapters.

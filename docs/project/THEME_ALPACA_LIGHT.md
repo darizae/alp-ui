@@ -76,3 +76,38 @@ tables use native `QTableView` scrolling rather than browser-style layout mechan
 ## Acceptance
 
 The gallery must show theme token swatches, type samples, side-by-side native vs styled controls, and focus/disabled/error/hover states. The palette hex values above must be asserted in tests. A clean install must display the bundled fonts or explicitly report fallback in diagnostics. Components must have sufficient contrast at normal text sizes; use documented manual checks where automation cannot judge Qt rendering.
+
+## Interaction states and density
+
+The complete **original semantic Alpaca palette remains locked unchanged**. The
+`InteractionTokens` are derived centrally from the semantic palette at the Theme
+boundary (or explicitly overridden by a custom consumer Theme), rather than by
+Component-local darkening/tinting. The `secondary` amber token remains available for
+semantic accents; default secondary **Button** presentation is now quiet slate.
+
+### Density (logical px)
+
+| Metric | Standard (default) | Compact |
+|---|---:|---:|
+| Minimum text, numeric, select height | 40 | 34 |
+| Minimum Button small, medium, large height | 32, 40, 44 | 30, 34, 38 |
+| DataTable row | 44 | 36 |
+| Card padding | 24 | 16 |
+
+Text point sizes do not shrink when density is compact, and minimum heights may expand
+for larger fonts. Qt retains its native editing, popup, step, and accessibility
+behaviors; controls draw only small consistent vector subparts.
+
+### Typography and icons
+
+Keep DM Sans/JetBrains Mono. Roles include `title` 23pt/700, `subheading` 13pt/600,
+`caption` 9pt/400. Existing `heading` 18pt/700, `body` 10pt/400, and mono
+`overline` 8pt/500 remain. `make_icon` provides small original single-stroke Qt
+icons without an external icon pack.
+
+### Surface hierarchy
+
+Prefer clear headings, whitespace, unbordered Gallery sections, quiet secondary
+actions, and one Card surface around a form—not nested outlined groups inside
+outlined Cards. The composed Showcase demonstrates this rather than adding a
+public navigation component.

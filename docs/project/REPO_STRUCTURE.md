@@ -48,6 +48,8 @@ python-ui-library/
 │       │   ├── __init__.py
 │       │   ├── tokens.py
 │       │   ├── alpaca_light.py
+│       │   ├── appearance.py
+│       │   ├── icons.py
 │       │   ├── install.py
 │       │   └── resources/             # OFL fonts, copyright & license notices
 │       └── components/
@@ -59,7 +61,8 @@ python-ui-library/
 │           ├── feedback.py
 │           └── data.py
 ├── gallery/
-│   └── main.py                         # native component showcase app
+│   ├── main.py                         # native Component catalog
+│   └── showcase.py                     # composed application-like example
 ├── examples/
 │   └── consumer_app/                   # clean-wheel consuming app
 ├── tests/                              # behavior, Gallery, and package tests

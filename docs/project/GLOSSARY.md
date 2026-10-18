@@ -13,11 +13,14 @@ Use these exact terms in documentation, code, tests, examples, issues, and task 
 | **Alpaca Light** | Theme preset derived from the uploaded Alpaca UI MUI theme's light palette and typography. It does not import Alpaca application behavior. |
 | **Theme installation** | One startup operation applying a Theme to a consumer-owned `QApplication`, before its main widgets are created. |
 | **Theme override** | A consumer-provided value replacing a semantic token for its app without modifying library source. |
+| **Density** | Startup Theme choice, `standard` or `compact`, that changes control/table geometry and Card padding without shrinking font point sizes. |
+| **Interaction Tokens** | Theme-owned colors for hover, pressed, focus, selected, disabled, and subtle feedback surfaces, derived from semantic tokens unless explicitly overridden. |
 | **Variant** | A finite, documented visual style choice for a Component, such as `primary`, `secondary`, `outline`, or `danger`. |
 | **Size** | A documented, bounded component sizing option, initially `small`, `medium`, or `large` where useful. |
 | **State** | An observable UI condition, such as idle, hover, pressed, focused, disabled, invalid, or busy; only valid when the component actually supports it. |
 | **Intent** | Semantic meaning used by feedback Components: `neutral`, `info`, `success`, `warning`, `danger`. |
-| **Gallery** | Runnable local Python/Qt application displaying documented Components, variants, states, and interaction examples; the Python analogue of a component showcase, not a web Storybook server. |
+| **Gallery** | Runnable local Python/Qt catalog displaying documented Components, variants, states, and interaction examples; not a web Storybook server. |
+| **Showcase** | Composed application-like example in `gallery/showcase.py`; not a public Component, navigation system, or application framework. |
 | **Example consumer** | Minimal independent application installed against the built package, not source-tree imports. |
 | **Public API** | Stable, importable names and documented properties/signals provided to consumer applications. |
 | **Qt model/view contract** | `QAbstractItemModel` provides records, `QTableView` displays them, delegates optionally render/edit; the library doesn't invent a second table data format. |

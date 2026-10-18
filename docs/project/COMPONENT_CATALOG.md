@@ -6,8 +6,8 @@
 
 | Component | Qt foundation | Public choices / behavior | Explicit non-responsibility |
 |---|---|---|---|
-| `Button` | `QPushButton` | `variant`: `primary`, `secondary`, `outline`, `danger`; optional `size` (small/medium/large); native `clicked`; disabled, focus, and consumer-controlled loading presentation | Does not execute jobs, persist state, or manage application-wide async operations. |
-| `Text` | `QLabel` | Semantic role `body`, `caption`, `heading`, `overline`; optional selectable text | Does not implement markdown editor or layout engine. |
+| `Button` | `QPushButton` | `variant`: `primary`, quiet `secondary`, `outline`, `danger`; optional `size` (small/medium/large); native `clicked`; disabled, focus, and consumer-controlled loading presentation | Does not execute jobs, persist state, or manage application-wide async operations. |
+| `Text` | `QLabel` | Semantic role `title`, `heading`, `subheading`, `body`, `caption`, `overline`; optional selectable text | Does not implement markdown editor or layout engine. |
 | `Card` | `QFrame`/`QWidget` + Qt layout | Background, border, padding, theme-defined subtle shadow with opt-out | Does not store a data object or own navigation. |
 | `Divider` | `QFrame` | Horizontal/vertical separator, theme border | No page system. |
 | `TextInput` | `QLineEdit` | Label/description/error presentation; placeholder; native `textChanged`, `editingFinished`, validator, input-mask, and `QCompleter` APIs | Does not own form submission, schema validation, asynchronous work, or suggestion loading. |
@@ -18,7 +18,7 @@
 | `Badge` | `QLabel` or small custom `QWidget` | `intent`: neutral/info/success/warning/danger; outlined/filled only when tests justify both | No domain status mapping. |
 | `Alert` | `QFrame` + labels/layout | Intent, title/body, optional actions supplied by consumer | No global notification bus or persistence. |
 | `ProgressBar` | `QProgressBar` | Determinate/indeterminate using native semantics; theme styles | No computation/thread/process controller. |
-| `DataTable` | `QTableView` | Styled header, selection, alternate rows if validated; accepts **external `QAbstractItemModel`** | No parallel Python list/table schema, business-level filters, or lazy filesystem discovery. |
+| `DataTable` | `QTableView` | Styled header, whole-row selection, muted state highlights, density-aware rows; accepts **external `QAbstractItemModel`** | No parallel Python list/table schema, business-level filters, or lazy filesystem discovery. |
 | `EmptyState` | QWidget composition | Text, optional illustration using Qt standard icon, optional consumer-supplied action widget | No automatic data fetching. |
 
 `TextInput`, `NumberInput`, and `SelectInput` may each use a small internal `FieldFrame`/label composition once **two real implementations** show meaningful shared behavior. Do not make an elaborate field framework in advance.
@@ -46,4 +46,4 @@
 
 ## In-scope gallery categories
 
-Actions, Typography, Surfaces, Fields, Feedback, and Data. Each exhibits all implemented variants and meaningful states, with keyboard instructions and copyable Python examples maintained in Markdown docs (not generated JS).
+Actions, Typography, Surfaces, Fields, Feedback, and Data. Each exhibits all implemented variants and meaningful states, with keyboard instructions and copyable Python examples maintained in Markdown docs (not generated JS). The separate Showcase demonstrates composition without adding Sidebar, navigation, or page-shell Components.

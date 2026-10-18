@@ -16,7 +16,7 @@
 - [ ] Correct parent/child lifetime, cleanup, and no duplicate QApplication creation.
 - [ ] Font fallback doesn't overflow or truncate unexpectedly; long labels and translated text tested.
 - [ ] Light-theme background/surface/text/interactive contrast manually checked; errors have text not only colors.
-- [ ] No theme-specific hex literal outside tokens; no global QSS style blanket.
+- [ ] No component-specific hex literal outside Theme token derivation; no global QSS style blanket.
 - [ ] No application-owned data or processing introduced.
 - [ ] Gallery entry and public import demonstration match implementation.
 
@@ -25,7 +25,7 @@
 - Buttons: emits **one** native clicked event per activation; disabled button does not activate; focus indicator exists.
 - Button loading: visible text, accessible name, no activation, caller enabled state restored, and no worker created.
 - Text and Cards: respect Qt layout resizing and ownership; nested text can wrap; no redundant shadow effects in large lists.
-- Inputs: native `textChanged` / value changed preserved; validation feedback visible; tab and label focus forwarding work.
+- Inputs: native `textChanged` / value changed preserved; validation feedback visible; tab and label focus forwarding work; select popup and spin buttons remain usable by mouse and keyboard in left-to-right and right-to-left layouts.
 - Switch: native checked signal fires once for keyboard activation; disabled state does not toggle; focus remains visible.
 - Badge/Alert: semantic intent displayed with accessible text; unknown intent fails meaningfully.
 - ProgressBar: handles minimum/maximum, value boundaries and native indefinite mode; no worker thread created.

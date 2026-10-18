@@ -66,3 +66,18 @@ All delegated tasks in `docs/project/IMPLEMENTATION_PLAN.md` complete, `docs/pro
 ## 9. Open implementation choices (not permission to change decisions)
 
 The implementation agent may select a standard build backend, formatter/type checker, internal file splits, and unit-test utilities. It may determine whether a certain native widget requires `QProxyStyle`, a local QSS adjustment, or a small composition **inside the locked styling architecture**. It may also derive exact focus/disabled colors from existing tokens, provided they are centralized and tested for legibility. Any change adding dependencies, dynamic theme switching, dark mode, new public components, GPL-only modules, or plots requires a decision change first.
+
+## Approved visual refinement (2026-10-18)
+
+The user requested refinement of the existing release candidate without plotting,
+a new framework, or additional reusable navigation components. Implement shared
+control styling and density, quiet action/surface hierarchy, differentiated text
+roles, original stroke icons, and one composed real-world Showcase. The existing
+Alpaca semantic color palette, Qt Widgets foundation, licensing, and data ownership
+remain fixed. New state tokens are derived at the Theme boundary, allowing custom
+semantic color overrides to propagate automatically. The application uses Theme
+startup installation; individual widgets are not hot-rethemed.
+
+Acceptance requires the automated component/theme tests, a real Windows 100/150%
+DPI visual pass, keyboard and screen-reader checks, comparison captures, and a
+built-wheel consumer test.
