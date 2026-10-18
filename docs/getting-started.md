@@ -148,3 +148,19 @@ settings before distribution.
 - Run the [installed-wheel consumer](../examples/consumer_app/README.md).
 - Review [third-party terms](legal/THIRD_PARTY_NOTICES.md) before distributing an
   application with Qt.
+
+## Compact density
+
+The default Theme uses `standard` density. To select `compact` density at startup:
+
+```python
+from dataclasses import replace
+from python_ui_library.theme import ALPACA_LIGHT, install_theme
+
+install_theme(app, replace(ALPACA_LIGHT, density="compact"))
+```
+
+See [Theme](theme.md) for fixed logical-pixel metrics and override semantics.
+
+To evaluate the components together, run `python -m gallery.showcase` in a checkout.
+The Showcase is ordinary Qt composition, not a public application shell.

@@ -1,48 +1,95 @@
 # Theme
 
-Create the application's one `QApplication`, install a Theme before constructing the
-main window, and then use ordinary Qt Widgets:
+Create the application's **one** `QApplication`, then install a Theme before creating widgets:
 
 ```python
 from PySide6.QtWidgets import QApplication
-
 from python_ui_library.theme import install_theme
 
 app = QApplication([])
 install_theme(app)
 ```
 
-All token groups are frozen dataclasses. A startup override uses
-`dataclasses.replace` instead of string-key configuration:
+All Theme groups are immutable, typed dataclasses. Alpaca Light uses a green primary
+and amber secondary accent. `secondary` is a palette accent, not an instruction to
+make every secondary action amber.
+
+## Startup customization and density
 
 ```python
 from dataclasses import replace
-
 from python_ui_library.theme import ALPACA_LIGHT, install_theme
 
 custom = replace(
     ALPACA_LIGHT,
     colors=replace(ALPACA_LIGHT.colors, primary="#0F766E"),
+    density="compact",
 )
 install_theme(app, custom)
 ```
 
-Runtime theme switching is unsupported in v0.1. `install_theme` preserves the current
-native Qt style and installs no global stylesheet. It loads bundled, unmodified DM Sans
-and JetBrains Mono files offline. If a resource cannot load, a `RuntimeWarning` names
-the deterministic system fallback.
+The `standard` density is the default. `compact` retains the same readable font size
+while reducing controls and surface padding:
 
-Run the Theme Gallery from the repository root after an editable installation:
+| Metric (logical px) | Standard | Compact |
+|---|---:|---:|
+| Minimum text/number/select control height | 40 | 34 |
+| Minimum Button small / medium / large height | 32 / 40 / 44 | 30 / 34 / 38 |
+| DataTable row | 44 | 36 |
+| Card content padding | 24 | 16 |
 
-```bash
-python -m gallery.main
+Density is chosen at startup. Existing components do not support runtime re-theming;
+reinstalling Theme after constructing widgets is not guaranteed to update them.
+
+## Shared interaction colors
+
+`theme.appearance.interactions(theme)` derives a single set of hover, pressed,
+selected, focus, disabled, and subtle surface colors from the theme's semantic
+palette. Components do not individually darken or tint colors. For a specific
+custom theme, use a typed `InteractionTokens` override:
+
+```python
+from dataclasses import replace
+from python_ui_library.theme import ALPACA_LIGHT, interactions
+
+custom = replace(
+    ALPACA_LIGHT,
+    interaction=replace(interactions(ALPACA_LIGHT), focus="#7C3AED"),
+)
 ```
 
-## Style probe
+If only semantic colors are overridden, the interaction colors are derived from the
+new colors automatically. If the explicit interaction override is supplied, it is the
+consumer's responsibility to keep contrast appropriate when changing base colors.
 
-With PySide6-Essentials 6.11.2, the macOS installation exposes `macOS`, `Windows`, and
-`Fusion` styles. An offscreen probe found a two-pixel default frame in `Windows` and a
-one-pixel frame in `Fusion`; both report six-pixel button margins and two-pixel focus
-margins. Palette, typography, native focus, disabled behavior, and scaling are retained,
-so no `QProxyStyle` override is justified yet. Actual Windows visual review remains an
-owner gate because the current implementation host is macOS.
+Local QSS is used only by components that require consistent shape or subcontrol
+appearance. Qt retains native widget input semantics, native signals, model/view,
+keyboard navigation and accessibility metadata. Custom-painted details are the
+checkbox indicator, switch and minimal native select/spinbox glyphs; this is not a
+custom QWidget framework or global stylesheet.
+
+## Typography and icons
+
+Body font: **DM Sans**. Metadata font: **JetBrains Mono**. Text roles: `title`,
+`heading`, `subheading`, `body`, `caption`, `overline`.
+
+Original, library-drawn stroke icons use `make_icon`:
+
+```python
+from python_ui_library.theme import make_icon
+
+button.setIcon(make_icon("plus", color="#FFFFFF", size=20))
+```
+
+Supported names: `grid`, `folder`, `list`, `settings`, `plus`, `search`, `info`,
+`check`. There is no downloaded icon pack or new runtime dependency.
+
+Bundled, unmodified DM Sans and JetBrains Mono files load offline. Missing resources
+produce a warning and a platform font fallback. The library does not fetch Google
+Fonts or replace the native `QStyle` object.
+
+## Preview
+
+Run `python -m gallery.main` for the Component catalog and
+`python -m gallery.showcase` for an application-like composition. Native rendering
+can vary by operating system and display scale.

@@ -28,9 +28,10 @@ save.setLoading(True)
 ## Text
 
 Use `Text` for styled interface copy. `Text(text, parent=None, *, role="body",
-selectable=False, word_wrap=False)` subclasses `QLabel`; roles are `body`, `caption`,
-`heading`, and `overline`. It adds no signals beyond `QLabel`. Enable wrapping for long
-or translated text, and use heading roles in logical reading order.
+selectable=False, word_wrap=False)` subclasses `QLabel`; roles are `title`, `heading`,
+`subheading`, `body`, `caption`, and `overline`. It adds no signals beyond `QLabel`.
+Enable wrapping for long or translated text, and use heading roles in logical reading
+order.
 
 ```python
 from python_ui_library.components import Text
@@ -251,3 +252,25 @@ keyboard focus, and empty or large-model table without a backend:
 ```bash
 python -m gallery.main
 ```
+
+## Density and interaction
+
+Components share state colors from `theme.appearance.interactions`, a startup
+`Theme.density` choice, and consistent control geometry. `Button("Cancel",
+variant="secondary")` is intentionally quiet: slate surface, muted border, and
+subtle hover; amber remains available as the semantic `colors.secondary` accent.
+
+`TextInput`, `NumberInput`, and `SelectInput` use the same height and stable one-pixel
+focus border (changing its color, not width). Select/spin controls retain their
+native Qt models, signals, editing, keyboard, popup and step behavior but paint
+original minimal arrows. `CheckBox` paints a matching indicator while retaining Qt's
+label layout and checked state; `Switch` retains its painted two-state toggle.
+
+`DataTable` uses row selection, quiet highlights, and row heights determined by
+density; no per-cell QWidget objects are created. The optional Card shadow remains,
+but prefer `Card(shadow=False)` for content-dense pages to avoid repeated box
+borders/effects.
+
+To see these controls in an application-like composition (not an exported Sidebar or
+routing framework), run `python -m gallery.showcase`. This screen intentionally uses
+native Qt layouts and a caller-owned `QAbstractTableModel`.

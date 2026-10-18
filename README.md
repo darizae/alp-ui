@@ -20,7 +20,8 @@ small reusable interactions; your application owns its data and work.
   controls.
 - **Feedback:** Badges, Alerts, Progress Bars, and Empty States using semantic intent.
 - **Data:** A styled DataTable that consumes your `QAbstractItemModel` directly.
-- **Theme:** Alpaca Light, with typed color, typography, spacing, and radius tokens.
+- **Theme:** Alpaca Light, with typed semantic tokens, shared state colors, density,
+  and additional typography roles.
 
 Components mix freely with ordinary Qt Widgets. There is no routing framework, data
 layer, network client, worker system, or application-specific state model hidden
@@ -82,10 +83,24 @@ From a development checkout:
 
 On Windows, use `.venv\Scripts\python -m gallery.main`.
 
+### Composed application showcase
+
+For a realistic compact layout with a sidebar, header, toolbar, form Card, and
+DataTable, run:
+
+```bash
+python -m gallery.showcase
+```
+
+The Showcase is an example composition, **not** a new navigation framework or public
+Sidebar component.
+
 ## Gallery images
 
-These PNGs are rendered directly by the real PySide6 Gallery Widgets on macOS; they
-are not browser mockups or desktop recordings.
+These PNGs were rendered from the current PySide6 Widgets implementation on macOS;
+they are not browser mockups.
+
+<img src="docs/images/showcase.png" alt="Compact composed application Showcase using the library's Components" width="100%">
 
 <p>
   <img src="docs/images/gallery-actions.png" alt="Button variants, Cards, and an invalid text field in the native Qt Gallery" width="49%">
@@ -102,7 +117,8 @@ are not browser mockups or desktop recordings.
   installation, composition, theming, forms, and model/view usage.
 - [Component guide](docs/components.md) documents each public Component and its native
   Qt surface.
-- [Theme guide](docs/theme.md) covers installation and typed startup overrides.
+- [Theme guide](docs/theme.md) covers startup overrides, compact/standard density,
+  shared interaction tokens, typography roles, and original icons.
 - [Installed-wheel example](examples/consumer_app/README.md) demonstrates an
   independent consumer with its own table model.
 
@@ -121,6 +137,3 @@ The library source is MIT-licensed. PySide6/Qt and bundled fonts retain their ow
 terms; see [third-party licenses and notices](docs/legal/THIRD_PARTY_NOTICES.md).
 Applications that redistribute Qt are responsible for satisfying their chosen Qt
 license and packaging obligations.
-
-Repository maintenance and agent instructions are kept separately in
-[AGENTS.md](AGENTS.md).

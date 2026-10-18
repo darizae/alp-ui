@@ -17,7 +17,8 @@ commit. See [quality-and-compatibility.md](quality-and-compatibility.md).
   `python_ui_library-0.1.0a0.tar.gz`.
 - `twine check` passes both archives.
 - The wheel contains all public modules, seven unmodified font files, both OFL texts,
-  the MIT `LICENSE`, and `docs/legal/THIRD_PARTY_NOTICES.md`.
+  the MIT `LICENSE`, and `docs/legal/THIRD_PARTY_NOTICES.md`. This includes the
+  `appearance` and `icons` Theme modules.
 - The sdist additionally contains the Gallery, public docs, tests, and independent
   consumer example.
 - Neither archive contains `references/`, ignored evidence, the source design

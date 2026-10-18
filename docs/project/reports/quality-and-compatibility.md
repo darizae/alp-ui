@@ -1,7 +1,9 @@
 # Quality and compatibility report — v0.1 candidate
 
-Checked on 2026-10-18 for the v0.1 release candidate. This report distinguishes
-automated evidence from platform checks that still require Windows hardware.
+Checked on 2026-10-18 for the v0.1 release candidate, including density, shared
+interaction styling, original icons, and the composed Showcase. This report
+distinguishes automated evidence from platform checks that still require Windows
+hardware.
 
 ## Tested environment
 
@@ -10,9 +12,9 @@ automated evidence from platform checks that still require Windows hardware.
 | Host | macOS 26.6.2, arm64 |
 | Python | CPython 3.13.13 |
 | Qt binding | PySide6-Essentials 6.11.2 |
-| Automated behavior tests | Pass |
+| Automated behavior tests | 66 passed |
 | Ruff lint and format | Pass |
-| macOS offscreen Gallery smoke | Pass at 100% and 150% scale |
+| macOS Gallery and Showcase render | Pass at native scale; Showcase also passed at 150% with 15-point body text |
 | Windows x86-64, Python 3.11-3.13 | Configured in `.github/workflows/ci.yml`; not executable on this host |
 
 Windows remains the release qualification platform. The Windows CI matrix and a real
@@ -33,11 +35,15 @@ Automated tests exercise the public control rather than duplicate internal state
 | Feedback | Text accompanies every intent; Alert, Badge, ProgressBar, and EmptyState expose accessible names/descriptions. |
 | Gallery | Every enabled interactive example has a non-empty Qt accessibility name and accepts focus. Long text wraps at a 480-pixel representative window width. |
 
-The Gallery was visually reviewed offscreen at a 760 by 700 logical-pixel window at
-100% and 150% scale, and at a compact 480 by 620 window with Button, field, and table
-focus. Qt produced 760 by 700 and 1140 by 1050 pixel captures for the two scale
-factors. The local captures are retained under the ignored
-`references/quality-screenshots/` evidence directory; they are not shipped.
+The Gallery and compact Showcase were rendered and visually reviewed through the
+native macOS Qt platform plugin. Current Retina captures are committed under
+`docs/images/` and displayed by the README. A 150% scale Showcase with 15-point body
+text also rendered without observed clipping; that local capture remains outside the
+distribution at
+`references/quality-screenshots/showcase-macos-150-large-font.png`. Automated tests
+additionally exercise right-to-left spin-button mouse targets, select popup
+visibility, and checkbox/switch keyboard state; the matching visual capture is
+`references/quality-screenshots/gallery-macos-rtl.png`.
 
 No screen reader was available on this host. Qt accessibility properties and label
 relations are covered by tests, but Narrator behavior still belongs to the Windows
@@ -59,7 +65,8 @@ manual gate.
 - Imports do not construct a `QApplication`. DataTable keeps the consumer's model and
   does not install cell widgets or enable implicit sorting.
 - Constructor tests reject unsupported Button variants/sizes, Text roles, field
-  kinds/ranges, Divider orientations, Switch tri-state mode, and feedback intents.
+  kinds/ranges, Divider orientations, Switch tri-state mode, feedback intents,
+  Theme density, Interaction Token colors, and icon names/sizes.
 
 ## Open release gates
 
