@@ -1,13 +1,13 @@
 # Third-party licenses and notices
 
-`python-ui-library` source is MIT-licensed. The following dependencies and assets keep
+`alp-ui` source is MIT-licensed. The following dependencies and assets keep
 their own licenses.
 
 ## Qt for Python / PySide6-Essentials
 
 The package depends on `PySide6-Essentials` and uses only `QtCore`, `QtGui`, and
 `QtWidgets`. Qt for Python community packages are offered under LGPLv3/GPLv3 terms;
-this project selects the LGPLv3 path for eligible modules. `python-ui-library` does not
+this project selects the LGPLv3 path for eligible modules. `alp-ui` does not
 bundle Qt binaries in its wheel.
 
 Applications that redistribute Qt are responsible for the applicable notices, license
@@ -37,6 +37,13 @@ d16e6dc99672734698d629705f617c79f6eb6040f5113efe3a145204dc988109  JetBrainsMono-
 e6fd0d7e91550b3ed2b735d4312474362c4716edc4fc0577a0f61ed782d5aed1  JetBrainsMono-Regular.ttf
 12d4b18fe6e1af528e4bea69cb0997aeff22f9e52fccffcf66342dd88aa32ab8  JetBrainsMono-SemiBold.ttf
 ```
+
+## Logo assets
+
+The repository logo (`docs/brand/`) is the owner-provided Alp-ui raster artwork, used
+unchanged as the exact-crop `source/alp-ui-original.png` and transparent variants
+derived from it. No logo artwork was re-created or sourced from the read-only design
+references.
 
 ## Design references
 

@@ -1,4 +1,8 @@
-# python-ui-library
+<p align="center">
+  <img src="docs/brand/transparent/lockup-original.png" alt="Alp-ui logo — Alpaca tile icon and wordmark" width="220">
+</p>
+
+<h1 align="center">alp-ui</h1>
 
 A compact, native desktop UI library for Python applications built with PySide6 Qt
 Widgets. It provides a coherent light Theme and a practical set of styled Components
@@ -33,7 +37,7 @@ The project is not yet published as a stable PyPI release. Install a built wheel
 evaluating it:
 
 ```bash
-python -m pip install dist/python_ui_library-0.1.0a0-py3-none-any.whl
+python -m pip install dist/alp_ui-0.1.0a0-py3-none-any.whl
 ```
 
 Applications create their own `QApplication` and install the Theme once, before
@@ -44,8 +48,8 @@ constructing the main window.
 ```python
 from PySide6.QtWidgets import QApplication, QVBoxLayout, QWidget
 
-from python_ui_library.components import Badge, Button, TextInput
-from python_ui_library.theme import install_theme
+from alp_ui.components import Badge, Button, TextInput
+from alp_ui.theme import install_theme
 
 app = QApplication([])
 install_theme(app)
@@ -110,6 +114,13 @@ they are not browser mockups.
   <img src="docs/images/gallery-feedback.png" alt="Feedback intent components and a progress bar in the Gallery" width="49%">
   <img src="docs/images/gallery-data.png" alt="10,000-row and empty caller-owned table models in the Gallery" width="49%">
 </p>
+
+## Brand assets
+
+The repository logo is the owner-provided Alp-ui artwork, kept under
+[`docs/brand/`](docs/brand/README.md) with the exact original source, transparent and
+inverse lockups, wordmarks, on-background composites, and downscaled app icons
+(including the Windows `.ico`). Usage and provenance notes live beside the files.
 
 ## Documentation
 
