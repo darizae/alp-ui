@@ -10,8 +10,8 @@ from PySide6.QtWidgets import QApplication, QLabel, QWidget
 
 from python_ui_library.theme.install import _METADATA_FONT_PROPERTY, _current_theme
 
-TextRole = Literal["body", "caption", "heading", "overline"]
-_ROLES = ("body", "caption", "heading", "overline")
+TextRole = Literal["title", "heading", "subheading", "body", "caption", "overline"]
+_ROLES = ("title", "heading", "subheading", "body", "caption", "overline")
 
 
 class Text(QLabel):
@@ -36,7 +36,25 @@ class Text(QLabel):
 
         theme = _current_theme()
         typography = theme.typography
-        if role == "heading":
+        if role == "title":
+            family, size, weight = (
+                typography.body_family,
+                typography.title_size,
+                typography.heading_weight,
+            )
+        elif role == "subheading":
+            family, size, weight = (
+                typography.body_family,
+                typography.subheading_size,
+                typography.button_weight,
+            )
+        elif role == "caption":
+            family, size, weight = (
+                typography.body_family,
+                typography.caption_size,
+                typography.body_weight,
+            )
+        elif role == "heading":
             family, size, weight = (
                 typography.body_family,
                 typography.heading_size,
@@ -64,7 +82,7 @@ class Text(QLabel):
             font.setFamily(resolved if isinstance(resolved, str) else family)
         font.setPointSizeF(size)
         font.setWeight(QFont.Weight(weight))
-        if role == "heading":
+        if role in ("title", "heading"):
             font.setLetterSpacing(QFont.SpacingType.PercentageSpacing, 98.0)
         elif role == "overline":
             font.setLetterSpacing(QFont.SpacingType.PercentageSpacing, 108.0)

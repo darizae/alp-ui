@@ -5,8 +5,16 @@ from __future__ import annotations
 from collections.abc import Iterable
 from typing import Literal
 
-from PySide6.QtCore import QAbstractItemModel, QRectF, QSize, Qt
-from PySide6.QtGui import QColor, QFont, QPainter, QPalette, QPen, QValidator
+from PySide6.QtCore import QAbstractItemModel, QPointF, QRectF, QSize, Qt
+from PySide6.QtGui import (
+    QColor,
+    QFont,
+    QPainter,
+    QPalette,
+    QPen,
+    QPolygonF,
+    QValidator,
+)
 from PySide6.QtWidgets import (
     QCheckBox,
     QComboBox,
@@ -15,10 +23,14 @@ from PySide6.QtWidgets import (
     QLabel,
     QLineEdit,
     QSpinBox,
+    QStyle,
+    QStyleOptionButton,
+    QStyleOptionSpinBox,
     QVBoxLayout,
     QWidget,
 )
 
+from python_ui_library.theme.appearance import density_metrics, interactions
 from python_ui_library.theme.install import _current_theme
 
 NumberKind = Literal["integer", "decimal"]
@@ -30,46 +42,145 @@ def _plain_label_text(text: str) -> str:
 
 
 def _style_control(control: QWidget, selector: str) -> None:
+    """Uniform native controls; only subcontrol chrome is locally restyled."""
     theme = _current_theme()
     colors = theme.colors
+    state = interactions(theme)
+    metrics = density_metrics(theme)
     font = QFont(control.font())
     font.setPointSizeF(theme.typography.body_size)
     font.setWeight(QFont.Weight(theme.typography.body_weight))
     control.setFont(font)
+    control.setMinimumHeight(metrics.control_height)
 
     palette = control.palette()
-    palette.setColor(QPalette.ColorRole.Base, QColor(colors.surface))
-    palette.setColor(QPalette.ColorRole.Text, QColor(colors.text))
-    palette.setColor(QPalette.ColorRole.Button, QColor(colors.surface))
-    palette.setColor(QPalette.ColorRole.ButtonText, QColor(colors.text))
-    palette.setColor(QPalette.ColorRole.PlaceholderText, QColor(colors.text_muted))
-    palette.setColor(QPalette.ColorRole.Highlight, QColor(colors.primary))
-    palette.setColor(QPalette.ColorRole.HighlightedText, QColor(colors.on_primary))
+    for role, value in (
+        (QPalette.ColorRole.Base, colors.surface),
+        (QPalette.ColorRole.Text, colors.text),
+        (QPalette.ColorRole.Button, colors.surface),
+        (QPalette.ColorRole.ButtonText, colors.text),
+        (QPalette.ColorRole.PlaceholderText, colors.text_muted),
+        (QPalette.ColorRole.Highlight, colors.primary),
+        (QPalette.ColorRole.HighlightedText, colors.on_primary),
+    ):
+        palette.setColor(role, QColor(value))
     control.setPalette(palette)
 
-    # Local QSS supplies the compact outline and a focus/error border across native styles.
-    control.setStyleSheet(
-        f"""
+    # All borders stay one pixel in every state: no focus-induced geometry jump.
+    stylesheet = f"""
         {selector} {{
             background-color: {colors.surface};
             color: {colors.text};
             border: 1px solid {colors.border};
             border-radius: {theme.radii.button}px;
-            padding: {theme.spacing.xsmall}px {theme.spacing.small}px;
+            padding: 0 {theme.spacing.medium}px;
         }}
-        {selector}:focus {{
-            border: 2px solid {colors.info};
-        }}
-        {selector}[invalid="true"] {{
-            border-color: {colors.danger};
-        }}
+        {selector}:hover {{ border-color: {state.border_hover}; }}
+        {selector}:focus {{ border-color: {state.focus}; }}
+        {selector}[invalid="true"] {{ border-color: {colors.danger}; }}
         {selector}:disabled {{
-            background-color: {colors.background};
-            color: {colors.text_muted};
+            background-color: {state.disabled_surface};
+            color: {state.disabled_text};
             border-color: {colors.border};
         }}
+    """
+    if selector == "QComboBox":
+        stylesheet += f"""
+            QComboBox {{ padding-right: 30px; }}
+            QComboBox:right-to-left {{ padding-left: 30px; padding-right: 12px; }}
+            QComboBox::drop-down {{ border: 0; width: 28px; background: transparent; }}
+            QComboBox::down-arrow {{ image: none; width: 0; height: 0; }}
+            QComboBox QAbstractItemView {{
+                background: {colors.surface};
+                color: {colors.text};
+                border: 1px solid {colors.border};
+                selection-background-color: {state.selected_surface};
+                selection-color: {colors.text};
+                outline: 0;
+            }}
         """
+    elif selector in ("QSpinBox", "QDoubleSpinBox"):
+        stylesheet += f"""
+            {selector} {{ padding-right: 29px; }}
+            {selector}:right-to-left {{ padding-left: 29px; padding-right: 12px; }}
+            {selector}::up-button, {selector}::down-button {{
+                width: 24px;
+                border: 0;
+                background: transparent;
+            }}
+            {selector}::up-button {{ border-left: 1px solid {colors.border}; }}
+            {selector}::down-button {{ border-left: 1px solid {colors.border}; }}
+            {selector}::up-arrow, {selector}::down-arrow {{
+                image: none; width: 0; height: 0;
+            }}
+        """
+    control.setStyleSheet(stylesheet)
+
+
+def _chevron(painter: QPainter, center: QPointF, *, up: bool, color: QColor) -> None:
+    """Original one-stroke glyph used without an icon pack or external assets."""
+    pen = QPen(color, 1.6)
+    pen.setCapStyle(Qt.PenCapStyle.RoundCap)
+    pen.setJoinStyle(Qt.PenJoinStyle.RoundJoin)
+    painter.setPen(pen)
+    offset = -1 if up else 1
+    painter.drawPolyline(
+        QPolygonF(
+            [
+                QPointF(center.x() - 3.5, center.y() - offset * 1.75),
+                QPointF(center.x(), center.y() + offset * 1.75),
+                QPointF(center.x() + 3.5, center.y() - offset * 1.75),
+            ]
+        )
     )
+
+
+class _StyledComboBox(QComboBox):
+    """Custom chevron, native QComboBox popup, model, keyboard and accessibility."""
+
+    def paintEvent(self, event) -> None:  # noqa: N802
+        super().paintEvent(event)
+        state = interactions(_current_theme())
+        painter = QPainter(self)
+        painter.setRenderHint(QPainter.RenderHint.Antialiasing)
+        x = 15 if self.layoutDirection() == Qt.LayoutDirection.RightToLeft else self.width() - 15
+        color = QColor(
+            state.disabled_text if not self.isEnabled() else _current_theme().colors.text_muted
+        )
+        _chevron(painter, QPointF(x, self.height() / 2), up=False, color=color)
+
+
+class _SpinChrome:
+    """Shared arrow painting; native spin-box buttons still implement stepping."""
+
+    def _paint_arrows(self) -> None:
+        painter = QPainter(self)
+        painter.setRenderHint(QPainter.RenderHint.Antialiasing)
+        option = QStyleOptionSpinBox()
+        self.initStyleOption(option)
+        state = interactions(_current_theme())
+        color = QColor(
+            state.disabled_text if not self.isEnabled() else _current_theme().colors.text_muted
+        )
+        for part, up in (
+            (QStyle.SubControl.SC_SpinBoxUp, True),
+            (QStyle.SubControl.SC_SpinBoxDown, False),
+        ):
+            rect = self.style().subControlRect(QStyle.ComplexControl.CC_SpinBox, option, part, self)
+            if rect.isValid() and not rect.isEmpty():
+                _chevron(painter, QPointF(rect.center()), up=up, color=color)
+
+
+class _StyledSpinBox(_SpinChrome, QSpinBox):
+    def paintEvent(self, event) -> None:  # noqa: N802
+        super().paintEvent(event)
+        self._paint_arrows()
+
+
+class _StyledDoubleSpinBox(_SpinChrome, QDoubleSpinBox):
+    def paintEvent(self, event) -> None:  # noqa: N802
+        super().paintEvent(event)
+        self._paint_arrows()
 
 
 class _Field(QWidget):
@@ -98,7 +209,7 @@ class _Field(QWidget):
         self.label_widget.setWordWrap(True)
 
         message_font = QFont(self.description_widget.font())
-        message_font.setPointSizeF(theme.typography.overline_size)
+        message_font.setPointSizeF(theme.typography.caption_size)
         self.description_widget.setFont(message_font)
         self.error_widget.setFont(message_font)
         for widget, color in (
@@ -289,10 +400,10 @@ class NumberInput(_Field):
 
         self.kind: NumberKind = kind
         if kind == "integer":
-            control: QSpinBox | QDoubleSpinBox = QSpinBox()
+            control: QSpinBox | QDoubleSpinBox = _StyledSpinBox()
             selector = "QSpinBox"
         else:
-            control = QDoubleSpinBox()
+            control = _StyledDoubleSpinBox()
             control.setDecimals(decimals)
             selector = "QDoubleSpinBox"
         if minimum is not None:
@@ -350,7 +461,7 @@ class SelectInput(_Field):
         description: str = "",
         error: str = "",
     ) -> None:
-        control = QComboBox()
+        control = _StyledComboBox()
         control.addItems(list(items))
         _style_control(control, "QComboBox")
         super().__init__(
@@ -411,6 +522,66 @@ class CheckBox(QCheckBox):
         palette.setColor(QPalette.ColorRole.Highlight, QColor(theme.colors.primary))
         self.setPalette(palette)
 
+    def paintEvent(self, event) -> None:  # noqa: N802
+        del event
+        theme = _current_theme()
+        state = interactions(theme)
+        option = QStyleOptionButton()
+        self.initStyleOption(option)
+        painter = QPainter(self)
+        painter.setRenderHint(QPainter.RenderHint.Antialiasing)
+        # Native text, shortcuts and RTL layout; only the indicator is repainted.
+        label_option = QStyleOptionButton(option)
+        label_option.rect = self.style().subElementRect(
+            QStyle.SubElement.SE_CheckBoxContents, option, self
+        )
+        self.style().drawControl(
+            QStyle.ControlElement.CE_CheckBoxLabel, label_option, painter, self
+        )
+        rect = self.style().subElementRect(QStyle.SubElement.SE_CheckBoxIndicator, option, self)
+        rect = QRectF(rect).adjusted(1, 1, -1, -1)
+        checked = self.checkState() == Qt.CheckState.Checked
+        partial = self.checkState() == Qt.CheckState.PartiallyChecked
+        enabled = self.isEnabled()
+        background = (
+            theme.colors.primary
+            if enabled and (checked or partial)
+            else state.disabled_surface
+            if not enabled
+            else state.hover_surface
+            if self.underMouse()
+            else theme.colors.surface
+        )
+        outline = (
+            state.focus
+            if self.hasFocus()
+            else (state.border_hover if self.underMouse() and enabled else theme.colors.border)
+        )
+        painter.setPen(QPen(QColor(outline), 1.4 if self.hasFocus() else 1.0))
+        painter.setBrush(QColor(background))
+        painter.drawRoundedRect(rect, 4, 4)
+        if checked or partial:
+            pen = QPen(QColor(theme.colors.on_primary if enabled else state.disabled_text), 1.9)
+            pen.setCapStyle(Qt.PenCapStyle.RoundCap)
+            pen.setJoinStyle(Qt.PenJoinStyle.RoundJoin)
+            painter.setPen(pen)
+            center = rect.center()
+            if partial:
+                painter.drawLine(
+                    QPointF(center.x() - 4, center.y()),
+                    QPointF(center.x() + 4, center.y()),
+                )
+            else:
+                painter.drawPolyline(
+                    QPolygonF(
+                        [
+                            QPointF(center.x() - 4, center.y()),
+                            QPointF(center.x() - 1, center.y() + 3),
+                            QPointF(center.x() + 4.5, center.y() - 3),
+                        ]
+                    )
+                )
+
 
 class Switch(QCheckBox):
     """Two-state switch appearance with native QCheckBox behavior and signals."""
@@ -449,6 +620,7 @@ class Switch(QCheckBox):
         del event
         theme = _current_theme()
         colors = theme.colors
+        state = interactions(theme)
         painter = QPainter(self)
         painter.setRenderHint(QPainter.RenderHint.Antialiasing)
 
@@ -458,15 +630,21 @@ class Switch(QCheckBox):
         track = QRectF(track_x, track_y, self._track_width, self._track_height)
 
         if self.isEnabled():
-            track_color = QColor(colors.primary if self.isChecked() else colors.border)
+            track_color = QColor(
+                colors.primary
+                if self.isChecked()
+                else state.border_hover
+                if self.underMouse()
+                else colors.border
+            )
             thumb_color = QColor(colors.surface)
             text_color = QColor(colors.text)
         else:
-            track_color = QColor(colors.background)
+            track_color = QColor(state.disabled_surface)
             thumb_color = QColor(colors.surface)
-            text_color = QColor(colors.text_muted)
+            text_color = QColor(state.disabled_text)
 
-        focus_color = QColor(colors.info if self.hasFocus() else colors.border)
+        focus_color = QColor(state.focus if self.hasFocus() else colors.border)
         painter.setPen(QPen(focus_color, 2.0 if self.hasFocus() else 1.0))
         painter.setBrush(track_color)
         radius = self._track_height / 2.0

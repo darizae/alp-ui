@@ -17,6 +17,7 @@ from PySide6.QtWidgets import (
     QWidget,
 )
 
+from python_ui_library.theme.appearance import interactions
 from python_ui_library.theme.install import _METADATA_FONT_PROPERTY, _current_theme
 
 Intent = Literal["neutral", "info", "success", "warning", "danger"]
@@ -29,26 +30,13 @@ def _validate_intent(intent: str) -> None:
         raise ValueError(f"intent must be one of: {choices}")
 
 
-def _tint(foreground: str, background: str, opacity: float = 0.12) -> str:
-    foreground_color = QColor(foreground)
-    background_color = QColor(background)
-    return (
-        QColor.fromRgbF(
-            foreground_color.redF() * opacity + background_color.redF() * (1 - opacity),
-            foreground_color.greenF() * opacity + background_color.greenF() * (1 - opacity),
-            foreground_color.blueF() * opacity + background_color.blueF() * (1 - opacity),
-        )
-        .name()
-        .upper()
-    )
-
-
 def _intent_colors(intent: Intent) -> tuple[str, str]:
-    colors = _current_theme().colors
+    theme = _current_theme()
+    colors = theme.colors
+    state = interactions(theme)
     if intent == "neutral":
         return colors.border, colors.background
-    accent = getattr(colors, intent)
-    return accent, _tint(accent, colors.surface)
+    return getattr(colors, intent), getattr(state, f"feedback_{intent}")
 
 
 def _metadata_font(widget: QWidget) -> QFont:
@@ -215,7 +203,7 @@ class EmptyState(QWidget):
         theme = _current_theme()
         self.icon_widget.setVisible(icon is not None)
         if icon is not None:
-            icon_size = QSize(theme.spacing.xxlarge, theme.spacing.xxlarge)
+            icon_size = QSize(theme.spacing.xlarge, theme.spacing.xlarge)
             self.icon_widget.setPixmap(icon.pixmap(icon_size))
 
         title_font = QFont(self.title_widget.font())

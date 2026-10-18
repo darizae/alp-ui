@@ -17,7 +17,6 @@ from PySide6.QtWidgets import (
     QLabel,
     QPushButton,
     QScrollArea,
-    QStyle,
     QVBoxLayout,
     QWidget,
 )
@@ -38,7 +37,7 @@ from python_ui_library.components import (
     Text,
     TextInput,
 )
-from python_ui_library.theme import ALPACA_LIGHT, install_theme
+from python_ui_library.theme import ALPACA_LIGHT, install_theme, make_icon
 
 
 class _GalleryTableModel(QAbstractTableModel):
@@ -106,16 +105,15 @@ def _section(title: str) -> QGroupBox:
     section.setStyleSheet(
         f"""
         QGroupBox {{
-            background-color: {theme.colors.surface};
-            border: 1px solid {theme.colors.border};
-            border-radius: {theme.radii.default}px;
-            margin-top: {theme.spacing.large}px;
-            padding-top: {theme.spacing.medium}px;
+            background-color: transparent;
+            border: 0;
+            margin-top: {theme.spacing.xlarge}px;
+            padding-top: {theme.spacing.small}px;
         }}
         QGroupBox::title {{
             subcontrol-origin: margin;
-            left: {theme.spacing.medium}px;
-            padding: 0 {theme.spacing.xsmall}px;
+            left: 0;
+            padding: 0;
             color: {theme.colors.text};
         }}
         """
@@ -145,7 +143,10 @@ def build_window() -> QWidget:
     )
     heading.setAccessibleName("Theme heading")
     layout.addWidget(heading)
-    layout.addWidget(QLabel("Semantic tokens applied to native PySide6 Qt Widgets."))
+    layout.addWidget(QLabel("Alpaca palette · native Qt behavior · consistent desktop components."))
+    layout.addWidget(
+        Text("Compact type scale with quieter surfaces and consistent controls.", role="caption")
+    )
     focus_help = QLabel(
         "Keyboard focus check: click Primary, then use Tab and Shift+Tab; "
         "the blue outline marks focus."
@@ -174,6 +175,8 @@ def build_window() -> QWidget:
     )
     type_layout.addWidget(Text("Supporting caption text", role="caption"))
     type_layout.addWidget(Text("JETBRAINS MONO · OVERLINE · 0123456789", role="overline"))
+    type_layout.addWidget(Text("Page title · DM Sans", role="title"))
+    type_layout.addWidget(Text("Section heading · semibold", role="subheading"))
     layout.addWidget(typography)
 
     actions = _section("Actions")
@@ -290,7 +293,7 @@ def build_window() -> QWidget:
         EmptyState(
             "Nothing here yet",
             text="Add an item to populate this view.",
-            icon=window.style().standardIcon(QStyle.StandardPixmap.SP_FileDialogInfoView),
+            icon=make_icon("info", color=theme.colors.text_muted, size=24),
             action=empty_action,
         )
     )

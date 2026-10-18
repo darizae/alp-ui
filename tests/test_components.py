@@ -89,7 +89,7 @@ def test_button_loading_constructor_validates_options() -> None:
         Button("Save", loading_text="")
 
 
-@pytest.mark.parametrize("role", ["body", "caption", "heading", "overline"])
+@pytest.mark.parametrize("role", ["title", "heading", "subheading", "body", "caption", "overline"])
 def test_text_roles_are_available(role: str) -> None:
     text = Text("Example", role=role)  # type: ignore[arg-type]
     assert text.role == role

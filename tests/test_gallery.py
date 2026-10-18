@@ -24,7 +24,7 @@ from python_ui_library.components import (
     Text,
     TextInput,
 )
-from python_ui_library.theme import ALPACA_LIGHT, install_theme
+from python_ui_library.theme import install_theme
 
 ROOT = Path(__file__).parents[1]
 
@@ -36,10 +36,7 @@ def test_theme_gallery_builds_with_keyboard_controls(qapp: QApplication) -> None
     assert window.accessibleName() == "Alpaca Light Theme Gallery"
     categories = {group.title() for group in window.findChildren(QGroupBox)}
     assert {"Actions", "Typography", "Surfaces", "Fields", "Feedback", "Data"} <= categories
-    assert all(
-        ALPACA_LIGHT.colors.surface in group.styleSheet()
-        for group in window.findChildren(QGroupBox)
-    )
+    assert all("border: 0" in group.styleSheet() for group in window.findChildren(QGroupBox))
     focus_help = window.findChild(QLabel, "focusInstructions")
     assert focus_help is not None
     assert "Tab and Shift+Tab" in focus_help.text()
@@ -60,6 +57,8 @@ def test_theme_gallery_builds_with_keyboard_controls(qapp: QApplication) -> None
     assert any(button.isLoading() for button in window.findChildren(Button))
     assert window.findChild(QPushButton, "nativeButtonComparison") is not None
     assert {text.role for text in window.findChildren(Text)} == {
+        "title",
+        "subheading",
         "body",
         "caption",
         "heading",

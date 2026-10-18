@@ -12,6 +12,7 @@ from PySide6.QtWidgets import (
     QWidget,
 )
 
+from python_ui_library.theme.appearance import density_metrics
 from python_ui_library.theme.install import _current_theme
 
 
@@ -27,7 +28,7 @@ class Card(QFrame):
         self.setFrameShape(QFrame.Shape.NoFrame)
         self.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Preferred)
         self.content_layout = QVBoxLayout(self)
-        self.content_layout.setContentsMargins(*(theme.spacing.card_padding,) * 4)
+        self.content_layout.setContentsMargins(*(density_metrics(theme).card_padding,) * 4)
         self.content_layout.setSpacing(theme.spacing.medium)
         # Local QSS is the smallest reliable way to retain a rounded one-pixel border.
         self.setStyleSheet(

@@ -7,6 +7,7 @@ from typing import Literal
 from PySide6.QtGui import QColor, QFont, QPalette
 from PySide6.QtWidgets import QPushButton, QWidget
 
+from python_ui_library.theme.appearance import density_metrics, interactions
 from python_ui_library.theme.install import _current_theme
 
 ButtonVariant = Literal["primary", "secondary", "outline", "danger"]
@@ -14,10 +15,6 @@ ButtonSize = Literal["small", "medium", "large"]
 
 _VARIANTS = ("primary", "secondary", "outline", "danger")
 _SIZES = ("small", "medium", "large")
-
-
-def _darker(color: str) -> str:
-    return QColor(color).darker(110).name().upper()
 
 
 class Button(QPushButton):
@@ -56,6 +53,8 @@ class Button(QPushButton):
 
         theme = _current_theme()
         colors = theme.colors
+        states = interactions(theme)
+        density = density_metrics(theme)
         if variant == "primary":
             background, foreground, border, hover = (
                 colors.primary,
@@ -65,24 +64,24 @@ class Button(QPushButton):
             )
         elif variant == "secondary":
             background, foreground, border, hover = (
-                colors.secondary,
+                states.secondary_surface,
                 colors.text,
-                colors.secondary,
-                _darker(colors.secondary),
+                colors.border,
+                states.secondary_hover,
             )
         elif variant == "danger":
             background, foreground, border, hover = (
                 colors.danger,
                 colors.on_primary,
                 colors.danger,
-                _darker(colors.danger),
+                states.danger_hover,
             )
         else:
             background, foreground, border, hover = (
                 colors.surface,
                 colors.text,
                 colors.border,
-                colors.background,
+                states.hover_surface,
             )
 
         font = QFont(self.font())
@@ -94,12 +93,27 @@ class Button(QPushButton):
         palette.setColor(QPalette.ColorRole.ButtonText, QColor(foreground))
         self.setPalette(palette)
 
-        padding = {
-            "small": (theme.spacing.xsmall, theme.spacing.medium),
-            "medium": (theme.spacing.small, theme.spacing.large),
-            "large": (theme.spacing.small, theme.spacing.xlarge),
+        self.setMinimumHeight(
+            {
+                "small": density.button_small,
+                "medium": density.button_medium,
+                "large": density.button_large,
+            }[size]
+        )
+        horizontal = {
+            "small": theme.spacing.medium,
+            "medium": theme.spacing.large,
+            "large": theme.spacing.xlarge,
         }[size]
-        vertical, horizontal = padding
+        hover_border = states.border_hover if variant in ("secondary", "outline") else hover
+        pressed_background = (
+            states.primary_pressed
+            if variant == "primary"
+            else states.pressed_surface
+            if variant in ("secondary", "outline")
+            else states.danger_hover
+        )
+        pressed_border = border if variant in ("secondary", "outline") else hover
         # Local QSS is required because native styles do not reliably render variant palettes.
         self.setStyleSheet(
             f"""
@@ -108,22 +122,22 @@ class Button(QPushButton):
                 color: {foreground};
                 border: 1px solid {border};
                 border-radius: {theme.radii.button}px;
-                padding: {vertical}px {horizontal}px;
+                padding: 0 {horizontal}px;
             }}
             QPushButton:hover {{
                 background-color: {hover};
-                border-color: {hover};
+                border-color: {hover_border};
             }}
             QPushButton:pressed {{
-                background-color: {_darker(hover)};
-                border-color: {_darker(hover)};
+                background-color: {pressed_background};
+                border-color: {pressed_border};
             }}
             QPushButton:focus {{
-                border: 2px solid {colors.info};
+                border: 1px solid {states.focus};
             }}
             QPushButton:disabled {{
-                background-color: {colors.background};
-                color: {colors.text_muted};
+                background-color: {states.disabled_surface};
+                color: {states.disabled_text};
                 border-color: {colors.border};
             }}
             """

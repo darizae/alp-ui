@@ -6,6 +6,7 @@ from PySide6.QtCore import QAbstractItemModel, Qt
 from PySide6.QtGui import QColor, QFont, QPalette
 from PySide6.QtWidgets import QApplication, QHeaderView, QStyleOptionHeader, QTableView, QWidget
 
+from python_ui_library.theme.appearance import density_metrics, interactions
 from python_ui_library.theme.install import _METADATA_FONT_PROPERTY, _current_theme
 
 
@@ -31,6 +32,7 @@ class DataTable(QTableView):
         super().__init__(parent)
         theme = _current_theme()
         colors = theme.colors
+        state = interactions(theme)
 
         header = _TableHeader(Qt.Orientation.Horizontal, self)
         self.setHorizontalHeader(header)
@@ -60,7 +62,7 @@ class DataTable(QTableView):
                 background-color: {colors.background};
                 color: {colors.text_muted};
                 border: 0;
-                border-right: 1px solid {colors.border};
+                border-right: 0;
                 border-bottom: 1px solid {colors.border};
                 padding: {theme.spacing.small}px;
             }}
@@ -71,9 +73,13 @@ class DataTable(QTableView):
         palette.setColor(QPalette.ColorRole.Base, QColor(colors.surface))
         palette.setColor(QPalette.ColorRole.AlternateBase, QColor(colors.background))
         palette.setColor(QPalette.ColorRole.Text, QColor(colors.text))
-        palette.setColor(QPalette.ColorRole.Highlight, QColor(colors.primary))
-        palette.setColor(QPalette.ColorRole.HighlightedText, QColor(colors.on_primary))
+        palette.setColor(QPalette.ColorRole.Highlight, QColor(state.selected_surface))
+        palette.setColor(QPalette.ColorRole.HighlightedText, QColor(colors.text))
         self.setPalette(palette)
+        self.setShowGrid(False)
+        self.setMouseTracking(True)
+        self.setAlternatingRowColors(True)
+        self.setSelectionBehavior(QTableView.SelectionBehavior.SelectRows)
         self.setStyleSheet(
             f"""
             DataTable {{
@@ -82,14 +88,16 @@ class DataTable(QTableView):
                 border: 1px solid {colors.border};
                 gridline-color: {colors.border};
             }}
-            DataTable::item:focus {{
-                border: 1px solid {colors.info};
+            DataTable::item {{ border: 0; padding: 0 {theme.spacing.small}px; }}
+            DataTable::item:hover {{ background-color: {state.hover_surface}; }}
+            DataTable::item:selected {{
+                background-color: {state.selected_surface};
+                color: {colors.text};
             }}
+            DataTable::item:focus {{ border: 1px solid {state.focus}; }}
             """
         )
-        self.verticalHeader().setDefaultSectionSize(
-            self.fontMetrics().height() + 2 * theme.spacing.medium
-        )
+        self.verticalHeader().setDefaultSectionSize(density_metrics(theme).table_row_height)
         self.setAccessibleName("Data table")
 
         if model is not None:
