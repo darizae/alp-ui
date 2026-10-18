@@ -82,6 +82,20 @@ From a development checkout:
 
 On Windows, use `.venv\Scripts\python -m gallery.main`.
 
+## Gallery images
+
+These PNGs are rendered directly by the real PySide6 Gallery Widgets on macOS; they
+are not browser mockups or desktop recordings.
+
+<p>
+  <img src="docs/images/gallery-actions.png" alt="Button variants, Cards, and an invalid text field in the native Qt Gallery" width="49%">
+  <img src="docs/images/gallery-fields.png" alt="Native Qt fields, checkbox, switch, badges, and Alerts in the Gallery" width="49%">
+</p>
+<p>
+  <img src="docs/images/gallery-feedback.png" alt="Feedback intent components and a progress bar in the Gallery" width="49%">
+  <img src="docs/images/gallery-data.png" alt="10,000-row and empty caller-owned table models in the Gallery" width="49%">
+</p>
+
 ## Documentation
 
 - [Getting started](docs/getting-started.md) explains the library's mental model,

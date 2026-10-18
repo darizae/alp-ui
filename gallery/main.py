@@ -97,6 +97,32 @@ def _swatch(name: str, value: str) -> QWidget:
     return row
 
 
+def _section(title: str) -> QGroupBox:
+    """Return a Gallery section that remains token-colored on native macOS styles."""
+
+    theme = ALPACA_LIGHT
+    section = QGroupBox(title)
+    # Local QSS is required because QMacStyle ignores QPalette for QGroupBox fills.
+    section.setStyleSheet(
+        f"""
+        QGroupBox {{
+            background-color: {theme.colors.surface};
+            border: 1px solid {theme.colors.border};
+            border-radius: {theme.radii.default}px;
+            margin-top: {theme.spacing.large}px;
+            padding-top: {theme.spacing.medium}px;
+        }}
+        QGroupBox::title {{
+            subcontrol-origin: margin;
+            left: {theme.spacing.medium}px;
+            padding: 0 {theme.spacing.xsmall}px;
+            color: {theme.colors.text};
+        }}
+        """
+    )
+    return section
+
+
 def build_window() -> QWidget:
     theme = ALPACA_LIGHT
     window = QWidget()
@@ -128,7 +154,7 @@ def build_window() -> QWidget:
     focus_help.setWordWrap(True)
     layout.addWidget(focus_help)
 
-    swatches = QGroupBox("Colors")
+    swatches = _section("Colors")
     swatch_layout = QGridLayout(swatches)
     for index, field in enumerate(fields(theme.colors)):
         name = field.name
@@ -136,7 +162,7 @@ def build_window() -> QWidget:
         swatch_layout.addWidget(_swatch(name, value), index // 2, index % 2)
     layout.addWidget(swatches)
 
-    typography = QGroupBox("Typography")
+    typography = _section("Typography")
     type_layout = QVBoxLayout(typography)
     type_layout.addWidget(Text("Build clear desktop interfaces", role="heading"))
     type_layout.addWidget(
@@ -150,7 +176,7 @@ def build_window() -> QWidget:
     type_layout.addWidget(Text("JETBRAINS MONO · OVERLINE · 0123456789", role="overline"))
     layout.addWidget(typography)
 
-    actions = QGroupBox("Actions")
+    actions = _section("Actions")
     action_layout = QGridLayout(actions)
     for column, variant in enumerate(("primary", "secondary", "outline", "danger")):
         action_layout.addWidget(Button(variant.title(), variant=variant), 0, column)
@@ -167,7 +193,7 @@ def build_window() -> QWidget:
     action_layout.addWidget(Button("Styled Button", variant="outline"), 3, 2, 1, 2)
     layout.addWidget(actions)
 
-    surfaces = QGroupBox("Surfaces")
+    surfaces = _section("Surfaces")
     surface_layout = QVBoxLayout(surfaces)
     card = Card()
     card.content_layout.addWidget(Text("Card title", role="heading"))
@@ -194,7 +220,7 @@ def build_window() -> QWidget:
     surface_layout.addWidget(divider_row)
     layout.addWidget(surfaces)
 
-    fields_group = QGroupBox("Fields")
+    fields_group = _section("Fields")
     field_layout = QGridLayout(fields_group)
     text_input = TextInput(
         label="Name",
@@ -236,7 +262,7 @@ def build_window() -> QWidget:
     field_layout.addWidget(disabled_switch, 5, 0)
     layout.addWidget(fields_group)
 
-    feedback = QGroupBox("Feedback")
+    feedback = _section("Feedback")
     feedback_layout = QVBoxLayout(feedback)
     badge_layout = QGridLayout()
     for column, intent in enumerate(("neutral", "info", "success", "warning", "danger")):
@@ -270,7 +296,7 @@ def build_window() -> QWidget:
     )
     layout.addWidget(feedback)
 
-    data_group = QGroupBox("Data")
+    data_group = _section("Data")
     data_layout = QVBoxLayout(data_group)
     data_layout.addWidget(Text("10,000-row caller model", role="overline"))
     large_table = DataTable()
