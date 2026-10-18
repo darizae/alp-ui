@@ -6,9 +6,8 @@ from PySide6.QtCore import Qt
 from PySide6.QtGui import QAccessible
 from PySide6.QtWidgets import QApplication, QGroupBox, QLabel, QLineEdit, QPushButton
 
-from gallery.main import build_window
-from python_ui_library import components
-from python_ui_library.components import (
+from alp_ui import components
+from alp_ui.components import (
     Alert,
     Badge,
     Button,
@@ -24,7 +23,8 @@ from python_ui_library.components import (
     Text,
     TextInput,
 )
-from python_ui_library.theme import install_theme
+from alp_ui.theme import install_theme
+from gallery.main import build_window
 
 ROOT = Path(__file__).parents[1]
 

@@ -1,6 +1,6 @@
 # Project implementation plan — delegated tasks
 
-**Purpose:** each row links one self-contained Markdown agent assignment, performed sequentially against a separate repository `python-ui-library`. Complete each acceptance gate before the next task. This document is the roadmap, not a substitute for the individual tasks.
+**Purpose:** each row links one self-contained Markdown agent assignment, performed sequentially against a separate repository `alp-ui`. Complete each acceptance gate before the next task. This document is the roadmap, not a substitute for the individual tasks.
 
 | Order | Assignment | Exit gate | Dependent on |
 |---|---|---|---|
@@ -23,7 +23,7 @@ The theme and resource loading are established before Components. Components acc
 - **Source of truth for visual values:** `docs/project/THEME_ALPACA_LIGHT.md`, derived from archived MUI source; components do not define their own brand colors.
 - **Source of truth for behavior:** native Qt Widgets API and `docs/project/COMPONENT_CATALOG.md`; consumer owns app logic and data.
 - **Source of truth for rights:** repository MIT + independently licensed Qt/fonts, tracked in `references/LICENSE_AND_RESEARCH.md` and implementation notices.
-- **Source of truth for imports:** `src/python_ui_library/...`; never construct separate parallel implementations for gallery versus public components.
+- **Source of truth for imports:** `src/alp_ui/...`; never construct separate parallel implementations for gallery versus public components.
 - **Tests:** test through public imports and Qt signals. Each task adds tests for its delivered behavior; task 07 consolidates, it does not postpone all testing.
 
 ## Task report format

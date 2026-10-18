@@ -4,11 +4,11 @@
 
 | ID | Locked decision | Rationale / consequence |
 |---|---|---|
-| D01 | Git repository is `python-ui-library`; import root `python_ui_library`; PyPI distribution name proposed `python-ui-library`. | Short, independent, Python naming conventions. Check distribution-name availability at publish time; repository name is fixed. |
+| D01 | Git repository and distribution are `alp-ui`; import root is `alp_ui`. | Owner-selected name; repository, package metadata, imports, docs, and tests use it consistently. Check distribution-name availability at publish time. No compatibility alias is provided for the pre-release name. |
 | D02 | Build a **Qt Widgets** library with **PySide6** only. No Qt Quick/QML, PyQt compatibility abstraction, React, or webview. | Smallest integration surface for desktop components and existing Python applications. |
 | D03 | First-release **only required UI runtime dependency** is `PySide6-Essentials`, using `QtCore`, `QtGui`, `QtWidgets`. | Avoid full UI framework chains, plotting/Qt Addons, and bindings adapters. `PySide6-Essentials` bundles Qt runtime libraries; apps must handle its license. |
 | D04 | **No QFluentWidgets, qt-material, PyQtDarkTheme, or superqt** as runtime dependencies in v0.1. | Native Qt covers initial components; zero extra licenses and tighter dependency surface. `superqt` BSD-3-Clause remains an evaluated, optional *future* reuse option for an actual missing control. |
-| D05 | `python-ui-library` **source license is MIT**. | Easy reuse; add `LICENSE` text when implementing. MIT applies only to our source, not to Qt or bundled fonts. |
+| D05 | `alp-ui` **source license is MIT**. | Easy reuse; add `LICENSE` text when implementing. MIT applies only to our source, not to Qt or bundled fonts. |
 | D06 | Use **Alpaca Light** as the initial and default Theme. No dark theme in v0.1. | Reuse the actual MUI palette/typography in the user's archived Alpaca UI. |
 | D07 | **Theme = immutable typed semantic tokens** (colors, spacing, typography, radii). Consumer overrides occur at **startup**. No hot theme switching in v0.1. | Customizable across apps without repaint/repolish complexity. No component-specific hard-coded palette. |
 | D08 | Styling uses `QPalette`/`QFont` with native Qt `QStyle` and **minimal targeted `QProxyStyle` overrides** when justified; no global QSS theme. QSS may be used **locally and sparingly** with explicit review. | Current Qt production styling guidance; preserves native behavior and efficiency. No custom full `QCommonStyle` or Qt Labs StyleKit dependency initially. |
@@ -33,6 +33,18 @@ The cleanest viable option **within the user's fixed PySide6 requirement** is: *
 ## Scope-change procedure
 
 Document a proposed change as: problem and named consumer → investigated alternatives → effect on licenses/dependencies → minimal change → tests. Obtain owner approval before changing this file, then update specification, glossary, plan, and affected tasks in one coherent revision.
+
+## 2026-10-18 owner-approved project rename
+
+- **Problem and consumer:** the repository owner selected the shorter project name
+  `alp-ui` and requested the local repository folder use the same name.
+- **Alternatives inspected:** retaining `python-ui-library` only as an import alias
+  would leave two names for an unreleased package and has no named consumer.
+- **Dependencies/licenses:** no dependency or license terms change.
+- **Minimal change:** use `alp-ui` for the repository and distribution and `alp_ui`
+  for Python imports and source layout. Do not ship a compatibility package.
+- **Tests:** update public imports, packaging expectations, Gallery/consumer examples,
+  and verify tests, lint, formatting, and built distributions.
 
 ## 2026-10-18 owner-approved component amendment
 

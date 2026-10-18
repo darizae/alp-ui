@@ -1,10 +1,10 @@
 """Public theme API."""
 
-from python_ui_library.theme.alpaca_light import ALPACA_LIGHT
-from python_ui_library.theme.appearance import interactions
-from python_ui_library.theme.icons import make_icon
-from python_ui_library.theme.install import install_theme
-from python_ui_library.theme.tokens import (
+from alp_ui.theme.alpaca_light import ALPACA_LIGHT
+from alp_ui.theme.appearance import interactions
+from alp_ui.theme.icons import make_icon
+from alp_ui.theme.install import install_theme
+from alp_ui.theme.tokens import (
     ColorTokens,
     InteractionTokens,
     RadiiTokens,

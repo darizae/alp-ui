@@ -18,7 +18,7 @@ from PySide6.QtWidgets import (
     QWidget,
 )
 
-from python_ui_library.components import (
+from alp_ui.components import (
     Badge,
     Button,
     Card,
@@ -30,7 +30,7 @@ from python_ui_library.components import (
     Text,
     TextInput,
 )
-from python_ui_library.theme import ALPACA_LIGHT, install_theme, interactions, make_icon
+from alp_ui.theme import ALPACA_LIGHT, install_theme, interactions, make_icon
 
 
 class _RecordsModel(QAbstractTableModel):
@@ -125,7 +125,7 @@ def _sidebar() -> QWidget:
 def build_showcase() -> QWidget:
     """An ordinary application may compose these widgets without a special shell."""
     w = QWidget()
-    w.setWindowTitle("python-ui-library — application showcase")
+    w.setWindowTitle("alp-ui — application showcase")
     w.setObjectName("applicationShowcase")
     w.setAccessibleName("Composed application showcase")
     w.resize(1180, 790)

@@ -6,13 +6,13 @@ import pytest
 from PySide6.QtGui import QColor, QFontDatabase, QPalette
 from PySide6.QtWidgets import QApplication
 
-from python_ui_library.theme import (
+from alp_ui.theme import (
     ALPACA_LIGHT,
     ColorTokens,
     Theme,
     install_theme,
 )
-from python_ui_library.theme import fonts as font_loading
+from alp_ui.theme import fonts as font_loading
 
 EXPECTED_COLORS = {
     "primary": "#059669",

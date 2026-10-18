@@ -21,7 +21,7 @@ from PySide6.QtWidgets import (
     QWidget,
 )
 
-from python_ui_library.components import (
+from alp_ui.components import (
     Alert,
     Badge,
     Button,
@@ -37,7 +37,7 @@ from python_ui_library.components import (
     Text,
     TextInput,
 )
-from python_ui_library.theme import ALPACA_LIGHT, install_theme, make_icon
+from alp_ui.theme import ALPACA_LIGHT, install_theme, make_icon
 
 
 class _GalleryTableModel(QAbstractTableModel):
@@ -124,7 +124,7 @@ def _section(title: str) -> QGroupBox:
 def build_window() -> QWidget:
     theme = ALPACA_LIGHT
     window = QWidget()
-    window.setWindowTitle("python-ui-library — Theme Gallery")
+    window.setWindowTitle("alp-ui — Theme Gallery")
     window.setAccessibleName("Alpaca Light Theme Gallery")
     window.resize(760, 700)
 

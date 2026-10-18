@@ -22,19 +22,19 @@ FONT_FILES = {
 
 
 PACKAGE_FILES = {
-    "python_ui_library/__init__.py",
-    "python_ui_library/components/__init__.py",
-    "python_ui_library/components/actions.py",
-    "python_ui_library/components/data.py",
-    "python_ui_library/components/feedback.py",
-    "python_ui_library/components/inputs.py",
-    "python_ui_library/components/surfaces.py",
-    "python_ui_library/components/typography.py",
-    "python_ui_library/theme/__init__.py",
-    "python_ui_library/theme/alpaca_light.py",
-    "python_ui_library/theme/fonts.py",
-    "python_ui_library/theme/install.py",
-    "python_ui_library/theme/tokens.py",
+    "alp_ui/__init__.py",
+    "alp_ui/components/__init__.py",
+    "alp_ui/components/actions.py",
+    "alp_ui/components/data.py",
+    "alp_ui/components/feedback.py",
+    "alp_ui/components/inputs.py",
+    "alp_ui/components/surfaces.py",
+    "alp_ui/components/typography.py",
+    "alp_ui/theme/__init__.py",
+    "alp_ui/theme/alpaca_light.py",
+    "alp_ui/theme/fonts.py",
+    "alp_ui/theme/install.py",
+    "alp_ui/theme/tokens.py",
 }
 FORBIDDEN_PARTS = {"references", "alpaca-ui-frontend", "ui_library", "evidence.md"}
 
@@ -63,13 +63,13 @@ def test_distributions_are_complete_and_clean(tmp_path: Path) -> None:
         names = set(archive.namelist())
         metadata_name = next(name for name in names if name.endswith(".dist-info/METADATA"))
         metadata = BytesParser().parsebytes(archive.read(metadata_name))
-    resource_root = "python_ui_library/theme/resources/fonts/"
+    resource_root = "alp_ui/theme/resources/fonts/"
     assert PACKAGE_FILES <= names
     assert {resource_root + filename for filename in FONT_FILES} <= names
     assert any(name.endswith(".dist-info/licenses/LICENSE") for name in names)
     notice_suffix = ".dist-info/licenses/docs/legal/THIRD_PARTY_NOTICES.md"
     assert any(name.endswith(notice_suffix) for name in names)
-    assert metadata["Name"] == "python-ui-library"
+    assert metadata["Name"] == "alp-ui"
     assert metadata["Version"] == "0.1.0a0"
     runtime_requirements = [
         requirement
@@ -80,7 +80,7 @@ def test_distributions_are_complete_and_clean(tmp_path: Path) -> None:
 
     with tarfile.open(sdist) as archive:
         sdist_names = set(archive.getnames())
-    root = "python_ui_library-0.1.0a0/"
+    root = "alp_ui-0.1.0a0/"
     assert {
         root + "LICENSE",
         root + "docs/legal/THIRD_PARTY_NOTICES.md",

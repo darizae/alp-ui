@@ -4,7 +4,7 @@ Create the application's **one** `QApplication`, then install a Theme before cre
 
 ```python
 from PySide6.QtWidgets import QApplication
-from python_ui_library.theme import install_theme
+from alp_ui.theme import install_theme
 
 app = QApplication([])
 install_theme(app)
@@ -18,7 +18,7 @@ make every secondary action amber.
 
 ```python
 from dataclasses import replace
-from python_ui_library.theme import ALPACA_LIGHT, install_theme
+from alp_ui.theme import ALPACA_LIGHT, install_theme
 
 custom = replace(
     ALPACA_LIGHT,
@@ -50,7 +50,7 @@ custom theme, use a typed `InteractionTokens` override:
 
 ```python
 from dataclasses import replace
-from python_ui_library.theme import ALPACA_LIGHT, interactions
+from alp_ui.theme import ALPACA_LIGHT, interactions
 
 custom = replace(
     ALPACA_LIGHT,
@@ -76,7 +76,7 @@ Body font: **DM Sans**. Metadata font: **JetBrains Mono**. Text roles: `title`,
 Original, library-drawn stroke icons use `make_icon`:
 
 ```python
-from python_ui_library.theme import make_icon
+from alp_ui.theme import make_icon
 
 button.setIcon(make_icon("plus", color="#FFFFFF", size=20))
 ```

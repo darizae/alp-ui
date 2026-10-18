@@ -1,7 +1,7 @@
 # Components
 
 Create the consumer application's one `QApplication` and install the Theme before
-constructing Components. All imports below come from `python_ui_library.components`.
+constructing Components. All imports below come from `alp_ui.components`.
 Components preserve Qt parenting, focus, enabled state, keyboard behavior, and native
 signals; they do not own application data or work.
 
@@ -18,7 +18,7 @@ it starts no work. Prefer a text label, or set an accessible name when using onl
 icon.
 
 ```python
-from python_ui_library.components import Button
+from alp_ui.components import Button
 
 save = Button("Save", variant="primary")
 save.clicked.connect(save_document)
@@ -34,7 +34,7 @@ Enable wrapping for long or translated text, and use heading roles in logical re
 order.
 
 ```python
-from python_ui_library.components import Text
+from alp_ui.components import Text
 
 title = Text("Account", role="heading")
 details = Text("Long selectable details", selectable=True, word_wrap=True)
@@ -48,7 +48,7 @@ no custom signals. Use `shadow=False` for dense or repeated Cards. Child content
 provide the meaningful accessible labels because the surface itself is structural.
 
 ```python
-from python_ui_library.components import Card, Text
+from alp_ui.components import Card, Text
 
 card = Card()
 card.content_layout.addWidget(Text("Summary", role="heading"))
@@ -63,7 +63,7 @@ section change.
 
 ```python
 from PySide6.QtCore import Qt
-from python_ui_library.components import Divider
+from alp_ui.components import Divider
 
 horizontal = Divider()
 vertical = Divider(Qt.Vertical)
@@ -83,7 +83,7 @@ work that supplies completion values.
 
 ```python
 from PySide6.QtWidgets import QCompleter
-from python_ui_library.components import TextInput
+from alp_ui.components import TextInput
 
 name = TextInput(label="Name", placeholder="Ada Lovelace")
 name.textChanged.connect(on_name_changed)
@@ -101,7 +101,7 @@ step, and value methods are forwarded. Labels and feedback use the same accessib
 mapping as `TextInput`; the Component never parses units or strings.
 
 ```python
-from python_ui_library.components import NumberInput
+from alp_ui.components import NumberInput
 
 count = NumberInput(kind="integer", minimum=1, maximum=20, value=1, label="Count")
 price = NumberInput(kind="decimal", decimals=2, step=0.25, label="Price")
@@ -117,7 +117,7 @@ common item, index, and model methods. Supply a visible label, or set the contro
 accessible name when context provides no label.
 
 ```python
-from python_ui_library.components import SelectInput
+from alp_ui.components import SelectInput
 
 choice = SelectInput(("Alpha", "Beta"), label="Choice")
 choice.currentIndexChanged.connect(on_choice_changed)
@@ -132,7 +132,7 @@ focus, and Space-key behavior. Its text is the accessible name; set one explicit
 the visible text is empty.
 
 ```python
-from python_ui_library.components import CheckBox
+from alp_ui.components import CheckBox
 
 enabled = CheckBox("Enable summaries")
 enabled.toggled.connect(on_summary_toggled)
@@ -146,7 +146,7 @@ and Space-key behavior. Tri-state mode is rejected. Its visible text supplies th
 accessible name; describe the resulting setting, not the gesture.
 
 ```python
-from python_ui_library.components import Switch
+from alp_ui.components import Switch
 
 automatic = Switch("Update automatically")
 automatic.toggled.connect(on_automatic_changed)
@@ -161,7 +161,7 @@ the accessible name and the intent is included in the accessible description, so
 meaningful text rather than color alone.
 
 ```python
-from python_ui_library.components import Badge
+from alp_ui.components import Badge
 
 availability = Badge("Available", intent="success")
 ```
@@ -176,7 +176,7 @@ accessible name includes the intent and title or text, while the body becomes th
 description when a title is present.
 
 ```python
-from python_ui_library.components import Alert, Button
+from alp_ui.components import Alert, Button
 
 retry = Button("Retry", variant="outline", size="small")
 message = Alert(
@@ -197,7 +197,7 @@ select Qt's indeterminate mode. It never creates a worker. Replace the default
 accessible name, `Progress`, when multiple operations are visible.
 
 ```python
-from python_ui_library.components import ProgressBar
+from alp_ui.components import ProgressBar
 
 progress = ProgressBar(value=40)
 progress.setAccessibleName("Export progress")
@@ -214,7 +214,7 @@ unless the text conveys the same meaning.
 
 ```python
 from PySide6.QtWidgets import QStyle
-from python_ui_library.components import EmptyState
+from alp_ui.components import EmptyState
 
 empty = EmptyState(
     "No items",
@@ -237,7 +237,7 @@ accessible name when the surrounding label is insufficient.
 
 ```python
 from PySide6.QtCore import QSortFilterProxyModel
-from python_ui_library.components import DataTable
+from alp_ui.components import DataTable
 
 proxy = QSortFilterProxyModel()
 proxy.setSourceModel(application_model)

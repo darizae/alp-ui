@@ -1,4 +1,4 @@
-"""Minimal application consuming python-ui-library from an installed wheel."""
+"""Minimal application consuming alp-ui from an installed wheel."""
 
 from __future__ import annotations
 
@@ -9,8 +9,8 @@ from dataclasses import replace
 from PySide6.QtCore import QAbstractTableModel, QModelIndex, Qt, QTimer
 from PySide6.QtWidgets import QApplication, QVBoxLayout, QWidget
 
-from python_ui_library.components import Badge, Button, DataTable, TextInput
-from python_ui_library.theme import ALPACA_LIGHT, install_theme
+from alp_ui.components import Badge, Button, DataTable, TextInput
+from alp_ui.theme import ALPACA_LIGHT, install_theme
 
 
 class ExampleModel(QAbstractTableModel):
@@ -44,7 +44,7 @@ def build_window() -> QWidget:
     """Compose public Components with ordinary Qt layout and signal APIs."""
 
     window = QWidget()
-    window.setWindowTitle("python-ui-library consumer")
+    window.setWindowTitle("alp-ui consumer")
     window.setAccessibleName("Installed wheel consumer example")
     window.resize(520, 420)
 

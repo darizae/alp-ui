@@ -13,8 +13,8 @@ commit. See [quality-and-compatibility.md](quality-and-compatibility.md).
 ## Distribution evidence
 
 - Standard `python -m build` produces
-  `python_ui_library-0.1.0a0-py3-none-any.whl` and
-  `python_ui_library-0.1.0a0.tar.gz`.
+  `alp_ui-0.1.0a0-py3-none-any.whl` and
+  `alp_ui-0.1.0a0.tar.gz`.
 - `twine check` passes both archives.
 - The wheel contains all public modules, seven unmodified font files, both OFL texts,
   the MIT `LICENSE`, and `docs/legal/THIRD_PARTY_NOTICES.md`. This includes the
@@ -37,7 +37,7 @@ repository in isolated Python mode from a fresh external virtual environment aft
 offline wheel/dependency installation from the local package cache. Both the default
 Theme and a typed startup color override opened, loaded bundled fonts/platform plugins
 without network access, and shut down cleanly in the offscreen smoke run. The resolved
-`python_ui_library` module path was inside that external environment, not this source
+`alp_ui` module path was inside that external environment, not this source
 tree.
 
 The Gallery was also launched against the installed wheel rather than an editable

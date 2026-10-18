@@ -1,6 +1,6 @@
 """The Alpaca Light theme preset."""
 
-from python_ui_library.theme.tokens import (
+from alp_ui.theme.tokens import (
     ColorTokens,
     RadiiTokens,
     SpacingTokens,

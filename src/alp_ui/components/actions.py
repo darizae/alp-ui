@@ -7,8 +7,8 @@ from typing import Literal
 from PySide6.QtGui import QColor, QFont, QPalette
 from PySide6.QtWidgets import QPushButton, QWidget
 
-from python_ui_library.theme.appearance import density_metrics, interactions
-from python_ui_library.theme.install import _current_theme
+from alp_ui.theme.appearance import density_metrics, interactions
+from alp_ui.theme.install import _current_theme
 
 ButtonVariant = Literal["primary", "secondary", "outline", "danger"]
 ButtonSize = Literal["small", "medium", "large"]

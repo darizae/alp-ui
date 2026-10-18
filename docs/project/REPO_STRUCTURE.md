@@ -4,7 +4,7 @@ The tree below describes the maintained repository layout. Human guides, interna
 project contracts, and legal notices are deliberately separated.
 
 ```text
-python-ui-library/
+alp-ui/
 ├── README.md                          # human-facing project overview
 ├── AGENTS.md                          # agent onboarding and authority
 ├── LICENSE                            # MIT source license
@@ -42,7 +42,7 @@ python-ui-library/
 │   ├── 07-quality-and-compatibility.md
 │   └── 08-consumer-and-release.md
 ├── src/
-│   └── python_ui_library/
+│   └── alp_ui/
 │       ├── __init__.py
 │       ├── theme/
 │       │   ├── __init__.py

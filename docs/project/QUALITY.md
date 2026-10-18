@@ -56,7 +56,7 @@ Recommended, not forced: `pytest`, `pytest-qt`, `ruff`, a static type checker, `
 - [ ] MIT `LICENSE` and third-party notices included in source distribution, wheel where relevant, and README.
 - [ ] Official unmodified fonts and their SIL OFL license/copyright notices included in distribution.
 - [ ] No dependencies on the TypeScript repo, Alpaca UI application, Qt Addons, QFluentWidgets, superqt, plotting, or networking.
-- [ ] Built wheel installed in isolated environment; `import python_ui_library` and its public Components work.
+- [ ] Built wheel installed in isolated environment; `import alp_ui` and its public Components work.
 - [ ] Consumer creates exactly one QApplication, installs Theme, creates UI, exits normally.
 - [ ] Qt redistribution/commercial usage caveat clearly stated in documentation.
 - [ ] Gallery covers required variants/states; descriptions and examples match current API.

@@ -6,8 +6,8 @@ from PySide6.QtGui import QColor, QPalette
 from PySide6.QtTest import QSignalSpy
 from PySide6.QtWidgets import QApplication, QHeaderView, QStyleOptionHeader, QWidget
 
-from python_ui_library.components import DataTable
-from python_ui_library.theme import ALPACA_LIGHT, install_theme
+from alp_ui.components import DataTable
+from alp_ui.theme import ALPACA_LIGHT, install_theme
 
 
 class _TableModel(QAbstractTableModel):

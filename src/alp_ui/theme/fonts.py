@@ -9,7 +9,7 @@ from importlib.resources import as_file, files
 
 from PySide6.QtGui import QFontDatabase
 
-from python_ui_library.theme.tokens import TypographyTokens
+from alp_ui.theme.tokens import TypographyTokens
 
 _BUNDLED_FONTS = {
     "DM Sans": (
@@ -34,7 +34,7 @@ class ResolvedFonts:
 
 @cache
 def _load_font_resource(filename: str) -> tuple[str, ...]:
-    resource = files("python_ui_library.theme").joinpath("resources", "fonts", filename)
+    resource = files("alp_ui.theme").joinpath("resources", "fonts", filename)
     try:
         with as_file(resource) as path:
             font_id = QFontDatabase.addApplicationFont(str(path.resolve()))

@@ -1,4 +1,4 @@
-# Project specification — python-ui-library
+# Project specification — alp-ui
 
 **Normative scope:** first public version `0.1.0`; deliver reusable PySide6 Qt Widgets styled with **Alpaca Light**. All requirements here are independent of Alpaca Desktop. `docs/project/DECISIONS.md` is the highest-level locked contract.
 
@@ -12,7 +12,7 @@ No page routing framework, domain data, job execution, network calls, window man
 
 - **Runtime:** CPython 3.11–3.13, PySide6-Essentials 6.11.x, QtCore/QtGui/QtWidgets only. Build metadata should use supported-version bounds reflecting the tested line; developer tools can have dev dependencies but not leak into runtime.
 - **Target platform:** Windows x86-64 for release. Aim for portability; do not claim other platforms are certified until tested.
-- **Packaging:** standard `pyproject.toml` and wheel. Implement as one distribution under `src/python_ui_library`. Avoid ad hoc import path manipulation, requirements copied from React, and bundling Qt binaries ourselves.
+- **Packaging:** standard `pyproject.toml` and wheel. Implement as one distribution under `src/alp_ui`. Avoid ad hoc import path manipulation, requirements copied from React, and bundling Qt binaries ourselves.
 - **Resources:** the wheel contains the official unmodified font binaries required to display DM Sans/JetBrains Mono offline and complete OFL notices. Build tests verify these assets are packaged and load using installed resource paths.
 - **Licenses:** `LICENSE` for MIT project source and `docs/legal/THIRD_PARTY_NOTICES.md` or equivalent for bundled licensed assets. Do not redistribute source repos or their copied components.
 
@@ -20,8 +20,8 @@ No page routing framework, domain data, job execution, network calls, window man
 
 Initial recommended stable exports (task agents may refine **method** details only within existing semantics):
 
-- `python_ui_library.theme`: `Theme`, `ALPACA_LIGHT`, `install_theme(app, theme=ALPACA_LIGHT)`.
-- `python_ui_library.components`: `Button`, `Text`, `Card`, `Divider`, `TextInput`, `NumberInput`, `SelectInput`, `CheckBox`, `Switch`, `Badge`, `Alert`, `ProgressBar`, `DataTable`, `EmptyState`.
+- `alp_ui.theme`: `Theme`, `ALPACA_LIGHT`, `install_theme(app, theme=ALPACA_LIGHT)`.
+- `alp_ui.components`: `Button`, `Text`, `Card`, `Divider`, `TextInput`, `NumberInput`, `SelectInput`, `CheckBox`, `Switch`, `Badge`, `Alert`, `ProgressBar`, `DataTable`, `EmptyState`.
 - Class names are public, QWidget-compatible; no private Qt shims required by consumers. Fine-grained submodule imports also work and have no surprise side effects.
 - Use typed constructors or a documented bounded set of setters; rely on inherited methods for ordinary Qt behavior. Define `variant`, `size`, and `intent` consistently with `docs/project/GLOSSARY.md`/`docs/project/COMPONENT_CATALOG.md`. Invalid values fail early with actionable errors at component construction.
 - Theme install accepts the consumer-owned `QApplication`. Passing a non-QApplication or attempting installation after UI construction is documented as unsupported; reject clearly where detectable. `install_theme` must not silently construct or replace the QApplication.

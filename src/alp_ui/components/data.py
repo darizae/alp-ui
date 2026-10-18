@@ -6,8 +6,8 @@ from PySide6.QtCore import QAbstractItemModel, Qt
 from PySide6.QtGui import QColor, QFont, QPalette
 from PySide6.QtWidgets import QApplication, QHeaderView, QStyleOptionHeader, QTableView, QWidget
 
-from python_ui_library.theme.appearance import density_metrics, interactions
-from python_ui_library.theme.install import _METADATA_FONT_PROPERTY, _current_theme
+from alp_ui.theme.appearance import density_metrics, interactions
+from alp_ui.theme.install import _METADATA_FONT_PROPERTY, _current_theme
 
 
 class _TableHeader(QHeaderView):

@@ -5,8 +5,8 @@ from dataclasses import replace
 import pytest
 from PySide6.QtWidgets import QApplication, QLabel, QProgressBar, QPushButton, QStyle, QWidget
 
-from python_ui_library.components import Alert, Badge, EmptyState, ProgressBar
-from python_ui_library.theme import ALPACA_LIGHT, install_theme
+from alp_ui.components import Alert, Badge, EmptyState, ProgressBar
+from alp_ui.theme import ALPACA_LIGHT, install_theme
 
 
 @pytest.fixture(autouse=True)

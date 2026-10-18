@@ -14,8 +14,8 @@ from PySide6.QtWidgets import (
     QWidget,
 )
 
-from python_ui_library.components import Button, Card, Divider, Text
-from python_ui_library.theme import ALPACA_LIGHT, install_theme
+from alp_ui.components import Button, Card, Divider, Text
+from alp_ui.theme import ALPACA_LIGHT, install_theme
 
 
 @pytest.fixture(autouse=True)

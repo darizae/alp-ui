@@ -17,8 +17,8 @@ from PySide6.QtWidgets import (
     QWidget,
 )
 
-from python_ui_library.theme.appearance import interactions
-from python_ui_library.theme.install import _METADATA_FONT_PROPERTY, _current_theme
+from alp_ui.theme.appearance import interactions
+from alp_ui.theme.install import _METADATA_FONT_PROPERTY, _current_theme
 
 Intent = Literal["neutral", "info", "success", "warning", "danger"]
 _INTENTS = ("neutral", "info", "success", "warning", "danger")

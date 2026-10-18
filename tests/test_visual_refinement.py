@@ -16,8 +16,7 @@ from PySide6.QtWidgets import (
     QStyleOptionSpinBox,
 )
 
-from gallery.showcase import build_showcase
-from python_ui_library.components import (
+from alp_ui.components import (
     Button,
     Card,
     CheckBox,
@@ -28,13 +27,14 @@ from python_ui_library.components import (
     Text,
     TextInput,
 )
-from python_ui_library.theme import (
+from alp_ui.theme import (
     ALPACA_LIGHT,
     install_theme,
     interactions,
     make_icon,
 )
-from python_ui_library.theme.appearance import density_metrics
+from alp_ui.theme.appearance import density_metrics
+from gallery.showcase import build_showcase
 
 
 def test_compact_density_follows_theme_without_shrinking_font(qapp: QApplication) -> None:

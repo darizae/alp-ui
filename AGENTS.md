@@ -1,4 +1,4 @@
-# Agent instructions — python-ui-library
+# Agent instructions — alp-ui
 
 ## Documentation authority
 

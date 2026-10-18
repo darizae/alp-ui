@@ -2,7 +2,7 @@
 
 ## The user need
 
-When building another Python desktop app, the developer should be able to install `python-ui-library`, initialize the **Alpaca Light** theme, and compose ready-styled buttons, fields, cards, badges, tables, and feedback widgets without restyling every app separately.
+When building another Python desktop app, the developer should be able to install `alp-ui`, initialize the **Alpaca Light** theme, and compose ready-styled buttons, fields, cards, badges, tables, and feedback widgets without restyling every app separately.
 
 **The library owns appearance and generic interaction, not application behavior.** For example, the library can render a status badge with `success` intent; the consuming application decides what *success* means. The library can show a table; the application supplies the row model.
 

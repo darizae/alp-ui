@@ -9,16 +9,16 @@ and install the wheel:
 
 ```bash
 .venv/bin/python -m build
-python3.13 -m venv /tmp/python-ui-library-consumer
-/tmp/python-ui-library-consumer/bin/python -m pip install dist/python_ui_library-0.1.0a0-py3-none-any.whl
+python3.13 -m venv /tmp/alp-ui-consumer
+/tmp/alp-ui-consumer/bin/python -m pip install dist/alp_ui-0.1.0a0-py3-none-any.whl
 ```
 
 Then run the example. `-I` prevents user site packages and environment path settings
 from changing the import result:
 
 ```bash
-/tmp/python-ui-library-consumer/bin/python -I examples/consumer_app/main.py
-/tmp/python-ui-library-consumer/bin/python -I examples/consumer_app/main.py --custom-theme
+/tmp/alp-ui-consumer/bin/python -I examples/consumer_app/main.py
+/tmp/alp-ui-consumer/bin/python -I examples/consumer_app/main.py --custom-theme
 ```
 
 Use `--smoke` with either command for an automated open-and-clean-shutdown check. On

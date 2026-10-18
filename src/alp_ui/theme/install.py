@@ -5,12 +5,12 @@ from __future__ import annotations
 from PySide6.QtGui import QColor, QFont, QPalette
 from PySide6.QtWidgets import QApplication
 
-from python_ui_library.theme.alpaca_light import ALPACA_LIGHT
-from python_ui_library.theme.fonts import resolve_fonts
-from python_ui_library.theme.tokens import Theme
+from alp_ui.theme.alpaca_light import ALPACA_LIGHT
+from alp_ui.theme.fonts import resolve_fonts
+from alp_ui.theme.tokens import Theme
 
-_THEME_PROPERTY = "python_ui_library_theme"
-_METADATA_FONT_PROPERTY = "python_ui_library_metadata_font"
+_THEME_PROPERTY = "alp_ui_theme"
+_METADATA_FONT_PROPERTY = "alp_ui_metadata_font"
 
 
 def _current_theme() -> Theme:

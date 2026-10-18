@@ -6,7 +6,7 @@ from dataclasses import dataclass
 
 from PySide6.QtGui import QColor
 
-from python_ui_library.theme.tokens import InteractionTokens, Theme
+from alp_ui.theme.tokens import InteractionTokens, Theme
 
 
 def blend(foreground: str, background: str, amount: float) -> str:

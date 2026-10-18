@@ -1,6 +1,6 @@
 # Getting started
 
-`python-ui-library` is a presentation layer for PySide6 desktop applications. It gives
+`alp-ui` is a presentation layer for PySide6 desktop applications. It gives
 common Qt Widgets a consistent visual language while preserving the APIs and behavior
 that make Qt useful.
 
@@ -20,7 +20,7 @@ the consumer application's environment:
 
 ```bash
 python -m build
-python -m pip install dist/python_ui_library-0.1.0a0-py3-none-any.whl
+python -m pip install dist/alp_ui-0.1.0a0-py3-none-any.whl
 ```
 
 The only runtime dependency is `PySide6-Essentials>=6.11,<6.12`.
@@ -33,7 +33,7 @@ constructed:
 ```python
 from PySide6.QtWidgets import QApplication
 
-from python_ui_library.theme import install_theme
+from alp_ui.theme import install_theme
 
 app = QApplication([])
 install_theme(app)
@@ -50,7 +50,7 @@ Components can sit beside native controls in any Qt layout:
 ```python
 from PySide6.QtWidgets import QLabel, QVBoxLayout, QWidget
 
-from python_ui_library.components import Button, Card, TextInput
+from alp_ui.components import Button, Card, TextInput
 
 window = QWidget()
 layout = QVBoxLayout(window)
@@ -82,7 +82,7 @@ Component styles:
 ```python
 from dataclasses import replace
 
-from python_ui_library.theme import ALPACA_LIGHT, install_theme
+from alp_ui.theme import ALPACA_LIGHT, install_theme
 
 theme = replace(
     ALPACA_LIGHT,
@@ -103,7 +103,7 @@ label, help, and error state accessibly.
 from PySide6.QtCore import QRegularExpression
 from PySide6.QtGui import QRegularExpressionValidator
 
-from python_ui_library.components import TextInput
+from alp_ui.components import TextInput
 
 validator = QRegularExpressionValidator(QRegularExpression(r"[A-Z]{2}\d{2}"))
 code = TextInput(label="Code", validator=validator)
@@ -120,7 +120,7 @@ application owns the operation and decides when that state begins and ends.
 DataTable is a styled `QTableView`, not a second table-data abstraction:
 
 ```python
-from python_ui_library.components import DataTable
+from alp_ui.components import DataTable
 
 table = DataTable(model=application_model)
 table.setAccessibleName("Accounts")
@@ -155,7 +155,7 @@ The default Theme uses `standard` density. To select `compact` density at startu
 
 ```python
 from dataclasses import replace
-from python_ui_library.theme import ALPACA_LIGHT, install_theme
+from alp_ui.theme import ALPACA_LIGHT, install_theme
 
 install_theme(app, replace(ALPACA_LIGHT, density="compact"))
 ```

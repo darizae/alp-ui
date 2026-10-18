@@ -15,8 +15,8 @@ from PySide6.QtWidgets import (
     QWidget,
 )
 
-from python_ui_library.components import CheckBox, NumberInput, SelectInput, Switch, TextInput
-from python_ui_library.theme import ALPACA_LIGHT, install_theme
+from alp_ui.components import CheckBox, NumberInput, SelectInput, Switch, TextInput
+from alp_ui.theme import ALPACA_LIGHT, install_theme
 
 
 @pytest.fixture(autouse=True)

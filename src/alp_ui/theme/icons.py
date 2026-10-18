@@ -7,7 +7,7 @@ from typing import Literal
 from PySide6.QtCore import QPointF, QRectF, Qt
 from PySide6.QtGui import QColor, QIcon, QPainter, QPen, QPixmap, QPolygonF
 
-from python_ui_library.theme.install import _current_theme
+from alp_ui.theme.install import _current_theme
 
 IconName = Literal["grid", "folder", "list", "settings", "plus", "search", "info", "check"]
 

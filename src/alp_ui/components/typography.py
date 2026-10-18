@@ -8,7 +8,7 @@ from PySide6.QtCore import Qt
 from PySide6.QtGui import QColor, QFont, QPalette
 from PySide6.QtWidgets import QApplication, QLabel, QWidget
 
-from python_ui_library.theme.install import _METADATA_FONT_PROPERTY, _current_theme
+from alp_ui.theme.install import _METADATA_FONT_PROPERTY, _current_theme
 
 TextRole = Literal["title", "heading", "subheading", "body", "caption", "overline"]
 _ROLES = ("title", "heading", "subheading", "body", "caption", "overline")

@@ -12,8 +12,8 @@ from PySide6.QtWidgets import (
     QWidget,
 )
 
-from python_ui_library.theme.appearance import density_metrics
-from python_ui_library.theme.install import _current_theme
+from alp_ui.theme.appearance import density_metrics
+from alp_ui.theme.install import _current_theme
 
 
 class Card(QFrame):

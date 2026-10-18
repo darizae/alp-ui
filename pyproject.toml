@@ -3,7 +3,7 @@ requires = ["hatchling>=1.27,<2"]
 build-backend = "hatchling.build"
 
 [project]
-name = "python-ui-library"
+name = "alp-ui"
 version = "0.1.0a0"
 description = "Reusable PySide6 Qt Widgets with the Alpaca Light theme"
 readme = "README.md"
@@ -12,7 +12,7 @@ license = "MIT"
 license-files = [
   "LICENSE",
   "docs/legal/THIRD_PARTY_NOTICES.md",
-  "src/python_ui_library/theme/resources/fonts/*OFL.txt",
+  "src/alp_ui/theme/resources/fonts/*OFL.txt",
 ]
 authors = [{ name = "darizae" }]
 classifiers = [
@@ -39,7 +39,7 @@ dev = [
 ]
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/python_ui_library"]
+packages = ["src/alp_ui"]
 
 [tool.pytest.ini_options]
 addopts = "-ra"
