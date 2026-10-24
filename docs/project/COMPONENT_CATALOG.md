@@ -21,6 +21,12 @@
 | `DataTable` | `QTableView` | Styled header, whole-row selection, muted state highlights, density-aware rows; accepts **external `QAbstractItemModel`** | No parallel Python list/table schema, business-level filters, or lazy filesystem discovery. |
 | `EmptyState` | QWidget composition | Text, optional illustration using Qt standard icon, optional consumer-supplied action widget | No automatic data fetching. |
 
+## Owner-approved post-v0.1 extension
+
+| Component | Qt foundation | Public choices / behavior | Explicit non-responsibility |
+|---|---|---|---|
+| `HelpHint` | `QToolButton` | Required plain-text explanation, optional accessibility subject, native tooltip and What's This view, native clicked/focus/keyboard behavior | No field wrapping, tooltip manager, popup framework, help-content lookup, translations service, or domain behavior. |
+
 `TextInput`, `NumberInput`, and `SelectInput` may each use a small internal `FieldFrame`/label composition once **two real implementations** show meaningful shared behavior. Do not make an elaborate field framework in advance.
 
 ## Post-v0.1 candidates — outside initial release

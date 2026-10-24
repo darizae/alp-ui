@@ -3,6 +3,7 @@
 from alp_ui.components.actions import Button
 from alp_ui.components.data import DataTable
 from alp_ui.components.feedback import Alert, Badge, EmptyState, ProgressBar
+from alp_ui.components.help import HelpHint
 from alp_ui.components.inputs import (
     CheckBox,
     NumberInput,
@@ -22,6 +23,7 @@ __all__ = [
     "DataTable",
     "Divider",
     "EmptyState",
+    "HelpHint",
     "NumberInput",
     "ProgressBar",
     "SelectInput",

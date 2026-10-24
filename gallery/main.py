@@ -31,6 +31,7 @@ from alp_ui.components import (
     DataTable,
     Divider,
     EmptyState,
+    HelpHint,
     NumberInput,
     ProgressBar,
     SelectInput,
@@ -273,6 +274,20 @@ def build_window() -> QWidget:
     enabled_switch.setChecked(True)
     disabled_switch = Switch("Disabled setting")
     disabled_switch.setEnabled(False)
+    page_size = NumberInput(kind="integer", value=25, minimum=1, maximum=100, label="")
+    page_size_label = QLabel("&Items per page")
+    page_size_label.setBuddy(page_size.control)
+    page_size.control.setAccessibleName("Items per page")
+    page_size_help = HelpHint("Sets how many items appear on each page.", subject="Items per page")
+    page_size_example = QWidget()
+    page_size_layout = QVBoxLayout(page_size_example)
+    page_size_layout.setContentsMargins(0, 0, 0, 0)
+    page_size_layout.setSpacing(theme.spacing.xsmall)
+    page_size_layout.addWidget(_component_row(page_size_label, page_size_help))
+    page_size_layout.addWidget(page_size)
+    heading_help = HelpHint(
+        "Groups controls that change how results are displayed.", subject="Display options"
+    )
     field_layout.addWidget(text_input, 0, 0)
     field_layout.addWidget(invalid_input, 0, 1)
     field_layout.addWidget(masked_input, 1, 0)
@@ -284,6 +299,15 @@ def build_window() -> QWidget:
     field_layout.addWidget(enabled_switch, 4, 0)
     field_layout.addWidget(Switch("Setting off"), 4, 1)
     field_layout.addWidget(disabled_switch, 5, 0)
+    field_layout.addWidget(page_size_example, 6, 0)
+    field_layout.addWidget(
+        _component_row(Text("Display options", role="subheading"), heading_help), 6, 1
+    )
+    field_help_instructions = QLabel(
+        "Contextual help: hover the ? button, or reach it with Tab and press Space."
+    )
+    field_help_instructions.setWordWrap(True)
+    field_layout.addWidget(field_help_instructions, 7, 0, 1, 2)
     layout.addWidget(fields_group)
 
     feedback = _section("Feedback")

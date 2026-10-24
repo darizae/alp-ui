@@ -22,6 +22,8 @@ small reusable interactions; your application owns its data and work.
 - **Typography and surfaces:** Text roles, Cards, and Dividers.
 - **Forms:** Text, number, select, checkbox, and switch Components built on native Qt
   controls.
+- **Contextual help:** HelpHint provides short, accessible explanations through native
+  tooltips and Qt's What's This view, while the consumer keeps control of placement.
 - **Feedback:** Badges, Alerts, Progress Bars, and Empty States using semantic intent.
 - **Data:** A styled DataTable that consumes your `QAbstractItemModel` directly.
 - **Theme:** Alpaca Light, with typed semantic tokens, shared state colors, density,
@@ -80,7 +82,8 @@ business logic in the consumer application.
 ## Explore the Gallery
 
 The Gallery shows every public Component, supported variants, disabled and invalid
-states, keyboard focus, Theme tokens, and a 10,000-row caller-owned table model.
+states, keyboard focus (including contextual help), Theme tokens, and a 10,000-row
+caller-owned table model.
 
 From a development checkout:
 

@@ -23,6 +23,7 @@ from alp_ui.components import (
     DataTable,
     Divider,
     EmptyState,
+    HelpHint,
     NumberInput,
     ProgressBar,
     SelectInput,
@@ -100,6 +101,7 @@ def test_theme_gallery_builds_with_keyboard_controls(qapp: QApplication) -> None
     progress_bars = window.findChildren(ProgressBar)
     assert {(bar.minimum(), bar.maximum()) for bar in progress_bars} == {(0, 0), (0, 100)}
     assert window.findChild(EmptyState) is not None
+    assert len(window.findChildren(HelpHint)) == 2
     tables = window.findChildren(DataTable)
     assert len(tables) == 2
     assert {table.model().rowCount() for table in tables} == {0, 10_000}
@@ -131,6 +133,7 @@ def test_gallery_interactive_controls_are_named_and_focusable(qapp: QApplication
         *window.findChildren(QPushButton),
         *window.findChildren(CheckBox),
         *window.findChildren(Switch),
+        *window.findChildren(HelpHint),
         *(field.control for field in window.findChildren(TextInput)),
         *(field.control for field in window.findChildren(NumberInput)),
         *(field.control for field in window.findChildren(SelectInput)),
