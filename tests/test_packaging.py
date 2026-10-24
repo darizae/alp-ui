@@ -82,6 +82,32 @@ def test_distributions_are_complete_and_clean(tmp_path: Path) -> None:
     ]
     assert runtime_requirements == ["pyside6-essentials<6.12,>=6.11"]
 
+    environment = os.environ | {"QT_QPA_PLATFORM": "offscreen"}
+    consumer = subprocess.run(
+        [
+            sys.executable,
+            "-I",
+            "-c",
+            (
+                "import sys; "
+                f"sys.path.insert(0, {str(wheel)!r}); "
+                "from PySide6.QtWidgets import QApplication; "
+                "from alp_ui.components import FolderPicker; "
+                "from alp_ui.theme import install_theme; "
+                "app = QApplication([]); install_theme(app); "
+                "picker = FolderPicker(label='Folder'); "
+                "picker.setFolderPath('C:\\\\Example\\\\音楽'); "
+                "assert picker.folderPath() == 'C:\\\\Example\\\\音楽'"
+            ),
+        ],
+        cwd=tmp_path,
+        env=environment,
+        check=False,
+        capture_output=True,
+        text=True,
+    )
+    assert consumer.returncode == 0, consumer.stderr
+
     with tarfile.open(sdist) as archive:
         sdist_names = set(archive.getnames())
     root = "alp_ui-0.1.0a0/"

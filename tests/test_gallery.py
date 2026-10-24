@@ -23,6 +23,7 @@ from alp_ui.components import (
     DataTable,
     Divider,
     EmptyState,
+    FolderPicker,
     HelpHint,
     NumberInput,
     Plot,
@@ -100,6 +101,7 @@ def test_theme_gallery_builds_with_keyboard_controls(qapp: QApplication) -> None
     assert any(field.errorText() for field in text_inputs)
     assert {field.kind for field in window.findChildren(NumberInput)} == {"integer", "decimal"}
     assert window.findChild(SelectInput) is not None
+    assert window.findChild(FolderPicker) is not None
     assert any(box.isChecked() for box in window.findChildren(CheckBox))
     switches = window.findChildren(Switch)
     assert {switch.isChecked() for switch in switches} == {False, True}
@@ -149,6 +151,7 @@ def test_gallery_interactive_controls_are_named_and_focusable(qapp: QApplication
         *(field.control for field in window.findChildren(TextInput)),
         *(field.control for field in window.findChildren(NumberInput)),
         *(field.control for field in window.findChildren(SelectInput)),
+        *(field.control for field in window.findChildren(FolderPicker)),
         *window.findChildren(DataTable),
     ]
     for control in interactive:

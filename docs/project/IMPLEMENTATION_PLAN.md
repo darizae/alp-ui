@@ -30,6 +30,16 @@ It remains dependency-free and must receive a separate Windows visual qualificat
 - **Source of truth for imports:** `src/alp_ui/...`; never construct separate parallel implementations for gallery versus public components.
 - **Tests:** test through public imports and Qt signals. Each task adds tests for its delivered behavior; task 07 consolidates, it does not postpone all testing.
 
+## Approved post-v0.1 extensions
+
+The v0.1 sequence above remains historical. The following owner-approved Component
+extension was delivered separately with its own public API, Gallery, documentation,
+behavior tests, and built-wheel import check:
+
+| Assignment | Status | Scope |
+|---|---|---|
+| [11 — Native folder selection](../../tasks/11-native-folder-picker.md) | Implemented | `FolderPicker`: selected-path display, native directory dialog, and one change signal; no filesystem validation or work. |
+
 ## Task report format
 
 At the end of each task, the agent reports: task ID and summary; inspected upstream files/docs; exact files changed; tests executed with pass/fail; screenshot/visual review notes; license/dependency changes (should ordinarily be none); acceptance checklist; deviations or owner decisions needed. It does not claim completion from code-only changes without tests.

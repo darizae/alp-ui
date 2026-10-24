@@ -22,7 +22,7 @@ Initial recommended stable exports (task agents may refine **method** details on
 
 - `alp_ui.theme`: `Theme`, `ALPACA_LIGHT`, `install_theme(app, theme=ALPACA_LIGHT)`.
 - `alp_ui.components`: `Button`, `Text`, `Card`, `Divider`, `TextInput`, `NumberInput`, `SelectInput`, `CheckBox`, `Switch`, `Badge`, `Alert`, `ProgressBar`, `DataTable`, `EmptyState`.
-- Post-v0.1: `Plot`, a `QWidget` with `kind="line"` or `kind="bar"`; consumer-owned finite numeric data is supplied through documented setters. It renders presentation only and does not provide a chart model, analytics, or update controller.
+- Post-v0.1: `HelpHint`; `FolderPicker`, a read-only path display plus native directory dialog; and `Plot`, a `QWidget` with `kind="line"` or `kind="bar"`. Consumer-owned finite numeric data is supplied through documented setters; these Components do not provide application controllers or analytics.
 - Class names are public, QWidget-compatible; no private Qt shims required by consumers. Fine-grained submodule imports also work and have no surprise side effects.
 - Use typed constructors or a documented bounded set of setters; rely on inherited methods for ordinary Qt behavior. Define `variant`, `size`, and `intent` consistently with `docs/project/GLOSSARY.md`/`docs/project/COMPONENT_CATALOG.md`. Invalid values fail early with actionable errors at component construction.
 - Theme install accepts the consumer-owned `QApplication`. Passing a non-QApplication or attempting installation after UI construction is documented as unsupported; reject clearly where detectable. `install_theme` must not silently construct or replace the QApplication.
@@ -33,6 +33,11 @@ Initial recommended stable exports (task agents may refine **method** details on
 from the initial inventory. It is a standalone `QToolButton` Component for short
 plain-text contextual explanations; it does not revise the historical v0.1 scope or
 change existing field constructors.
+
+`FolderPicker` is an implemented owner-approved post-v0.1 extension: a read-only
+path display plus a native directory dialog and one path-change signal. It does not
+validate or inspect the selected folder, and it does not revise the historical v0.1
+inventory.
 
 ## 4. Styling architecture
 

@@ -8,7 +8,7 @@ from pathlib import Path
 import pytest
 from PySide6.QtWidgets import QApplication, QHeaderView
 
-from alp_ui.components import Button, DataTable, Text, TextInput
+from alp_ui.components import Button, DataTable, FolderPicker, Text, TextInput
 from alp_ui.theme import ALPACA_LIGHT, install_theme
 from examples.consumer_app.main import build_window
 
@@ -24,11 +24,14 @@ def test_default_consumer_uses_normal_theme_and_natural_action_size(qapp: QAppli
 
     title = next(text for text in window.findChildren(Text) if text.role == "title")
     field = window.findChild(TextInput)
+    folder = window.findChild(FolderPicker)
     button = window.findChild(Button)
     table = window.findChild(DataTable)
     assert title.text() == "Items"
     assert field is not None
     assert field.control.minimumHeight() == 40
+    assert folder is not None
+    assert folder.folderPath() == ""
     assert button is not None
     assert button.width() == button.sizeHint().width()
     assert table is not None

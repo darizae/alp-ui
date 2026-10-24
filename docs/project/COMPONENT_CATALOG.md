@@ -21,18 +21,19 @@
 | `DataTable` | `QTableView` | Styled header, whole-row selection, muted state highlights, density-aware rows; accepts **external `QAbstractItemModel`** | No parallel Python list/table schema, business-level filters, or lazy filesystem discovery. |
 | `EmptyState` | QWidget composition | Text, optional illustration using Qt standard icon, optional consumer-supplied action widget | No automatic data fetching. |
 
-## Owner-approved post-v0.1 extension
+## Owner-approved post-v0.1 extensions
 
 | Component | Qt foundation | Public choices / behavior | Explicit non-responsibility |
 |---|---|---|---|
 | `HelpHint` | `QToolButton` | Required plain-text explanation, optional accessibility subject, native tooltip and What's This view, native clicked/focus/keyboard behavior | No field wrapping, tooltip manager, popup framework, help-content lookup, translations service, or domain behavior. |
+| `FolderPicker` | `QWidget` composition with read-only `QLineEdit`, `Button`, and native `QFileDialog` | Optional label, exact path `setFolderPath`/`folderPath`, and one `folderChanged(str)` signal for actual changes; Cancel preserves the prior selection | Does not resolve, validate, scan, persist, monitor, or interpret folder contents. |
 
 `TextInput`, `NumberInput`, and `SelectInput` may each use a small internal `FieldFrame`/label composition once **two real implementations** show meaningful shared behavior. Do not make an elaborate field framework in advance.
 
 ## Post-v0.1 candidates — outside initial release
 
 - `Plot` — authorized post-v0.1: native `QWidget`/`QPainter` presentation of ordered finite numeric line series or ordered categorical bars. It provides axes, a simple line legend, empty feedback, Theme alignment, and a text summary through native accessibility properties. It does not own scientific meaning, data collection, a model/view schema, timers, zoom/pan, selection, export, smoothing, multiple axes, waveforms, or spectrograms.
-- `IconButton` (only after icon design is satisfactory), `ButtonGroup` (Qt native group may suffice), `SearchInput` (likely `TextInput` composition), `Tabs`, `Sidebar`, `PageHeader`, `ConfirmDialog`, `FilePicker`, `FolderPicker`, `DropZone`, advanced date/range widgets, and toasts.
+- `IconButton` (only after icon design is satisfactory), `ButtonGroup` (Qt native group may suffice), `SearchInput` (likely `TextInput` composition), `Tabs`, `Sidebar`, `PageHeader`, `ConfirmDialog`, `FilePicker`, `DropZone`, advanced date/range widgets, and toasts.
 - The candidates after `Plot` are **backlog candidates, not authorized phase deliverables**. Promote one only after a consumer demonstrates need, it is specified, and a named task is approved. Native `QTabWidget`, `QFileDialog`, `QMessageBox`, etc. can already be used directly by consumers.
 - No chart adapters, third-party plotting dependencies, advanced charting, waveform, or spectrogram Components are authorized.
 

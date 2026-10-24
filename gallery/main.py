@@ -31,6 +31,7 @@ from alp_ui.components import (
     DataTable,
     Divider,
     EmptyState,
+    FolderPicker,
     HelpHint,
     NumberInput,
     Plot,
@@ -289,6 +290,7 @@ def build_window() -> QWidget:
     heading_help = HelpHint(
         "Groups controls that change how results are displayed.", subject="Display options"
     )
+    folder_picker = FolderPicker(label="Folder")
     field_layout.addWidget(text_input, 0, 0)
     field_layout.addWidget(invalid_input, 0, 1)
     field_layout.addWidget(masked_input, 1, 0)
@@ -304,11 +306,12 @@ def build_window() -> QWidget:
     field_layout.addWidget(
         _component_row(Text("Display options", role="subheading"), heading_help), 6, 1
     )
+    field_layout.addWidget(folder_picker, 7, 0, 1, 2)
     field_help_instructions = QLabel(
         "Contextual help: hover the ? button, or reach it with Tab and press Space."
     )
     field_help_instructions.setWordWrap(True)
-    field_layout.addWidget(field_help_instructions, 7, 0, 1, 2)
+    field_layout.addWidget(field_help_instructions, 8, 0, 1, 2)
     layout.addWidget(fields_group)
 
     feedback = _section("Feedback")

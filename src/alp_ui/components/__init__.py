@@ -6,6 +6,7 @@ from alp_ui.components.feedback import Alert, Badge, EmptyState, ProgressBar
 from alp_ui.components.help import HelpHint
 from alp_ui.components.inputs import (
     CheckBox,
+    FolderPicker,
     NumberInput,
     SelectInput,
     Switch,
@@ -24,6 +25,7 @@ __all__ = [
     "DataTable",
     "Divider",
     "EmptyState",
+    "FolderPicker",
     "HelpHint",
     "NumberInput",
     "Plot",

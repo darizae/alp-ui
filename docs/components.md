@@ -157,6 +157,30 @@ choice.currentIndexChanged.connect(on_choice_changed)
 choice.setModel(application_model)
 ```
 
+## FolderPicker
+
+Use `FolderPicker(parent=None, *, label="")` to display a selected local folder and
+let the user choose another one with the operating system's native directory dialog.
+It is a `QWidget` composition around a read-only `QLineEdit` in `control` and an
+outline `Choose folder` Button. `setFolderPath(path)` and `folderPath()` preserve the
+consumer-provided string exactly; an empty string means no selection. `folderChanged`
+emits that string only when it changes, whether set by the consumer or selected from
+the dialog. Cancel leaves the prior value untouched.
+
+The label is the path field's accessible name, and the full path is exposed through
+its accessible description and tooltip even when the field cannot show it all. The
+Component does not resolve, validate, read, scan, persist, or monitor a folder. React
+to `folderChanged` from consumer-owned application code.
+
+```python
+from alp_ui.components import FolderPicker
+
+folder = FolderPicker(label="Folder")
+folder.folderChanged.connect(scan_selected_folder)
+folder.setFolderPath("/Users/example/audio")
+selected_path = folder.folderPath()
+```
+
 ## CheckBox
 
 Use `CheckBox(text="", parent=None)` for an optional or multi-select choice. It directly

@@ -9,13 +9,14 @@ from PySide6.QtWidgets import (
     QCheckBox,
     QCompleter,
     QDoubleSpinBox,
+    QFileDialog,
     QLineEdit,
     QSpinBox,
     QVBoxLayout,
     QWidget,
 )
 
-from alp_ui.components import CheckBox, NumberInput, SelectInput, Switch, TextInput
+from alp_ui.components import CheckBox, FolderPicker, NumberInput, SelectInput, Switch, TextInput
 from alp_ui.theme import ALPACA_LIGHT, install_theme
 
 
@@ -83,6 +84,71 @@ def test_text_input_forwards_native_validation_mask_and_completion() -> None:
     field.setText("123456")
     assert field.inputMask() == "000-000;_"
     assert field.text() == "123-456"
+
+
+def test_folder_picker_preserves_paths_accessibility_and_change_signal() -> None:
+    picker = FolderPicker(label="&Folder")
+    changed = QSignalSpy(picker.folderChanged)
+    path = "C:\\Users\\Ada\\音楽\\a very long folder name"
+
+    assert isinstance(picker.control, QLineEdit)
+    assert picker.control.isReadOnly()
+    assert picker.control.parent() is picker
+    assert picker.choose_button.parent() is picker
+    assert picker.label_widget.buddy() is picker.control
+    assert picker.control.accessibleName() == "Folder"
+    assert picker.choose_button.accessibleName() == "Choose Folder"
+    assert picker.folderPath() == ""
+    assert FolderPicker().choose_button.accessibleName() == "Choose folder"
+
+    picker.setFolderPath(path)
+    picker.setFolderPath(path)
+
+    assert picker.folderPath() == path
+    assert picker.control.text() == path
+    assert picker.control.accessibleDescription() == path
+    assert picker.control.toolTip() == path
+    assert changed.count() == 1
+    assert changed.at(0) == [path]
+
+
+def test_folder_picker_uses_native_dialog_and_keeps_path_on_cancel(qtbot, monkeypatch) -> None:
+    picker = FolderPicker(label="Folder")
+    qtbot.addWidget(picker)
+    picker.show()
+    selected = "/tmp/selected folder"
+    calls: list[tuple[object, ...]] = []
+
+    def choose_directory(*args):
+        calls.append(args)
+        return selected
+
+    monkeypatch.setattr(QFileDialog, "getExistingDirectory", choose_directory)
+    changed = QSignalSpy(picker.folderChanged)
+    picker.choose_button.setFocus()
+    picker.activateWindow()
+    qtbot.waitUntil(picker.choose_button.hasFocus)
+    qtbot.keyClick(picker.choose_button, Qt.Key.Key_Return)
+
+    assert calls
+    assert calls[0][0] is picker
+    assert calls[0][3] == QFileDialog.Option.ShowDirsOnly
+    assert picker.folderPath() == selected
+    assert changed.count() == 1
+
+    picker.choose_button.click()
+    assert picker.folderPath() == selected
+    assert changed.count() == 1
+    assert calls[1][2] == selected
+
+    monkeypatch.setattr(QFileDialog, "getExistingDirectory", lambda *_: "")
+    picker.choose_button.click()
+    assert picker.folderPath() == selected
+    assert changed.count() == 1
+
+    picker.choose_button.setEnabled(False)
+    picker.choose_button.click()
+    assert picker.folderPath() == selected
 
 
 def test_number_input_uses_native_type_specific_controls(qtbot) -> None:
