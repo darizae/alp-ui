@@ -7,9 +7,9 @@ import sys
 from dataclasses import replace
 
 from PySide6.QtCore import QAbstractTableModel, QModelIndex, Qt, QTimer
-from PySide6.QtWidgets import QApplication, QVBoxLayout, QWidget
+from PySide6.QtWidgets import QApplication, QHBoxLayout, QHeaderView, QVBoxLayout, QWidget
 
-from alp_ui.components import Badge, Button, DataTable, TextInput
+from alp_ui.components import Badge, Button, DataTable, Text, TextInput
 from alp_ui.theme import ALPACA_LIGHT, install_theme
 
 
@@ -46,14 +46,20 @@ def build_window() -> QWidget:
     window = QWidget()
     window.setWindowTitle("alp-ui consumer")
     window.setAccessibleName("Installed wheel consumer example")
-    window.resize(520, 420)
+    window.resize(600, 480)
 
     layout = QVBoxLayout(window)
+    layout.setContentsMargins(24, 24, 24, 24)
+    layout.setSpacing(16)
+    layout.addWidget(Text("Items", role="title"))
+    layout.addWidget(Text("Public Components in an ordinary Qt layout.", role="caption"))
+
     name = TextInput(label="Name", placeholder="Enter a name")
     status = Badge("Ready", intent="success")
     save = Button("Save")
     table = DataTable(model=ExampleModel(window))
     table.setAccessibleName("Example items")
+    table.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeMode.Stretch)
 
     def save_name() -> None:
         status.setText(f"Saved {name.text()}")
@@ -63,8 +69,14 @@ def build_window() -> QWidget:
     save.clicked.connect(save_name)
     save.setEnabled(False)
 
-    for widget in (name, status, save, table):
-        layout.addWidget(widget)
+    actions = QHBoxLayout()
+    actions.setSpacing(12)
+    actions.addWidget(status)
+    actions.addStretch()
+    actions.addWidget(save)
+    layout.addWidget(name)
+    layout.addLayout(actions)
+    layout.addWidget(table, 1)
     return window
 
 

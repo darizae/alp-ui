@@ -39,6 +39,9 @@ from alp_ui.components import (
 )
 from alp_ui.theme import ALPACA_LIGHT, install_theme, make_icon
 
+_BUTTON_VARIANTS = ("primary", "secondary", "outline", "danger")
+_FEEDBACK_INTENTS = ("neutral", "info", "success", "warning", "danger")
+
 
 class _GalleryTableModel(QAbstractTableModel):
     """Computed demo records that do not allocate a second 10,000-row collection."""
@@ -101,6 +104,7 @@ def _section(title: str) -> QGroupBox:
 
     theme = ALPACA_LIGHT
     section = QGroupBox(title)
+    section.setObjectName(f"gallery{title}")
     # Local QSS is required because QMacStyle ignores QPalette for QGroupBox fills.
     section.setStyleSheet(
         f"""
@@ -121,6 +125,19 @@ def _section(title: str) -> QGroupBox:
     return section
 
 
+def _component_row(*widgets: QWidget) -> QWidget:
+    """Lay out examples at their native size instead of stretching a grid column."""
+
+    row = QWidget()
+    layout = QHBoxLayout(row)
+    layout.setContentsMargins(0, 0, 0, 0)
+    layout.setSpacing(ALPACA_LIGHT.spacing.medium)
+    for widget in widgets:
+        layout.addWidget(widget, 0, Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignVCenter)
+    layout.addStretch()
+    return row
+
+
 def build_window() -> QWidget:
     theme = ALPACA_LIGHT
     window = QWidget()
@@ -133,14 +150,7 @@ def build_window() -> QWidget:
     layout.setContentsMargins(*(theme.spacing.xlarge,) * 4)
     layout.setSpacing(theme.spacing.large)
 
-    heading = QLabel("Alpaca Light")
-    heading.setFont(
-        _font(
-            theme.typography.body_family,
-            theme.typography.heading_size,
-            theme.typography.heading_weight,
-        )
-    )
+    heading = Text("Alpaca Light", role="title")
     heading.setAccessibleName("Theme heading")
     layout.addWidget(heading)
     layout.addWidget(QLabel("Alpaca palette · native Qt behavior · consistent desktop components."))
@@ -180,20 +190,30 @@ def build_window() -> QWidget:
     layout.addWidget(typography)
 
     actions = _section("Actions")
-    action_layout = QGridLayout(actions)
-    for column, variant in enumerate(("primary", "secondary", "outline", "danger")):
-        action_layout.addWidget(Button(variant.title(), variant=variant), 0, column)
+    action_layout = QVBoxLayout(actions)
+    action_layout.setSpacing(theme.spacing.medium)
+    action_layout.addWidget(Text("Variants", role="overline"))
+    action_layout.addWidget(
+        _component_row(*(Button(variant.title(), variant=variant) for variant in _BUTTON_VARIANTS))
+    )
+    action_layout.addWidget(Text("Sizes", role="overline"))
+    action_layout.addWidget(
+        _component_row(
+            Button("Small", size="small"),
+            Button("Medium", size="medium"),
+            Button("Large", size="large"),
+        )
+    )
     disabled = Button("Disabled")
     disabled.setEnabled(False)
-    action_layout.addWidget(Button("Small", size="small"), 1, 0)
-    action_layout.addWidget(Button("Medium", size="medium"), 1, 1)
-    action_layout.addWidget(Button("Large", size="large"), 1, 2)
-    action_layout.addWidget(disabled, 2, 0)
-    action_layout.addWidget(Button("Load", loading=True), 2, 1)
+    action_layout.addWidget(Text("States", role="overline"))
+    action_layout.addWidget(_component_row(disabled, Button("Load", loading=True)))
+    action_layout.addWidget(Text("Native comparison", role="overline"))
     native_button = QPushButton("Native QPushButton")
     native_button.setObjectName("nativeButtonComparison")
-    action_layout.addWidget(native_button, 3, 0, 1, 2)
-    action_layout.addWidget(Button("Styled Button", variant="outline"), 3, 2, 1, 2)
+    action_layout.addWidget(
+        _component_row(native_button, Button("Styled Button", variant="outline"))
+    )
     layout.addWidget(actions)
 
     surfaces = _section("Surfaces")
@@ -267,10 +287,9 @@ def build_window() -> QWidget:
 
     feedback = _section("Feedback")
     feedback_layout = QVBoxLayout(feedback)
-    badge_layout = QGridLayout()
-    for column, intent in enumerate(("neutral", "info", "success", "warning", "danger")):
-        badge_layout.addWidget(Badge(intent.title(), intent=intent), 0, column)
-    feedback_layout.addLayout(badge_layout)
+    feedback_layout.addWidget(
+        _component_row(*(Badge(intent.title(), intent=intent) for intent in _FEEDBACK_INTENTS))
+    )
     for intent in ("neutral", "info", "success", "warning", "danger"):
         feedback_layout.addWidget(
             Alert(

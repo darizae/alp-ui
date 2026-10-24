@@ -160,7 +160,6 @@ def build_showcase() -> QWidget:
     section_title.addWidget(Text("Edit your defaults", role="caption"))
     outer.addLayout(section_title)
     form = Card(shadow=False)
-    form.content_layout.setSpacing(14)
     fields = QHBoxLayout()
     fields.setSpacing(16)
     title = TextInput(label="Workspace name", text="My workspace", placeholder="Enter a name")

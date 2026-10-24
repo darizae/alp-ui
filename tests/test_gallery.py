@@ -55,6 +55,13 @@ def test_theme_gallery_builds_with_keyboard_controls(qapp: QApplication) -> None
     assert {button.component_size for button in buttons} == {"small", "medium", "large"}
     assert any(not button.isEnabled() for button in buttons)
     assert any(button.isLoading() for button in window.findChildren(Button))
+    actions = window.findChild(QGroupBox, "galleryActions")
+    assert actions is not None
+    window.show()
+    qapp.processEvents()
+    assert all(
+        button.width() == button.sizeHint().width() for button in actions.findChildren(Button)
+    )
     assert window.findChild(QPushButton, "nativeButtonComparison") is not None
     assert {text.role for text in window.findChildren(Text)} == {
         "title",
