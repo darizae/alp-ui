@@ -70,6 +70,11 @@ Parenting, enabled state, focus, tooltips, and native signals continue to work n
 Use the Component's documented options for its reusable visual choices and inherited
 Qt methods for ordinary widget behavior.
 
+Qt layouts still decide how space is distributed. Put actions in an aligned horizontal
+row when they should keep their natural width; let fields, Cards, and DataTables expand
+when they should fill the available content area. No consumer stylesheet is required
+for either composition.
+
 ## Think in semantic choices
 
 Visual APIs describe meaning rather than colors. A Button uses variants such as

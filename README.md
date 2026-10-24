@@ -46,6 +46,7 @@ constructing the main window.
 ## A small application
 
 ```python
+from PySide6.QtCore import Qt
 from PySide6.QtWidgets import QApplication, QVBoxLayout, QWidget
 
 from alp_ui.components import Badge, Button, TextInput
@@ -57,6 +58,8 @@ install_theme(app)
 window = QWidget()
 window.setWindowTitle("Example")
 layout = QVBoxLayout(window)
+layout.setContentsMargins(24, 24, 24, 24)
+layout.setSpacing(16)
 
 name = TextInput(label="Name", placeholder="Ada Lovelace")
 status = Badge("Ready", intent="success")
@@ -65,7 +68,7 @@ save.clicked.connect(name.clear)
 
 layout.addWidget(name)
 layout.addWidget(status)
-layout.addWidget(save)
+layout.addWidget(save, 0, Qt.AlignmentFlag.AlignLeft)
 window.show()
 
 app.exec()
@@ -104,16 +107,27 @@ Sidebar component.
 These PNGs were rendered from the current PySide6 Widgets implementation on macOS;
 they are not browser mockups.
 
+Regenerate the full set from the actual Qt widgets with:
+
+```bash
+.venv/bin/python -m gallery.capture
+```
+
 <img src="docs/images/showcase.png" alt="Compact composed application Showcase using the library's Components" width="100%">
 
 <p>
-  <img src="docs/images/gallery-actions.png" alt="Button variants, Cards, and an invalid text field in the native Qt Gallery" width="49%">
+  <img src="docs/images/gallery-actions.png" alt="Natural-width Button variants and Card surfaces in the native Qt Gallery" width="49%">
   <img src="docs/images/gallery-fields.png" alt="Native Qt fields, checkbox, switch, badges, and Alerts in the Gallery" width="49%">
 </p>
 <p>
   <img src="docs/images/gallery-feedback.png" alt="Feedback intent components and a progress bar in the Gallery" width="49%">
   <img src="docs/images/gallery-data.png" alt="10,000-row and empty caller-owned table models in the Gallery" width="49%">
 </p>
+
+This minimal consumer uses the normal `install_theme(app)` defaults and ordinary Qt
+layouts, with no consumer stylesheet or density override:
+
+<img src="docs/images/consumer-default.png" alt="Minimal standard-density consumer using public alp-ui Components" width="600">
 
 ## Brand assets
 

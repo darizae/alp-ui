@@ -41,6 +41,12 @@ while reducing controls and surface padding:
 Density is chosen at startup. Existing components do not support runtime re-theming;
 reinstalling Theme after constructing widgets is not guaranteed to update them.
 
+Both choices use the same colors, type hierarchy, radii, and interaction states.
+`standard` is the roomier general-purpose default; `compact` is intended for denser
+application screens such as the Showcase. The Component Gallery deliberately uses
+`standard` at representative size hints so the default Theme is evaluated directly,
+not hidden behind the compact option.
+
 ## Shared interaction colors
 
 `theme.appearance.interactions(theme)` derives a single set of hover, pressed,
@@ -93,3 +99,6 @@ Fonts or replace the native `QStyle` object.
 Run `python -m gallery.main` for the Component catalog and
 `python -m gallery.showcase` for an application-like composition. Native rendering
 can vary by operating system and display scale.
+
+Run `python -m gallery.capture` from a checkout to regenerate the committed Gallery,
+Showcase, and standard-density consumer images from `QWidget.grab()`.

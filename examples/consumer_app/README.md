@@ -1,8 +1,9 @@
 # Installed-wheel consumer
 
 This example uses only the public wheel API. It creates the one `QApplication`,
-installs the Theme, composes four Components in a native Qt layout, supplies its own
-`QAbstractTableModel`, and handles native signals.
+installs the default Theme, composes public Components in native Qt layouts, supplies
+its own `QAbstractTableModel`, and handles native signals. It does not set a consumer
+stylesheet or select compact density.
 
 Build the distributions, create a fresh virtual environment outside this repository,
 and install the wheel:
@@ -25,3 +26,10 @@ Use `--smoke` with either command for an automated open-and-clean-shutdown check
 Windows, use the environment's `Scripts\python.exe` path instead of `bin/python` and
 place the virtual environment outside the repository in any suitable temporary
 directory.
+
+The committed default rendering is `docs/images/consumer-default.png`. From a source
+checkout, regenerate it together with the Gallery and Showcase images using:
+
+```bash
+.venv/bin/python -m gallery.capture
+```

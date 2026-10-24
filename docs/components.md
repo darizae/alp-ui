@@ -25,6 +25,10 @@ save.clicked.connect(save_document)
 save.setLoading(True)
 ```
 
+Button provides a natural size hint, but ordinary Qt layouts remain authoritative: a
+grid column can stretch it, while an aligned row keeps it content-sized. The Gallery
+uses aligned rows so variants and sizes are shown representatively.
+
 ## Text
 
 Use `Text` for styled interface copy. `Text(text, parent=None, *, role="body",
@@ -252,6 +256,10 @@ keyboard focus, and empty or large-model table without a backend:
 ```bash
 python -m gallery.main
 ```
+
+The Gallery uses the default `standard` density and ordinary Qt layouts. Its action
+and feedback examples keep their natural size; fields, Cards, Alerts, progress bars,
+and DataTables expand where width communicates their real layout behavior.
 
 ## Density and interaction
 
