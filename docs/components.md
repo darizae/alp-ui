@@ -73,6 +73,35 @@ horizontal = Divider()
 vertical = Divider(Qt.Vertical)
 ```
 
+## HelpHint
+
+Use `HelpHint(help_text, parent=None, *, subject="")` for a short explanation that
+the consumer places beside its own field label or section heading. It subclasses
+`QToolButton`, preserves native `clicked`, focus, enabled-state, and parent APIs, and
+adds `setHelpText(help_text)`. Explanations must be non-empty plain text; `subject`
+sets an action-oriented accessible name such as “More about Items per page”. The
+accessible description always contains the explanation, including when the native
+tooltip or What's This view is closed.
+
+Hovering reveals the native tooltip. Tab to the button and use Space to open Qt's native
+What's This view; Return follows the platform's native `QToolButton` behavior. Escape
+dismisses that view. The consumer owns placement and label buddies, so existing input
+focus behavior remains intact.
+
+```python
+from PySide6.QtWidgets import QHBoxLayout, QLabel, QWidget
+from alp_ui.components import HelpHint, NumberInput
+
+row = QWidget()
+layout = QHBoxLayout(row)
+label = QLabel("&Items per page")
+field = NumberInput(kind="integer", value=25, label="")
+label.setBuddy(field.control)
+layout.addWidget(label)
+layout.addWidget(HelpHint("Sets how many items appear on each page.", subject="Items per page"))
+layout.addWidget(field)
+```
+
 ## TextInput
 
 Use `TextInput(text="", parent=None, *, label="", description="", error="",

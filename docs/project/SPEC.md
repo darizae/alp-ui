@@ -29,6 +29,11 @@ Initial recommended stable exports (task agents may refine **method** details on
 - Default theme may be used for component preview when not installed but **normal documented consumer path requires startup installation**. Avoid global singleton registries unless there is a demonstrated consumer need.
 - Public APIs must be explainable and reasonably typed. Preserve Qt signals/slots and `QObject` parenting. No async framework dependency.
 
+`HelpHint` is an explicitly owner-approved post-v0.1 extension, delivered separately
+from the initial inventory. It is a standalone `QToolButton` Component for short
+plain-text contextual explanations; it does not revise the historical v0.1 scope or
+change existing field constructors.
+
 ## 4. Styling architecture
 
 `Theme` maps semantic visual values to `QPalette` roles, `QFont` choices, and minimal narrowly-scoped Qt styling. Components should use Qt native `QStyle` rendering when possible, with a tiny `QProxyStyle` adapter only for measured differences; any special painting delegates must follow Qt focus, disabled, and high-DPI behavior. A one-time local QSS override is allowed only if documented in source as an exception with behavior tests. Never install a large global stylesheet.

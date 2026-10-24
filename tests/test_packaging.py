@@ -29,6 +29,7 @@ PACKAGE_FILES = {
     "alp_ui/components/actions.py",
     "alp_ui/components/data.py",
     "alp_ui/components/feedback.py",
+    "alp_ui/components/help.py",
     "alp_ui/components/inputs.py",
     "alp_ui/components/plots.py",
     "alp_ui/components/surfaces.py",
