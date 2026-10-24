@@ -17,6 +17,7 @@ from PySide6.QtWidgets import (
     QLabel,
     QPushButton,
     QScrollArea,
+    QSizePolicy,
     QVBoxLayout,
     QWidget,
 )
@@ -287,9 +288,20 @@ def build_window() -> QWidget:
 
     feedback = _section("Feedback")
     feedback_layout = QVBoxLayout(feedback)
-    feedback_layout.addWidget(
-        _component_row(*(Badge(intent.title(), intent=intent) for intent in _FEEDBACK_INTENTS))
-    )
+    badges = QWidget()
+    badges.setSizePolicy(QSizePolicy.Policy.Maximum, QSizePolicy.Policy.Preferred)
+    badge_layout = QGridLayout(badges)
+    badge_layout.setContentsMargins(0, 0, 0, 0)
+    badge_layout.setHorizontalSpacing(theme.spacing.medium)
+    badge_layout.setVerticalSpacing(theme.spacing.small)
+    for index, intent in enumerate(_FEEDBACK_INTENTS):
+        badge_layout.addWidget(
+            Badge(intent.title(), intent=intent),
+            index // 3,
+            index % 3,
+            Qt.AlignmentFlag.AlignLeft,
+        )
+    feedback_layout.addWidget(badges, 0, Qt.AlignmentFlag.AlignLeft)
     for intent in ("neutral", "info", "success", "warning", "danger"):
         feedback_layout.addWidget(
             Alert(
@@ -340,6 +352,7 @@ def build_window() -> QWidget:
 
     scroll = QScrollArea(window)
     scroll.setWidgetResizable(True)
+    scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
     scroll.setWidget(content)
     window_layout = QVBoxLayout(window)
     window_layout.setContentsMargins(0, 0, 0, 0)

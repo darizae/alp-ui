@@ -4,7 +4,14 @@ from pathlib import Path
 
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QAccessible
-from PySide6.QtWidgets import QApplication, QGroupBox, QLabel, QLineEdit, QPushButton
+from PySide6.QtWidgets import (
+    QApplication,
+    QGroupBox,
+    QLabel,
+    QLineEdit,
+    QPushButton,
+    QScrollArea,
+)
 
 from alp_ui import components
 from alp_ui.components import (
@@ -136,4 +143,19 @@ def test_gallery_interactive_controls_are_named_and_focusable(qapp: QApplication
         if control.isEnabled():
             assert control.focusPolicy() != Qt.FocusPolicy.NoFocus
 
+    window.close()
+
+
+def test_gallery_keeps_narrow_catalog_free_of_horizontal_scrolling(qapp: QApplication) -> None:
+    install_theme(qapp)
+    window = build_window()
+    window.resize(480, 620)
+    window.show()
+    qapp.processEvents()
+
+    scroll = window.findChild(QScrollArea)
+    assert scroll is not None
+    assert scroll.horizontalScrollBarPolicy() == Qt.ScrollBarPolicy.ScrollBarAlwaysOff
+    assert not scroll.horizontalScrollBar().isVisible()
+    assert scroll.widget().minimumSizeHint().width() <= window.width()
     window.close()
