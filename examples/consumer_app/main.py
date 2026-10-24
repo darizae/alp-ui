@@ -9,7 +9,7 @@ from dataclasses import replace
 from PySide6.QtCore import QAbstractTableModel, QModelIndex, Qt, QTimer
 from PySide6.QtWidgets import QApplication, QHBoxLayout, QHeaderView, QVBoxLayout, QWidget
 
-from alp_ui.components import Badge, Button, DataTable, Text, TextInput
+from alp_ui.components import Badge, Button, DataTable, FolderPicker, Text, TextInput
 from alp_ui.theme import ALPACA_LIGHT, install_theme
 
 
@@ -55,6 +55,7 @@ def build_window() -> QWidget:
     layout.addWidget(Text("Public Components in an ordinary Qt layout.", role="caption"))
 
     name = TextInput(label="Name", placeholder="Enter a name")
+    folder = FolderPicker(label="Folder")
     status = Badge("Ready", intent="success")
     save = Button("Save")
     table = DataTable(model=ExampleModel(window))
@@ -75,6 +76,7 @@ def build_window() -> QWidget:
     actions.addStretch()
     actions.addWidget(save)
     layout.addWidget(name)
+    layout.addWidget(folder)
     layout.addLayout(actions)
     layout.addWidget(table, 1)
     return window

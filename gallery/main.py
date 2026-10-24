@@ -31,6 +31,7 @@ from alp_ui.components import (
     DataTable,
     Divider,
     EmptyState,
+    FolderPicker,
     NumberInput,
     ProgressBar,
     SelectInput,
@@ -273,6 +274,7 @@ def build_window() -> QWidget:
     enabled_switch.setChecked(True)
     disabled_switch = Switch("Disabled setting")
     disabled_switch.setEnabled(False)
+    folder_picker = FolderPicker(label="Folder")
     field_layout.addWidget(text_input, 0, 0)
     field_layout.addWidget(invalid_input, 0, 1)
     field_layout.addWidget(masked_input, 1, 0)
@@ -284,6 +286,7 @@ def build_window() -> QWidget:
     field_layout.addWidget(enabled_switch, 4, 0)
     field_layout.addWidget(Switch("Setting off"), 4, 1)
     field_layout.addWidget(disabled_switch, 5, 0)
+    field_layout.addWidget(folder_picker, 6, 0, 1, 2)
     layout.addWidget(fields_group)
 
     feedback = _section("Feedback")

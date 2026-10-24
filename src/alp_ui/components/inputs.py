@@ -5,7 +5,7 @@ from __future__ import annotations
 from collections.abc import Iterable
 from typing import Literal
 
-from PySide6.QtCore import QAbstractItemModel, QPointF, QRectF, QSize, Qt
+from PySide6.QtCore import QAbstractItemModel, QPointF, QRectF, QSize, Qt, Signal
 from PySide6.QtGui import (
     QColor,
     QFont,
@@ -20,6 +20,8 @@ from PySide6.QtWidgets import (
     QComboBox,
     QCompleter,
     QDoubleSpinBox,
+    QFileDialog,
+    QHBoxLayout,
     QLabel,
     QLineEdit,
     QSpinBox,
@@ -30,6 +32,7 @@ from PySide6.QtWidgets import (
     QWidget,
 )
 
+from alp_ui.components.actions import Button
 from alp_ui.theme.appearance import density_metrics, interactions
 from alp_ui.theme.install import _current_theme
 
@@ -369,6 +372,94 @@ class TextInput(_Field):
 
     def setReadOnly(self, read_only: bool) -> None:
         self.control.setReadOnly(read_only)
+
+
+class FolderPicker(QWidget):
+    """Read-only folder path display with a native directory selection dialog."""
+
+    folderChanged = Signal(str)
+
+    def __init__(
+        self,
+        parent: QWidget | None = None,
+        *,
+        label: str = "",
+    ) -> None:
+        super().__init__(parent)
+        self._folder_path = ""
+        self.label_widget = QLabel(self)
+        self.control = QLineEdit(self)
+        self.choose_button = Button("Choose folder", self, variant="outline")
+        self.choose_button.setAutoDefault(True)
+
+        self.control.setReadOnly(True)
+        _style_control(self.control, "QLineEdit")
+
+        layout = QVBoxLayout(self)
+        layout.setContentsMargins(0, 0, 0, 0)
+        layout.setSpacing(_current_theme().spacing.xsmall)
+        layout.addWidget(self.label_widget)
+        row = QHBoxLayout()
+        row.setContentsMargins(0, 0, 0, 0)
+        row.setSpacing(_current_theme().spacing.small)
+        row.addWidget(self.control, 1)
+        row.addWidget(self.choose_button)
+        layout.addLayout(row)
+
+        self.setLabelText(label)
+        self._update_path_accessibility()
+        self.setFocusProxy(self.choose_button)
+        self.choose_button.clicked.connect(self._choose_folder)
+
+    def labelText(self) -> str:
+        """Return the visible label."""
+
+        return self.label_widget.text()
+
+    def setLabelText(self, text: str) -> None:
+        """Set the visible label and associated accessible names."""
+
+        self.label_widget.setText(text)
+        self.label_widget.setVisible(bool(text))
+        self.label_widget.setBuddy(self.control)
+        accessible_label = _plain_label_text(text) or "Folder"
+        self.setAccessibleName(accessible_label)
+        self.control.setAccessibleName(accessible_label)
+        self.choose_button.setAccessibleName(
+            f"Choose {accessible_label}" if text else "Choose folder"
+        )
+
+    def folderPath(self) -> str:
+        """Return the selected path, or an empty string when none is selected."""
+
+        return self._folder_path
+
+    def setFolderPath(self, path: str) -> None:
+        """Set the selected path without resolving, validating, or reading it."""
+
+        if not isinstance(path, str):
+            raise TypeError("path must be a str")
+        if path == self._folder_path:
+            return
+        self._folder_path = path
+        self.control.setText(path)
+        self._update_path_accessibility()
+        self.folderChanged.emit(path)
+
+    def _choose_folder(self) -> None:
+        path = QFileDialog.getExistingDirectory(
+            self,
+            "Choose folder",
+            self._folder_path,
+            QFileDialog.Option.ShowDirsOnly,
+        )
+        if path:
+            self.setFolderPath(path)
+
+    def _update_path_accessibility(self) -> None:
+        description = self._folder_path or "No folder selected"
+        self.control.setAccessibleDescription(description)
+        self.control.setToolTip(self._folder_path)
 
 
 class NumberInput(_Field):

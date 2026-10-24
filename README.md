@@ -20,8 +20,8 @@ small reusable interactions; your application owns its data and work.
 
 - **Actions:** Button variants and a caller-controlled loading presentation.
 - **Typography and surfaces:** Text roles, Cards, and Dividers.
-- **Forms:** Text, number, select, checkbox, and switch Components built on native Qt
-  controls.
+- **Forms:** Text, number, select, checkbox, switch, and native folder-selection
+  Components built on Qt controls.
 - **Feedback:** Badges, Alerts, Progress Bars, and Empty States using semantic intent.
 - **Data:** A styled DataTable that consumes your `QAbstractItemModel` directly.
 - **Theme:** Alpaca Light, with typed semantic tokens, shared state colors, density,
@@ -49,7 +49,7 @@ constructing the main window.
 from PySide6.QtCore import Qt
 from PySide6.QtWidgets import QApplication, QVBoxLayout, QWidget
 
-from alp_ui.components import Badge, Button, TextInput
+from alp_ui.components import Badge, Button, FolderPicker, TextInput
 from alp_ui.theme import install_theme
 
 app = QApplication([])
@@ -62,11 +62,13 @@ layout.setContentsMargins(24, 24, 24, 24)
 layout.setSpacing(16)
 
 name = TextInput(label="Name", placeholder="Ada Lovelace")
+folder = FolderPicker(label="Folder")
 status = Badge("Ready", intent="success")
 save = Button("Save", variant="primary")
 save.clicked.connect(name.clear)
 
 layout.addWidget(name)
+layout.addWidget(folder)
 layout.addWidget(status)
 layout.addWidget(save, 0, Qt.AlignmentFlag.AlignLeft)
 window.show()

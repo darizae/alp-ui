@@ -23,9 +23,15 @@
 
 `TextInput`, `NumberInput`, and `SelectInput` may each use a small internal `FieldFrame`/label composition once **two real implementations** show meaningful shared behavior. Do not make an elaborate field framework in advance.
 
+## Owner-approved post-v0.1 extension
+
+| Component | Qt foundation | Public choices / behavior | Explicit non-responsibility |
+|---|---|---|---|
+| `FolderPicker` | `QWidget` composition with read-only `QLineEdit`, `Button`, and native `QFileDialog` | Optional label, exact path `setFolderPath`/`folderPath`, and one `folderChanged(str)` signal for actual changes; Cancel preserves the prior selection | Does not resolve, validate, scan, persist, monitor, or interpret folder contents. |
+
 ## Post-v0.1 candidates — outside initial release
 
-- `IconButton` (only after icon design is satisfactory), `ButtonGroup` (Qt native group may suffice), `SearchInput` (likely `TextInput` composition), `Tabs`, `Sidebar`, `PageHeader`, `ConfirmDialog`, `FilePicker`, `FolderPicker`, `DropZone`, advanced date/range widgets, and toasts.
+- `IconButton` (only after icon design is satisfactory), `ButtonGroup` (Qt native group may suffice), `SearchInput` (likely `TextInput` composition), `Tabs`, `Sidebar`, `PageHeader`, `ConfirmDialog`, `FilePicker`, `DropZone`, advanced date/range widgets, and toasts.
 - These are **backlog candidates, not authorized phase deliverables**. Promote an item only after a consumer demonstrates need, it is specified, and a named task is approved. Native `QTabWidget`, `QFileDialog`, `QMessageBox`, etc. can already be used directly by consumers.
 - **No plots or chart adapters in any phase.**
 
