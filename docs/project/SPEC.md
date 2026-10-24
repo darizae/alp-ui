@@ -6,7 +6,7 @@
 
 A consumer application should install a wheel, import components by stable names, apply a Theme once to its `QApplication`, add Components to ordinary Qt layouts, connect Qt signals, and supply Qt data models. It must not know how widgets are painted internally.
 
-No page routing framework, domain data, job execution, network calls, window manager, persistence, render-to-HTML, PyQt bindings, Qt Quick/QML, dark mode, runtime theme switching, plots, or charting. Do not wrap every native Qt Widget preemptively.
+No page routing framework, domain data, job execution, network calls, window manager, persistence, render-to-HTML, PyQt bindings, Qt Quick/QML, dark mode, or runtime theme switching. The initial v0.1 scope excluded plots and charting; the owner-approved post-v0.1 `Plot` extension is limited to native-painted read-only numeric lines and categorical bars. Do not wrap every native Qt Widget preemptively.
 
 ## 2. Supported runtime and dependency policy
 
@@ -22,6 +22,7 @@ Initial recommended stable exports (task agents may refine **method** details on
 
 - `alp_ui.theme`: `Theme`, `ALPACA_LIGHT`, `install_theme(app, theme=ALPACA_LIGHT)`.
 - `alp_ui.components`: `Button`, `Text`, `Card`, `Divider`, `TextInput`, `NumberInput`, `SelectInput`, `CheckBox`, `Switch`, `Badge`, `Alert`, `ProgressBar`, `DataTable`, `EmptyState`.
+- Post-v0.1: `Plot`, a `QWidget` with `kind="line"` or `kind="bar"`; consumer-owned finite numeric data is supplied through documented setters. It renders presentation only and does not provide a chart model, analytics, or update controller.
 - Class names are public, QWidget-compatible; no private Qt shims required by consumers. Fine-grained submodule imports also work and have no surprise side effects.
 - Use typed constructors or a documented bounded set of setters; rely on inherited methods for ordinary Qt behavior. Define `variant`, `size`, and `intent` consistently with `docs/project/GLOSSARY.md`/`docs/project/COMPONENT_CATALOG.md`. Invalid values fail early with actionable errors at component construction.
 - Theme install accepts the consumer-owned `QApplication`. Passing a non-QApplication or attempting installation after UI construction is documented as unsupported; reject clearly where detectable. `install_theme` must not silently construct or replace the QApplication.
@@ -46,6 +47,13 @@ Font resources must use explicit offline loading (`QFontDatabase` or appropriate
 
 **Feedback:** `Badge`/`Alert` consume semantic `intent`, not product status enums. `ProgressBar` displays a value or native indefinite state; never owns a background worker.
 
+**Plot:** `Plot` accepts ordered line-series points or ordered category/value pairs and
+renders them with native `QPainter`. It preserves caller ordering, validates finite
+numeric data at its setters, and redraws only through normal Qt updates. Consumers own
+data generation, cadence, interpretation, and a readable numeric alternative; Plot
+does not offer zooming, selection, export, smoothing, multiple axes, or chart data
+models.
+
 ## 6. Quality, accessibility, and supported behavior
 
 - All components render with gallery examples and tests of normal, focused, disabled, invalid, and relevant hover/pressed states.
@@ -65,12 +73,12 @@ All delegated tasks in `docs/project/IMPLEMENTATION_PLAN.md` complete, `docs/pro
 
 ## 9. Open implementation choices (not permission to change decisions)
 
-The implementation agent may select a standard build backend, formatter/type checker, internal file splits, and unit-test utilities. It may determine whether a certain native widget requires `QProxyStyle`, a local QSS adjustment, or a small composition **inside the locked styling architecture**. It may also derive exact focus/disabled colors from existing tokens, provided they are centralized and tested for legibility. Any change adding dependencies, dynamic theme switching, dark mode, new public components, GPL-only modules, or plots requires a decision change first.
+The implementation agent may select a standard build backend, formatter/type checker, internal file splits, and unit-test utilities. It may determine whether a certain native widget requires `QProxyStyle`, a local QSS adjustment, or a small composition **inside the locked styling architecture**. It may also derive exact focus/disabled colors from existing tokens, provided they are centralized and tested for legibility. Any change adding dependencies, dynamic theme switching, dark mode, public components beyond the owner-approved post-v0.1 `Plot`, GPL-only modules, or charting beyond the approved line/bar scope requires a decision change first.
 
 ## Approved visual refinement (2026-10-18)
 
-The user requested refinement of the existing release candidate without plotting,
-a new framework, or additional reusable navigation components. Implement shared
+The user requested refinement of the existing release candidate before the later Plot
+amendment, without a new framework or additional reusable navigation components. Implement shared
 control styling and density, quiet action/surface hierarchy, differentiated text
 roles, original stroke icons, and one composed real-world Showcase. The existing
 Alpaca semantic color palette, Qt Widgets foundation, licensing, and data ownership

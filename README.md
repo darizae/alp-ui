@@ -23,7 +23,9 @@ small reusable interactions; your application owns its data and work.
 - **Forms:** Text, number, select, checkbox, and switch Components built on native Qt
   controls.
 - **Feedback:** Badges, Alerts, Progress Bars, and Empty States using semantic intent.
-- **Data:** A styled DataTable that consumes your `QAbstractItemModel` directly.
+- **Data and plots:** A styled DataTable that consumes your `QAbstractItemModel`
+  directly, plus a lightweight native `Plot` for numeric line and categorical bar
+  presentation.
 - **Theme:** Alpaca Light, with typed semantic tokens, shared state colors, density,
   and additional typography roles.
 
@@ -152,8 +154,10 @@ inverse lockups, wordmarks, on-background composites, and downscaled app icons
 - Alpaca Light is the only included Theme; runtime Theme switching is unsupported.
 - Windows x86-64 is the release qualification target. The current candidate still
   requires its final Windows DPI, keyboard, and Narrator review.
-- There are deliberately no plots, web views, Qt Quick controls, domain models,
-  persistence, networking, or background-job abstractions.
+- The owner-approved post-v0.1 `Plot` Component provides only native-painted numeric
+  line and categorical bar presentation. There are no charting dependencies, web
+  views, Qt Quick controls, domain models, persistence, networking, or background-job
+  abstractions.
 - Pre-1.0 versions may make breaking changes.
 
 ## License

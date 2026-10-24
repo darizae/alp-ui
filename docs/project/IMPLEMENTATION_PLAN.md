@@ -13,10 +13,14 @@
 | 06 | [Gallery and public docs](../../tasks/06-gallery-and-docs.md) | Every exported component documented/shown and interaction-tested | 05 |
 | 07 | [Quality and accessibility pass](../../tasks/07-quality-and-compatibility.md) | Windows quality matrix complete, no known P0 regressions | 06 |
 | 08 | [Independent consumer + packaging](../../tasks/08-consumer-and-release.md) | Built-wheel consumer, notices, metadata and release checklist pass | 07 |
+| 12 | [Lightweight Plot](../../tasks/12-lightweight-plot.md) | Owner-approved post-v0.1 native line/bar Plot, Gallery, validation, and built-wheel seam pass | 08 |
 
 ## Why this order
 
 The theme and resource loading are established before Components. Components accumulate only after a reusable control is proven. Model/view data behavior is tested independently. The gallery is hardened into documentation once the component APIs stabilize, followed by a final end-to-end consumer verification. Do not implement future-page widgets merely because they existed in a React package.
+
+Task 12 is an owner-approved post-v0.1 extension to D13, not retroactive v0.1 scope.
+It remains dependency-free and must receive a separate Windows visual qualification.
 
 ## Cross-task invariants
 

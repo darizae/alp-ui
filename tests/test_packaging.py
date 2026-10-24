@@ -1,8 +1,10 @@
 from __future__ import annotations
 
+import os
 import subprocess
 import sys
 import tarfile
+import venv
 import zipfile
 from email.parser import BytesParser
 from pathlib import Path
@@ -28,6 +30,7 @@ PACKAGE_FILES = {
     "alp_ui/components/data.py",
     "alp_ui/components/feedback.py",
     "alp_ui/components/inputs.py",
+    "alp_ui/components/plots.py",
     "alp_ui/components/surfaces.py",
     "alp_ui/components/typography.py",
     "alp_ui/theme/__init__.py",
@@ -91,3 +94,41 @@ def test_distributions_are_complete_and_clean(tmp_path: Path) -> None:
 
     for name in names | sdist_names:
         assert not FORBIDDEN_PARTS.intersection(Path(name).parts), name
+
+
+def test_built_wheel_consumer_imports_and_renders_plot(tmp_path: Path) -> None:
+    subprocess.run(
+        [sys.executable, "-m", "build", "--wheel", "--no-isolation", "--outdir", str(tmp_path)],
+        cwd=ROOT,
+        check=True,
+    )
+    wheel = next(tmp_path.glob("*.whl"))
+    environment = tmp_path / "consumer-env"
+    venv.EnvBuilder(with_pip=True, system_site_packages=True).create(environment)
+    python = environment / ("Scripts/python.exe" if sys.platform == "win32" else "bin/python")
+    subprocess.run(
+        [str(python), "-m", "pip", "install", "--force-reinstall", str(wheel)],
+        cwd=tmp_path,
+        check=True,
+    )
+    script = (
+        "from PySide6.QtWidgets import QApplication; "
+        "from alp_ui.components import Plot; "
+        "from alp_ui.theme import install_theme; "
+        "app = QApplication([]); install_theme(app); "
+        "line = Plot(kind='line'); line.setLines({'Observed': [(0.0, 0.2), (1.0, 0.4)]}); "
+        "bar = Plot(kind='bar'); bar.setBars([('Alpha', 0.6), ('Beta', -0.2)]); "
+        "line.resize(320, 200); bar.resize(320, 200); "
+        "assert not line.grab().isNull() and not bar.grab().isNull()"
+    )
+    environment_variables = os.environ.copy()
+    environment_variables["QT_QPA_PLATFORM"] = "offscreen"
+    result = subprocess.run(
+        [str(python), "-I", "-c", script],
+        cwd=tmp_path,
+        env=environment_variables,
+        check=False,
+        capture_output=True,
+        text=True,
+    )
+    assert result.returncode == 0, result.stderr

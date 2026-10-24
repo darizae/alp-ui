@@ -30,7 +30,7 @@ The library must **not** create a `QApplication` on import or perform network re
 
 - Library architecture: systematic variants, reusable subcomponents, semantic tokens, modular public imports, gallery-first examples, and independent consumer regression checks.
 - Alpaca Light preset: emerald primary, amber secondary, slate neutrals, light surfaces, DM Sans and JetBrains Mono, compact outlined fields, semibold sentence-case actions, lightly bordered cards, and monospace table headers.
-- Excluded: browser runtime assumptions, web-style responsive breakpoints, application-specific workflows or domain statuses, app state managers, and plotting/chart packages.
+- Excluded: browser runtime assumptions, web-style responsive breakpoints, application-specific workflows or domain statuses, app state managers, and plotting/chart packages. The owner-approved post-v0.1 `Plot` Component is native Qt painting, not a plotting package or charting framework.
 
 ## Success
 

@@ -250,6 +250,40 @@ table.setAccessibleName("Accounts")
 table.clicked.connect(open_selected_record)
 ```
 
+## Plot
+
+Use `Plot(parent=None, *, kind="line", x_label="", y_label="")` for a small,
+read-only presentation of consumer-owned numeric data. `kind` is exactly `"line"` or
+`"bar"`. It subclasses `QWidget`, has ordinary expanding Qt size hints, and starts with
+the neutral “No data to display” state.
+
+For a line Plot, call `setLines()` with an ordered mapping of nonempty series labels to
+ordered `(x, y)` pairs. Both values must be finite numeric values; points are rendered
+in the supplied order, so the Component does not sort a non-monotonic x series. For a
+bar Plot, call `setBars()` with an ordered sequence of nonempty category-label/finite
+numeric-value pairs. Bar axes include a zero baseline and category labels elide to the
+available width; the widget tooltip retains the full category labels.
+
+```python
+from alp_ui.components import Plot
+
+line = Plot(kind="line", x_label="Time", y_label="Value")
+line.setAccessibleName("Observed measurements")
+line.setLines({"Observed": [(0.0, 0.3), (1.0, 0.55)], "Reference": [(0.0, 0.4)]})
+
+bars = Plot(kind="bar", x_label="Category", y_label="Value")
+bars.setAccessibleName("Example category values")
+bars.setBars([("Alpha", 0.62), ("Beta", -0.14)])
+```
+
+Setters validate all data before replacing the displayed values and request a normal Qt
+repaint only. The consumer owns data production, values’ meaning and units, update
+cadence, sorting decisions, and a readable numeric summary. `Plot` has no timer,
+worker, chart model, zoom/pan, selection, export, smoothing, or statistical behavior.
+Its accessible description is refreshed with the chart type and series/category count;
+give each Plot a meaningful accessible name. A Plot does not replace a readable numeric
+summary or `DataTable` for precise values or assistive access.
+
 Run the native Gallery to inspect every Component, variant, disabled/error state,
 keyboard focus, and empty or large-model table without a backend:
 

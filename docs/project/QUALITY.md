@@ -30,6 +30,7 @@
 - Badge/Alert: semantic intent displayed with accessible text; unknown intent fails meaningfully.
 - ProgressBar: handles minimum/maximum, value boundaries and native indefinite mode; no worker thread created.
 - DataTable: accepts normal `QAbstractItemModel`, uses native scrollbar, honors model reset/dataChanged notifications, selection, column resizing; no `setCellWidget` per row, no implicit sorting/re-ordering. A model of **10,000 rows** must open and scroll without 10,000 child widgets (do not assert arbitrary benchmark time without a measured baseline).
+- Plot (post-v0.1): validates finite ordered line/bar inputs before replacing data, draws axes and non-empty data offscreen, handles flat/negative/positive ranges and narrow layouts, distinguishes line series by stroke as well as color, exposes refreshed native accessibility text, and creates neither timers nor per-point widgets. A separately installed wheel and native Windows 100/150% visual/accessibility review remain required.
 - Theme: exact Alpaca Light palette, Theme immutable, startup overrides honored, no network dependency for fonts, failed font resources handled gracefully.
 
 ## Platform, DPI, and environment matrix
@@ -55,7 +56,7 @@ Recommended, not forced: `pytest`, `pytest-qt`, `ruff`, a static type checker, `
 - [ ] `pyproject.toml` names distribution, runtime dependency, interpreter/platform scope, package assets accurately.
 - [ ] MIT `LICENSE` and third-party notices included in source distribution, wheel where relevant, and README.
 - [ ] Official unmodified fonts and their SIL OFL license/copyright notices included in distribution.
-- [ ] No dependencies on the TypeScript repo, Alpaca UI application, Qt Addons, QFluentWidgets, superqt, plotting, or networking.
+- [ ] No dependencies on the TypeScript repo, Alpaca UI application, Qt Addons, QFluentWidgets, superqt, third-party plotting, or networking.
 - [ ] Built wheel installed in isolated environment; `import alp_ui` and its public Components work.
 - [ ] Consumer creates exactly one QApplication, installs Theme, creates UI, exits normally.
 - [ ] Qt redistribution/commercial usage caveat clearly stated in documentation.

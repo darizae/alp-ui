@@ -32,6 +32,7 @@ from alp_ui.components import (
     Divider,
     EmptyState,
     NumberInput,
+    Plot,
     ProgressBar,
     SelectInput,
     Switch,
@@ -348,6 +349,27 @@ def build_window() -> QWidget:
     empty_table.setMinimumHeight(120)
     data_layout.addWidget(empty_table)
     layout.addWidget(data_group)
+
+    plots_group = _section("Plots")
+    plots_layout = QVBoxLayout(plots_group)
+    plots_layout.addWidget(Text("Numeric line series", role="overline"))
+    line_plot = Plot(kind="line", x_label="Time", y_label="Value")
+    line_plot.setAccessibleName("Observed and reference values")
+    line_plot.setLines(
+        {
+            "Observed": [(0.0, 0.3), (1.0, 0.55), (2.0, 0.48), (3.0, 0.72)],
+            "Reference": [(0.0, 0.42), (1.0, 0.47), (2.0, 0.58), (3.0, 0.62)],
+        }
+    )
+    line_plot.setMinimumHeight(220)
+    plots_layout.addWidget(line_plot)
+    plots_layout.addWidget(Text("Categorical bars", role="overline"))
+    bar_plot = Plot(kind="bar", x_label="Category", y_label="Value")
+    bar_plot.setAccessibleName("Example category values")
+    bar_plot.setBars([("Alpha", 0.62), ("Beta", 0.24), ("Gamma", -0.14), ("Delta", 0.41)])
+    bar_plot.setMinimumHeight(220)
+    plots_layout.addWidget(bar_plot)
+    layout.addWidget(plots_group)
     layout.addStretch()
 
     scroll = QScrollArea(window)

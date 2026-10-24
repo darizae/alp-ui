@@ -25,9 +25,10 @@
 
 ## Post-v0.1 candidates — outside initial release
 
+- `Plot` — authorized post-v0.1: native `QWidget`/`QPainter` presentation of ordered finite numeric line series or ordered categorical bars. It provides axes, a simple line legend, empty feedback, Theme alignment, and a text summary through native accessibility properties. It does not own scientific meaning, data collection, a model/view schema, timers, zoom/pan, selection, export, smoothing, multiple axes, waveforms, or spectrograms.
 - `IconButton` (only after icon design is satisfactory), `ButtonGroup` (Qt native group may suffice), `SearchInput` (likely `TextInput` composition), `Tabs`, `Sidebar`, `PageHeader`, `ConfirmDialog`, `FilePicker`, `FolderPicker`, `DropZone`, advanced date/range widgets, and toasts.
-- These are **backlog candidates, not authorized phase deliverables**. Promote an item only after a consumer demonstrates need, it is specified, and a named task is approved. Native `QTabWidget`, `QFileDialog`, `QMessageBox`, etc. can already be used directly by consumers.
-- **No plots or chart adapters in any phase.**
+- The candidates after `Plot` are **backlog candidates, not authorized phase deliverables**. Promote one only after a consumer demonstrates need, it is specified, and a named task is approved. Native `QTabWidget`, `QFileDialog`, `QMessageBox`, etc. can already be used directly by consumers.
+- No chart adapters, third-party plotting dependencies, advanced charting, waveform, or spectrogram Components are authorized.
 
 ## Behavior contract across components
 

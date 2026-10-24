@@ -16,7 +16,7 @@
 | D10 | Icons default to Qt standard icons and/or original MIT-compatible drawings made for this project; no MUI icon files or external icon pack runtime. | Small, low-risk license surface. If existing standard icons cannot achieve the desired result, raise a separate design/dependency decision. |
 | D11 | Build a **single Python package**, no monorepo, CLI framework, internal design-system server, plugin architecture, or code generation. | Do less; extract on demonstrated second use only. |
 | D12 | Components are generic, Qt-native, composable, and do not own app data/controllers. Data tables consume Qt's model/view protocol. | Consumers retain their own data and business behavior. |
-| D13 | No plotting, charts, waveform, spectrogram, or visualization dependencies or tasks, including optional extras, in this plan. | Explicitly excluded for now. |
+| D13 | No third-party plotting dependencies, advanced charting, waveform, or spectrogram visualization. One native Qt-painted, generic, read-only `Plot` Component is authorized as a post-v0.1 extension. | Keeps the PySide6-Essentials-only runtime while allowing the demonstrated numeric-line and categorical-bar presentation need. |
 | D14 | Windows x86-64 is the **release qualification platform**. Avoid OS-specific public APIs; Linux/macOS can be smoke-tested opportunistically but are not guaranteed in v0.1. | Grounded in initial desktop use while remaining portable in design. |
 | D15 | Implementation/test baseline: CPython **3.11–3.13**; target PySide6-Essentials **6.11.x** initially, with a bounded compatible release spec and CI recording exact tested patch versions. | Restricts compatibility claims to a known Qt minor line; newer versions require compatibility testing and explicit range expansion. |
 | D16 | Ship **small, documented public components**, a local Qt Gallery, automated behavioral tests, and a built-wheel example consumer. | Verifiable usefulness, not an empty styling toolkit. |
@@ -81,5 +81,30 @@ feature expansion. This **extends D07/D08/D10** without changing the core decisi
   appropriate. `make_icon` is a small theme utility, not a general icon library.
 - **D12 extension:** sample navigation and page layout belong to `gallery/showcase.py`
   only. Do **not** expose them as new public components without a named consumer.
-- **Non-goals remain:** no plots, no dark Theme, no runtime theme switching, no new
-  runtime dependencies, no application domain logic, and no compatibility adapters.
+- **Non-goals at this amendment remained:** no plots, no dark Theme, no runtime theme
+  switching, no new runtime dependencies, no application domain logic, and no
+  compatibility adapters. The later D13 amendment narrowly supersedes only the plot
+  exclusion.
+
+## 2026-10-24 owner-approved lightweight Plot amendment
+
+- **Problem and named consumer:** the Trainer needs lightweight numeric line views for
+  changing loss values and categorical bar views for feature importance; other consumer
+  applications need the same generic presentation without recreating axes, legends,
+  empty feedback, and Theme alignment.
+- **Alternatives inspected:** repeated consumer-local `QPainter` widgets would duplicate
+  the generic rendering rules. Qt Charts/PySide6-Addons, matplotlib, and pyqtgraph add
+  an unnecessary dependency surface. A `QGraphicsView` or model/view chart framework is
+  larger than the two read-only shapes require.
+- **Dependencies/licenses:** no dependency or license change. The Component uses only
+  QtCore, QtGui, and QtWidgets from PySide6-Essentials; consumer evidence is not copied.
+- **Decision:** amend D13 as stated in the table. `Plot` is an explicit post-v0.1
+  extension with `line` and `bar` kinds, rendered by native `QWidget`/`QPainter` code.
+  Initial v0.1 scope remains historical; this does not claim an earlier release shipped
+  plotting.
+- **Consequences:** add rendering, validation, accessibility, Gallery, built-wheel, and
+  separate Windows visual qualification for Plot. D02, D03, D07, D08, D12, and the
+  runtime/license policy remain unchanged. Advanced charting, waveform, spectrogram,
+  plotting functions, and optional chart dependencies remain excluded.
+- **Acceptance:** public Component tests, Gallery coverage, an independently installed
+  wheel consumer, and native Windows qualification are required before release claims.

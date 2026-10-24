@@ -24,6 +24,7 @@ from alp_ui.components import (
     Divider,
     EmptyState,
     NumberInput,
+    Plot,
     ProgressBar,
     SelectInput,
     Switch,
@@ -42,7 +43,15 @@ def test_theme_gallery_builds_with_keyboard_controls(qapp: QApplication) -> None
 
     assert window.accessibleName() == "Alpaca Light Theme Gallery"
     categories = {group.title() for group in window.findChildren(QGroupBox)}
-    assert {"Actions", "Typography", "Surfaces", "Fields", "Feedback", "Data"} <= categories
+    assert {
+        "Actions",
+        "Typography",
+        "Surfaces",
+        "Fields",
+        "Feedback",
+        "Data",
+        "Plots",
+    } <= categories
     assert all("border: 0" in group.styleSheet() for group in window.findChildren(QGroupBox))
     focus_help = window.findChild(QLabel, "focusInstructions")
     assert focus_help is not None
@@ -103,6 +112,9 @@ def test_theme_gallery_builds_with_keyboard_controls(qapp: QApplication) -> None
     tables = window.findChildren(DataTable)
     assert len(tables) == 2
     assert {table.model().rowCount() for table in tables} == {0, 10_000}
+    plots = window.findChildren(Plot)
+    assert {plot.kind for plot in plots} == {"line", "bar"}
+    assert all(plot.accessibleName() != f"{plot.kind.capitalize()} plot" for plot in plots)
     window.close()
 
 

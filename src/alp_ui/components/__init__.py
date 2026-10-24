@@ -10,6 +10,7 @@ from alp_ui.components.inputs import (
     Switch,
     TextInput,
 )
+from alp_ui.components.plots import Plot
 from alp_ui.components.surfaces import Card, Divider
 from alp_ui.components.typography import Text
 
@@ -23,6 +24,7 @@ __all__ = [
     "Divider",
     "EmptyState",
     "NumberInput",
+    "Plot",
     "ProgressBar",
     "SelectInput",
     "Switch",
