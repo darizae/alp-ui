@@ -79,6 +79,10 @@ custom QWidget framework or global stylesheet.
 Body font: **DM Sans**. Metadata font: **JetBrains Mono**. Text roles: `title`,
 `heading`, `subheading`, `body`, `caption`, `overline`.
 
+Alpaca Light uses a readable desktop scale: 12 pt body, 11 pt caption, 10 pt
+overline, 15 pt subheading, 20 pt heading, and 26 pt title. Consumers can replace
+these typed tokens at startup, but compact density does not shrink them.
+
 Original, library-drawn stroke icons use `make_icon`:
 
 ```python

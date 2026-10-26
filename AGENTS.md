@@ -59,6 +59,8 @@ and independently authored implementation decisions.
   `docs/legal/THIRD_PARTY_NOTICES.md` and downstream compliance guidance accurate.
 - Alpaca Light is the first Theme. Components consume semantic tokens rather than
   embedding brand colors.
+- Keep the default desktop type scale comfortably readable. Density may change
+  control geometry and spacing, never font point sizes.
 - Prefer native Qt controls, signals, model/view interfaces, keyboard behavior, and
   accessibility.
 - Do not create wrappers without reusable styling, behavior, or contract.

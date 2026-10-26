@@ -48,9 +48,9 @@ class TypographyTokens:
     heading_weight: int
     button_weight: int
     metadata_weight: int
-    title_size: float = 23.0
-    subheading_size: float = 13.0
-    caption_size: float = 9.0
+    title_size: float = 26.0
+    subheading_size: float = 15.0
+    caption_size: float = 11.0
 
     def __post_init__(self) -> None:
         if not self.body_family.strip() or not self.metadata_family.strip():

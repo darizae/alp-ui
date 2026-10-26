@@ -36,6 +36,16 @@ def test_alpaca_light_has_exact_source_colors() -> None:
     assert {name: getattr(ALPACA_LIGHT.colors, name) for name in EXPECTED_COLORS} == EXPECTED_COLORS
 
 
+def test_alpaca_light_uses_a_readable_desktop_type_scale() -> None:
+    typography = ALPACA_LIGHT.typography
+    assert typography.body_size >= 12
+    assert typography.caption_size >= 11
+    assert typography.overline_size >= 10
+    assert typography.subheading_size > typography.body_size
+    assert typography.heading_size > typography.subheading_size
+    assert typography.title_size > typography.heading_size
+
+
 def test_theme_is_frozen_and_supports_typed_startup_override() -> None:
     with pytest.raises(FrozenInstanceError):
         ALPACA_LIGHT.colors.primary = "#000000"  # type: ignore[misc]

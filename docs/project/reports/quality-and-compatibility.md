@@ -1,7 +1,7 @@
 # Quality and compatibility report — v0.1 candidate
 
-Checked on 2026-10-18 for the v0.1 release candidate, including density, shared
-interaction styling, original icons, and the composed Showcase. This report
+Checked on 2026-10-26 for the v0.1 release candidate, including the readable type-scale
+refresh, density, shared interaction styling, original icons, and the composed Showcase. This report
 distinguishes automated evidence from platform checks that still require Windows
 hardware.
 
@@ -12,8 +12,9 @@ hardware.
 | Host | macOS 26.6.2, arm64 |
 | Python | CPython 3.13.13 |
 | Qt binding | PySide6-Essentials 6.11.2 |
-| Automated behavior tests | 66 passed |
-| Ruff lint and format | Pass |
+| Automated behavior tests | 97 passed |
+| Ruff lint | Pass |
+| Ruff format | Changed files pass; repository-wide check still flags the pre-existing `tasks/12-lightweight-plot.md` code block |
 | macOS Gallery and Showcase render | Pass at native scale; Showcase also passed at 150% with 15-point body text |
 | Windows x86-64, Python 3.11-3.13 | Configured in `.github/workflows/ci.yml`; not executable on this host |
 
@@ -37,10 +38,11 @@ Automated tests exercise the public control rather than duplicate internal state
 
 The Gallery and compact Showcase were rendered and visually reviewed through the
 native macOS Qt platform plugin. Current Retina captures are committed under
-`docs/images/` and displayed by the README. A 150% scale Showcase with 15-point body
-text also rendered without observed clipping; that local capture remains outside the
-distribution at
-`references/quality-screenshots/showcase-macos-150-large-font.png`. Automated tests
+`docs/images/` and displayed by the README. The default scale now uses 12-point body
+text and an 11-point minimum caption after downstream Trainer review found the former
+10/9/8-point body/caption/overline scale too small. A 150% scale Showcase with
+15-point body text also rendered without observed clipping; that local capture remains
+outside the distribution at `references/quality-screenshots/showcase-macos-150-large-font.png`. Automated tests
 additionally exercise right-to-left spin-button mouse targets, select popup
 visibility, and checkbox/switch keyboard state; the matching visual capture is
 `references/quality-screenshots/gallery-macos-rtl.png`.

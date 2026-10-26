@@ -36,6 +36,7 @@ is an accent, **not** a mandate to draw every secondary button amber.
 |---|---|---|
 | General family | `"DM Sans", sans-serif` | Prefer bundled unmodified DM Sans; documented system fallback. |
 | Metadata family | `"JetBrains Mono", monospace` | Prefer bundled unmodified JetBrains Mono for badges/table heading/metadata, not body text. |
+| Type scale | Body 12 pt; caption 11 pt; overline 10 pt; subheading 15 pt; heading 20 pt; title 26 pt | Readable native desktop defaults. Density changes geometry, never font size. |
 | `h4` | Weight 700, letter spacing `-0.02em` | Approximate via QFont and font letter-spacing support if consistent. |
 | `h5` | Weight 600, letter spacing `-0.01em` | Use QFont appropriate to platform font metrics. |
 | `h6` | Weight 600 | Consistent headings. |
@@ -100,10 +101,9 @@ behaviors; controls draw only small consistent vector subparts.
 
 ### Typography and icons
 
-Keep DM Sans/JetBrains Mono. Roles include `title` 23pt/700, `subheading` 13pt/600,
-`caption` 9pt/400. Existing `heading` 18pt/700, `body` 10pt/400, and mono
-`overline` 8pt/500 remain. `make_icon` provides small original single-stroke Qt
-icons without an external icon pack.
+Keep DM Sans/JetBrains Mono and the readable role scale defined in the typography
+table above. `make_icon` provides small original single-stroke Qt icons without an
+external icon pack.
 
 ### Surface hierarchy
 

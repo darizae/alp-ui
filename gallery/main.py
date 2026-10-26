@@ -157,9 +157,15 @@ def build_window() -> QWidget:
     heading = Text("Alpaca Light", role="title")
     heading.setAccessibleName("Theme heading")
     layout.addWidget(heading)
-    layout.addWidget(QLabel("Alpaca palette · native Qt behavior · consistent desktop components."))
+    introduction = QLabel("Alpaca palette · native Qt behavior · consistent desktop components.")
+    introduction.setWordWrap(True)
+    layout.addWidget(introduction)
     layout.addWidget(
-        Text("Compact type scale with quieter surfaces and consistent controls.", role="caption")
+        Text(
+            "Readable type scale with quieter surfaces and consistent controls.",
+            role="caption",
+            word_wrap=True,
+        )
     )
     focus_help = QLabel(
         "Keyboard focus check: click Primary, then use Tab and Shift+Tab; "
@@ -197,9 +203,9 @@ def build_window() -> QWidget:
     action_layout = QVBoxLayout(actions)
     action_layout.setSpacing(theme.spacing.medium)
     action_layout.addWidget(Text("Variants", role="overline"))
-    action_layout.addWidget(
-        _component_row(*(Button(variant.title(), variant=variant) for variant in _BUTTON_VARIANTS))
-    )
+    variant_buttons = [Button(variant.title(), variant=variant) for variant in _BUTTON_VARIANTS]
+    action_layout.addWidget(_component_row(*variant_buttons[:2]))
+    action_layout.addWidget(_component_row(*variant_buttons[2:]))
     action_layout.addWidget(Text("Sizes", role="overline"))
     action_layout.addWidget(
         _component_row(
