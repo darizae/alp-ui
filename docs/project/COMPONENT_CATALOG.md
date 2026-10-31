@@ -26,7 +26,7 @@
 | Component | Qt foundation | Public choices / behavior | Explicit non-responsibility |
 |---|---|---|---|
 | `HelpHint` | `QToolButton` | Required plain-text explanation, optional accessibility subject, native tooltip and What's This view, native clicked/focus/keyboard behavior | No field wrapping, tooltip manager, popup framework, help-content lookup, translations service, or domain behavior. |
-| `FolderPicker` | `QWidget` composition with read-only `QLineEdit`, `Button`, and native `QFileDialog` | Optional label, exact path `setFolderPath`/`folderPath`, and one `folderChanged(str)` signal for actual changes; Cancel preserves the prior selection | Does not resolve, validate, scan, persist, monitor, or interpret folder contents. |
+| `FolderPicker` | `QWidget` composition with read-only `QLineEdit`, `Button`, and `QFileDialog` | Optional label, optional hidden-directory visibility, exact path `setFolderPath`/`folderPath`, and one `folderChanged(str)` signal for actual changes; Cancel preserves the prior selection | Does not resolve, validate, scan, persist, monitor, or interpret folder contents. |
 
 `TextInput`, `NumberInput`, and `SelectInput` may each use a small internal `FieldFrame`/label composition once **two real implementations** show meaningful shared behavior. Do not make an elaborate field framework in advance.
 

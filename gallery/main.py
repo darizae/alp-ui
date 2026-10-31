@@ -295,7 +295,7 @@ def build_window() -> QWidget:
     heading_help = HelpHint(
         "Groups controls that change how results are displayed.", subject="Display options"
     )
-    folder_picker = FolderPicker(label="Folder")
+    folder_picker = FolderPicker(label="Folder (including hidden)", show_hidden=True)
     field_layout.addWidget(text_input, 0, 0)
     field_layout.addWidget(invalid_input, 0, 1)
     field_layout.addWidget(masked_input, 1, 0)

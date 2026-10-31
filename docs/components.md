@@ -161,8 +161,8 @@ choice.setModel(application_model)
 
 ## FolderPicker
 
-Use `FolderPicker(parent=None, *, label="")` to display a selected local folder and
-let the user choose another one with the operating system's native directory dialog.
+Use `FolderPicker(parent=None, *, label="", show_hidden=False)` to display a selected local
+folder and let the user choose another one with the operating system's native directory dialog.
 It is a `QWidget` composition around a read-only `QLineEdit` in `control` and an
 outline `Choose folder` Button. `setFolderPath(path)` and `folderPath()` preserve the
 consumer-provided string exactly; an empty string means no selection. `folderChanged`
@@ -174,10 +174,15 @@ its accessible description and tooltip even when the field cannot show it all. T
 Component does not resolve, validate, read, scan, persist, or monitor a folder. React
 to `folderChanged` from consumer-owned application code.
 
+Set `show_hidden=True` when hidden directories are valid user choices. Qt's native directory
+picker API has no portable show-hidden option, so this explicit mode uses Qt's widget-based
+directory dialog and includes `QDir.Hidden`. The default remains the operating system's native
+dialog.
+
 ```python
 from alp_ui.components import FolderPicker
 
-folder = FolderPicker(label="Folder")
+folder = FolderPicker(label="Folder", show_hidden=True)
 folder.folderChanged.connect(scan_selected_folder)
 folder.setFolderPath("/Users/example/audio")
 selected_path = folder.folderPath()

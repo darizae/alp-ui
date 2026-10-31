@@ -5,7 +5,7 @@ from __future__ import annotations
 from collections.abc import Iterable
 from typing import Literal
 
-from PySide6.QtCore import QAbstractItemModel, QPointF, QRectF, QSize, Qt, Signal
+from PySide6.QtCore import QAbstractItemModel, QDir, QPointF, QRectF, QSize, Qt, Signal
 from PySide6.QtGui import (
     QColor,
     QFont,
@@ -375,7 +375,7 @@ class TextInput(_Field):
 
 
 class FolderPicker(QWidget):
-    """Read-only folder path display with a native directory selection dialog."""
+    """Read-only folder path display with a directory selection dialog."""
 
     folderChanged = Signal(str)
 
@@ -384,9 +384,11 @@ class FolderPicker(QWidget):
         parent: QWidget | None = None,
         *,
         label: str = "",
+        show_hidden: bool = False,
     ) -> None:
         super().__init__(parent)
         self._folder_path = ""
+        self._show_hidden = show_hidden
         self.label_widget = QLabel(self)
         self.control = QLineEdit(self)
         self.choose_button = Button("Choose folder", self, variant="outline")
@@ -447,14 +449,36 @@ class FolderPicker(QWidget):
         self.folderChanged.emit(path)
 
     def _choose_folder(self) -> None:
-        path = QFileDialog.getExistingDirectory(
-            self,
-            "Choose folder",
-            self._folder_path,
-            QFileDialog.Option.ShowDirsOnly,
-        )
+        if self._show_hidden:
+            path = self._choose_folder_including_hidden()
+        else:
+            path = QFileDialog.getExistingDirectory(
+                self,
+                "Choose folder",
+                self._folder_path,
+                QFileDialog.Option.ShowDirsOnly,
+            )
         if path:
             self.setFolderPath(path)
+
+    def _choose_folder_including_hidden(self) -> str:
+        # Platform-native directory dialogs do not expose a portable show-hidden option.
+        # Use Qt's widget dialog only for this explicit consumer request so QDir.Hidden
+        # can guarantee that dot-prefixed directories are visible.
+        dialog = QFileDialog(self)
+        dialog.setOption(QFileDialog.Option.DontUseNativeDialog, True)
+        dialog.setOption(QFileDialog.Option.ShowDirsOnly, True)
+        dialog.setFileMode(QFileDialog.FileMode.Directory)
+        dialog.setFilter(
+            QDir.Filter.AllDirs | QDir.Filter.NoDotAndDotDot | QDir.Filter.Hidden
+        )
+        dialog.setWindowTitle("Choose folder")
+        if self._folder_path:
+            dialog.setDirectory(self._folder_path)
+        if not dialog.exec():
+            return ""
+        selected = dialog.selectedFiles()
+        return selected[0] if selected else ""
 
     def _update_path_accessibility(self) -> None:
         description = self._folder_path or "No folder selected"

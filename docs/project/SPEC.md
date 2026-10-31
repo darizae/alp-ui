@@ -35,7 +35,8 @@ plain-text contextual explanations; it does not revise the historical v0.1 scope
 change existing field constructors.
 
 `FolderPicker` is an implemented owner-approved post-v0.1 extension: a read-only
-path display plus a native directory dialog and one path-change signal. It does not
+path display plus a native-by-default directory dialog and one path-change signal. An explicit
+option uses Qt's widget dialog when hidden directories must be visible. It does not
 validate or inspect the selected folder, and it does not revise the historical v0.1
 inventory.
 

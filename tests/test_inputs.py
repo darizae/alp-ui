@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import pytest
-from PySide6.QtCore import QRegularExpression, QStringListModel, Qt
+from PySide6.QtCore import QDir, QRegularExpression, QStringListModel, Qt
 from PySide6.QtGui import QColor, QPalette, QRegularExpressionValidator
 from PySide6.QtTest import QSignalSpy
 from PySide6.QtWidgets import (
@@ -9,6 +9,7 @@ from PySide6.QtWidgets import (
     QCheckBox,
     QCompleter,
     QDoubleSpinBox,
+    QDialog,
     QFileDialog,
     QLineEdit,
     QSpinBox,
@@ -148,6 +149,36 @@ def test_folder_picker_uses_native_dialog_and_keeps_path_on_cancel(qtbot, monkey
 
     picker.choose_button.setEnabled(False)
     picker.choose_button.click()
+    assert picker.folderPath() == selected
+
+
+def test_folder_picker_can_show_hidden_directories(qtbot, monkeypatch) -> None:
+    selected = "/tmp/collection/.alpaca/models/model-1"
+    observed: list[QFileDialog] = []
+
+    def execute(dialog: QFileDialog) -> QDialog.DialogCode:
+        observed.append(dialog)
+        return QDialog.DialogCode.Accepted
+
+    monkeypatch.setattr(
+        QFileDialog,
+        "getExistingDirectory",
+        lambda *_args, **_kwargs: pytest.fail("hidden selection must use the filterable dialog"),
+    )
+    monkeypatch.setattr(QFileDialog, "exec", execute)
+    monkeypatch.setattr(QFileDialog, "selectedFiles", lambda _dialog: [selected])
+    picker = FolderPicker(label="Model folder", show_hidden=True)
+    qtbot.addWidget(picker)
+
+    picker.choose_button.click()
+
+    assert len(observed) == 1
+    dialog = observed[0]
+    assert dialog.parent() is picker
+    assert dialog.fileMode() is QFileDialog.FileMode.Directory
+    assert dialog.testOption(QFileDialog.Option.ShowDirsOnly)
+    assert dialog.testOption(QFileDialog.Option.DontUseNativeDialog)
+    assert dialog.filter() & QDir.Filter.Hidden
     assert picker.folderPath() == selected
 
 
