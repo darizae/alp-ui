@@ -64,12 +64,19 @@ class Badge(QLabel):
         super().__init__(text, parent)
         self.intent: Intent = intent
 
-        theme = _current_theme()
-        accent, background = _intent_colors(intent)
         self.setFont(_metadata_font(self))
         self.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.setSizePolicy(QSizePolicy.Policy.Maximum, QSizePolicy.Policy.Fixed)
         self.setAccessibleName(text)
+        self.setIntent(intent)
+
+    def setIntent(self, intent: Intent) -> None:
+        """Apply a validated semantic intent without replacing the Badge."""
+
+        _validate_intent(intent)
+        theme = _current_theme()
+        accent, background = _intent_colors(intent)
+        self.intent = intent
         self.setAccessibleDescription(f"{intent.capitalize()} intent")
         # Local QSS provides the compact rounded badge shape across native styles.
         self.setStyleSheet(
@@ -83,6 +90,7 @@ class Badge(QLabel):
             }}
             """
         )
+        self.update()
 
 
 class Alert(QFrame):

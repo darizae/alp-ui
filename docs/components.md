@@ -220,14 +220,16 @@ automatic.toggled.connect(on_automatic_changed)
 
 Use `Badge(text="", parent=None, *, intent="neutral")` for compact read-only feedback.
 It subclasses `QLabel` and adds no signals. Generic intents are `neutral`, `info`,
-`success`, `warning`, and `danger`; unknown values fail at construction. The text is
-the accessible name and the intent is included in the accessible description, so use
-meaningful text rather than color alone.
+`success`, `warning`, and `danger`; unknown values fail validation. Call
+`setIntent(intent)` to update semantic colors and the accessible intent in place. The
+text is the accessible name and the intent is included in the accessible description,
+so use meaningful text rather than color alone.
 
 ```python
 from alp_ui.components import Badge
 
 availability = Badge("Available", intent="success")
+availability.setIntent("warning")
 ```
 
 ## Alert

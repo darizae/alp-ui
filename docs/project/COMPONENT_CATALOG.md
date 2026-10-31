@@ -15,7 +15,7 @@
 | `SelectInput` | `QComboBox` | Label/help/error; native model/items and `currentIndexChanged` | No app-specific dropdown data loader. |
 | `CheckBox` | `QCheckBox` | Consistent typography/spacing, native checkable state/signal | Does not imply the immediate-action semantics of a Switch. |
 | `Switch` | `QCheckBox` | Two-state switch appearance; native checked state, signal, keyboard, focus, and accessibility behavior | No tri-state meaning, persistence, or feature-flag service. |
-| `Badge` | `QLabel` or small custom `QWidget` | `intent`: neutral/info/success/warning/danger; outlined/filled only when tests justify both | No domain status mapping. |
+| `Badge` | `QLabel` or small custom `QWidget` | Validated `intent`: neutral/info/success/warning/danger at construction or through `setIntent`; updates semantic styling and accessibility in place | No domain status mapping. |
 | `Alert` | `QFrame` + labels/layout | Intent, title/body, optional actions supplied by consumer | No global notification bus or persistence. |
 | `ProgressBar` | `QProgressBar` | Determinate/indeterminate using native semantics; theme styles | No computation/thread/process controller. |
 | `DataTable` | `QTableView` | Styled header, whole-row selection, muted state highlights, density-aware rows; accepts **external `QAbstractItemModel`** | No parallel Python list/table schema, business-level filters, or lazy filesystem discovery. |

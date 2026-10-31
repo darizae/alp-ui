@@ -31,6 +31,26 @@ def test_feedback_rejects_unknown_intent() -> None:
         Alert("Unknown", intent="completed")  # type: ignore[arg-type]
 
 
+def test_badge_updates_validated_intent_in_place() -> None:
+    badge = Badge("Checking", intent="warning")
+    original_identity = id(badge)
+
+    badge.setIntent("danger")
+
+    assert id(badge) == original_identity
+    assert badge.intent == "danger"
+    assert badge.accessibleDescription() == "Danger intent"
+    assert ALPACA_LIGHT.colors.danger in badge.styleSheet()
+    assert ALPACA_LIGHT.colors.warning not in badge.styleSheet()
+
+    with pytest.raises(ValueError, match="intent must be one of"):
+        badge.setIntent("completed")  # type: ignore[arg-type]
+
+    assert badge.intent == "danger"
+    assert badge.accessibleDescription() == "Danger intent"
+    assert ALPACA_LIGHT.colors.danger in badge.styleSheet()
+
+
 def test_alert_wraps_text_and_owns_consumer_action() -> None:
     parent = QWidget()
     action = QPushButton("Retry")
