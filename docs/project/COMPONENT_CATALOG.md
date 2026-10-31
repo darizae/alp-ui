@@ -7,7 +7,7 @@
 | Component | Qt foundation | Public choices / behavior | Explicit non-responsibility |
 |---|---|---|---|
 | `Button` | `QPushButton` | `variant`: `primary`, quiet `secondary`, `outline`, `danger`; optional `size` (small/medium/large); native `clicked`; disabled, focus, and consumer-controlled loading presentation | Does not execute jobs, persist state, or manage application-wide async operations. |
-| `Text` | `QLabel` | Semantic role `title`, `heading`, `subheading`, `body`, `caption`, `overline`; optional selectable text | Does not implement markdown editor or layout engine. |
+| `Text` | `QLabel` | Semantic role `title`, `heading`, `subheading`, `body`, `caption`, `overline`; mouse- and keyboard-selectable by default with an explicit opt-out | Does not implement markdown editor or layout engine. |
 | `Card` | `QFrame`/`QWidget` + Qt layout | Background, border, padding, theme-defined subtle shadow with opt-out | Does not store a data object or own navigation. |
 | `Divider` | `QFrame` | Horizontal/vertical separator, theme border | No page system. |
 | `TextInput` | `QLineEdit` | Label/description/error presentation; placeholder; native `textChanged`, `editingFinished`, validator, input-mask, and `QCompleter` APIs | Does not own form submission, schema validation, asynchronous work, or suggestion loading. |
