@@ -32,16 +32,18 @@ uses aligned rows so variants and sizes are shown representatively.
 ## Text
 
 Use `Text` for styled interface copy. `Text(text, parent=None, *, role="body",
-selectable=False, word_wrap=False)` subclasses `QLabel`; roles are `title`, `heading`,
-`subheading`, `body`, `caption`, and `overline`. It adds no signals beyond `QLabel`.
-Enable wrapping for long or translated text, and use heading roles in logical reading
-order.
+selectable=True, word_wrap=False)` subclasses `QLabel`; roles are `title`, `heading`,
+`subheading`, `body`, `caption`, and `overline`. Text is selectable by mouse and
+keyboard by default so users can copy interface values and explanations. Pass
+`selectable=False` only for decorative text, enable wrapping for long or translated
+text, and use heading roles in logical reading order. It adds no signals beyond
+`QLabel`.
 
 ```python
 from alp_ui.components import Text
 
 title = Text("Account", role="heading")
-details = Text("Long selectable details", selectable=True, word_wrap=True)
+details = Text("Long selectable details", word_wrap=True)
 ```
 
 ## Card

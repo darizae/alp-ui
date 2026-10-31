@@ -23,7 +23,7 @@ class Text(QLabel):
         parent: QWidget | None = None,
         *,
         role: TextRole = "body",
-        selectable: bool = False,
+        selectable: bool = True,
         word_wrap: bool = False,
     ) -> None:
         if role not in _ROLES:

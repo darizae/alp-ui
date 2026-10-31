@@ -190,7 +190,6 @@ def build_window() -> QWidget:
         Text(
             "Body text wraps safely when the window narrows or translations grow longer.",
             word_wrap=True,
-            selectable=True,
         )
     )
     type_layout.addWidget(Text("Supporting caption text", role="caption"))
