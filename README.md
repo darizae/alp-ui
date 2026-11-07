@@ -21,7 +21,7 @@ colors, typography, and interaction states; your app owns its data and workflows
 
 ## Install and try it
 
-From a repository checkout (no published release yet):
+From a repository checkout:
 
 ```bash
 python -m pip install -e .
@@ -114,8 +114,9 @@ The Showcase demonstrates ordinary Qt composition, not an exported sidebar or ro
 [Installed-wheel consumer](examples/consumer_app/README.md) ·
 [Brand assets](docs/brand/README.md)
 
-**Compatibility:** Python 3.11–3.13, PySide6-Essentials 6.11.x. `0.1.0a0`
-is a pre-release source candidate. Windows x86-64 is the release qualification
+**Compatibility:** Python 3.11–3.13, PySide6-Essentials 6.11.x. `0.1.0a1`
+is an alpha prerelease, not a stable or PyPI release. Check [GitHub Releases](https://github.com/darizae/alp-ui/releases)
+for actual prerelease publication and files; a source checkout alone is not a release. Windows x86-64 is the release qualification
 target; macOS screenshots are not Windows certification. Alpaca Light is the
 only bundled theme, with no supported runtime theme switching.
 

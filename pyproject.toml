@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "alp-ui"
-version = "0.1.0a0"
+version = "0.1.0a1"
 description = "Reusable PySide6 Qt Widgets with the Alpaca Light theme"
 readme = "README.md"
 requires-python = ">=3.11,<3.14"
@@ -16,7 +16,7 @@ license-files = [
 ]
 authors = [{ name = "darizae" }]
 classifiers = [
-  "Development Status :: 2 - Pre-Alpha",
+  "Development Status :: 3 - Alpha",
   "Environment :: Win32 (MS Windows)",
   "License :: OSI Approved :: MIT License",
   "Operating System :: Microsoft :: Windows",
