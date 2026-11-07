@@ -32,3 +32,19 @@ jobs:
         run: python -m build
       - name: Check distribution metadata
         run: python -m twine check dist/*
+      - name: Record artifact SHA-256
+        if: matrix.python-version == '3.13'
+        shell: pwsh
+        run: |
+          $hashes = Get-ChildItem dist -File | Sort-Object Name | ForEach-Object {
+            "$((Get-FileHash $_.FullName -Algorithm SHA256).Hash.ToLowerInvariant())  $($_.Name)"
+          }
+          $hashes | Set-Content -Path dist/SHA256SUMS -Encoding utf8
+          $hashes | ForEach-Object { Write-Output $_ }
+      - name: Retain tested release-candidate distributions
+        if: matrix.python-version == '3.13'
+        uses: actions/upload-artifact@v4
+        with:
+          name: alp-ui-dist-${{ github.sha }}
+          path: dist/
+          if-no-files-found: error

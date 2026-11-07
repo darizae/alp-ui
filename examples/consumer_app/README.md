@@ -11,7 +11,7 @@ and install the wheel:
 ```bash
 .venv/bin/python -m build
 python3.13 -m venv /tmp/alp-ui-consumer
-/tmp/alp-ui-consumer/bin/python -m pip install dist/alp_ui-0.1.0a0-py3-none-any.whl
+/tmp/alp-ui-consumer/bin/python -m pip install dist/alp_ui-0.1.0a1-py3-none-any.whl
 ```
 
 Then run the example. `-I` prevents user site packages and environment path settings

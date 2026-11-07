@@ -73,8 +73,13 @@ def test_distributions_are_complete_and_clean(tmp_path: Path) -> None:
     assert any(name.endswith(".dist-info/licenses/LICENSE") for name in names)
     notice_suffix = ".dist-info/licenses/docs/legal/THIRD_PARTY_NOTICES.md"
     assert any(name.endswith(notice_suffix) for name in names)
+    for ofl_notice in ("DM-Sans-OFL.txt", "JetBrains-Mono-OFL.txt"):
+        assert any(
+            name.endswith(".dist-info/licenses/src/alp_ui/theme/resources/fonts/" + ofl_notice)
+            for name in names
+        )
     assert metadata["Name"] == "alp-ui"
-    assert metadata["Version"] == "0.1.0a0"
+    assert metadata["Version"] == "0.1.0a1"
     runtime_requirements = [
         requirement
         for requirement in metadata.get_all("Requires-Dist", [])
@@ -110,7 +115,7 @@ def test_distributions_are_complete_and_clean(tmp_path: Path) -> None:
 
     with tarfile.open(sdist) as archive:
         sdist_names = set(archive.getnames())
-    root = "alp_ui-0.1.0a0/"
+    root = "alp_ui-0.1.0a1/"
     assert {
         root + "LICENSE",
         root + "docs/legal/THIRD_PARTY_NOTICES.md",
@@ -131,14 +136,28 @@ def test_built_wheel_consumer_imports_and_renders_plot(tmp_path: Path) -> None:
     )
     wheel = next(tmp_path.glob("*.whl"))
     environment = tmp_path / "consumer-env"
-    venv.EnvBuilder(with_pip=True, system_site_packages=True).create(environment)
+    venv.EnvBuilder(with_pip=True, system_site_packages=False).create(environment)
     python = environment / ("Scripts/python.exe" if sys.platform == "win32" else "bin/python")
     subprocess.run(
-        [str(python), "-m", "pip", "install", "--force-reinstall", str(wheel)],
+        [
+            str(python),
+            "-m",
+            "pip",
+            "install",
+            "--force-reinstall",
+            str(wheel),
+            "PySide6-Essentials==6.11.2",
+        ],
         cwd=tmp_path,
         check=True,
     )
     script = (
+        "from importlib.metadata import version; "
+        "from pathlib import Path; "
+        "import alp_ui; "
+        "assert version('alp-ui') == '0.1.0a1'; "
+        f"assert Path(alp_ui.__file__).resolve().is_relative_to("
+        f"Path({str(environment)!r}).resolve()); "
         "from PySide6.QtWidgets import QApplication; "
         "from alp_ui.components import Plot; "
         "from alp_ui.theme import install_theme; "
