@@ -18,10 +18,12 @@ verified unrelated consumer and would expand the approved `Plot` contract.
 No WAV, FFT/STFT, spectrogram configuration/cache, playback, Review state, Results,
 image generation, domain overlay, runtime dependency, or application controller is
 moved upstream. Existing public APIs, the Gallery, documentation of Components, and
-library tests remain untouched.
+library test behavior remain untouched. A separate CI hygiene correction sorts
+`QDialog` before `QDoubleSpinBox` in the imports of `tests/test_inputs.py`; no
+assertions or runtime behavior change.
 
 **Verification scope:** source/API inspection at the exact SHAs above. This is a
-documentation-only no-extraction record; there are no changed Python files or new
-component tests to execute. The focused implementation PR records the symbol-by-symbol
+no-extraction record with one test-file import-order-only fix; there are no
+new component tests to execute. CI validates existing tests, formatting, lint and builds. The focused implementation PR records the symbol-by-symbol
 reuse inventory and requests review. Do not begin A2 until that PR is reviewed and
 merged and the resulting `main` SHA is recorded.
