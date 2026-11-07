@@ -20,3 +20,7 @@
 4. **Downstream:** BioCall Studio must reinstall the reviewed upstream wheel/commit and pass affected base tests before pinning a changed version/SHA.
 
 **Done when:** no app/science code was dragged into the UI package, existing public components are preferred, and any real extracted Qt API has a named non-BioCall consumer or convincing generic contract, public tests, and gallery demonstration.
+
+## Branch, PR and synchronization
+
+Follow [VERSION_CONTROL.md](VERSION_CONTROL.md). **After spec PR #1 has been reviewed and merged**, branch `feat/alp-ui-01-reuse-boundaries` from that `main`. Commit actual reuse/API findings and any justified public widget/tests, create a focused implementation PR, review and merge to `main` **before** alp-ui 02. Report both feature PR SHA and the resulting merged-`main` SHA. A no-extraction result is valid; do not introduce fake code. No version tag at this stage.
