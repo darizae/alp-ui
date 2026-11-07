@@ -1,173 +1,124 @@
 <p align="center">
-  <img src="docs/brand/transparent/lockup-original.png" alt="Alp-ui logo — Alpaca tile icon and wordmark" width="220">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="docs/brand/transparent/lockup-inverse.png">
+    <img src="docs/brand/transparent/lockup-original.png" alt="Original Alpaca tile icon and alp-ui wordmark" width="230">
+  </picture>
 </p>
 
 <h1 align="center">alp-ui</h1>
 
-A compact, native desktop UI library for Python applications built with PySide6 Qt
-Widgets. It provides a coherent light Theme and a practical set of styled Components
-without taking over your application architecture.
+<p align="center">Native, themeable PySide6 widgets for Python desktop applications.</p>
 
-The result still feels like Qt: widgets have normal parents, layouts, signals, keyboard
-behavior, accessibility, and model/view data flow. The library owns presentation and
-small reusable interactions; your application owns its data and work.
+[![MIT license](https://img.shields.io/badge/license-MIT-059669)](LICENSE)
+[![Python 3.11–3.13](https://img.shields.io/badge/Python-3.11%20%7C%203.12%20%7C%203.13-3776AB)](pyproject.toml)
+[![CI](https://github.com/darizae/alp-ui/actions/workflows/ci.yml/badge.svg?branch=main)](.github/workflows/ci.yml)
 
-- **Status:** pre-release `0.1.0a0`
-- **Python:** 3.11–3.13
-- **Qt:** PySide6-Essentials 6.11.x
+Build readable forms, dashboards and data views without surrendering native Qt layouts,
+signals, keyboard behavior, or model/view architecture. Alpaca Light supplies consistent
+colors, typography, and interaction states; your app owns its data and workflows.
 
-## What you get
+<img src="docs/images/showcase.png" alt="Qt Showcase with navigation sidebar, toolbar, form card, actions and records table" width="100%">
 
-- **Actions:** Button variants and a caller-controlled loading presentation.
-- **Typography and surfaces:** Text roles, Cards, and Dividers.
-- **Forms:** Text, number, select, checkbox, switch, and native folder-selection
-  Components built on Qt controls.
-- **Contextual help:** HelpHint provides short, accessible explanations through native
-  tooltips and Qt's What's This view, while the consumer keeps control of placement.
-- **Feedback:** Badges, Alerts, Progress Bars, and Empty States using semantic intent.
-- **Data and plots:** A styled DataTable that consumes your `QAbstractItemModel`
-  directly, plus a lightweight native `Plot` for numeric line and categorical bar
-  presentation.
-- **Theme:** Alpaca Light, with typed semantic tokens, shared state colors, density,
-  and additional typography roles.
+## Install and try it
 
-Components mix freely with ordinary Qt Widgets. There is no routing framework, data
-layer, network client, worker system, or application-specific state model hidden
-inside the package.
-
-## Install
-
-The project is not yet published as a stable PyPI release. Install a built wheel while
-evaluating it:
+From a repository checkout (no published release yet):
 
 ```bash
-python -m pip install dist/alp_ui-0.1.0a0-py3-none-any.whl
+python -m pip install -e .
 ```
 
-Applications create their own `QApplication` and install the Theme once, before
-constructing the main window.
-
-## A small application
+Create one `QApplication` and install the theme before constructing widgets:
 
 ```python
-from PySide6.QtCore import Qt
 from PySide6.QtWidgets import QApplication, QVBoxLayout, QWidget
 
-from alp_ui.components import Badge, Button, FolderPicker, TextInput
+from alp_ui.components import Badge, Button, TextInput
 from alp_ui.theme import install_theme
 
 app = QApplication([])
 install_theme(app)
 
 window = QWidget()
-window.setWindowTitle("Example")
+window.setWindowTitle("My Alpaca app")
 layout = QVBoxLayout(window)
-layout.setContentsMargins(24, 24, 24, 24)
-layout.setSpacing(16)
 
 name = TextInput(label="Name", placeholder="Ada Lovelace")
-folder = FolderPicker(label="Folder")
 status = Badge("Ready", intent="success")
-save = Button("Save", variant="primary")
-save.clicked.connect(name.clear)
+clear = Button("Clear name", variant="secondary")
+clear.clicked.connect(name.clear)
 
 layout.addWidget(name)
-layout.addWidget(folder)
 layout.addWidget(status)
-layout.addWidget(save, 0, Qt.AlignmentFlag.AlignLeft)
+layout.addWidget(clear)
 window.show()
-
 app.exec()
 ```
 
-This is ordinary Qt composition: connect native signals, use native layouts, and keep
-business logic in the consumer application.
+Qt models work directly too. Add this **before** `window.show()` in the example:
 
-## Explore the Gallery
+```python
+from PySide6.QtGui import QStandardItem, QStandardItemModel
 
-The Gallery shows every public Component, supported variants, disabled and invalid
-states, keyboard focus (including contextual help), Theme tokens, and a 10,000-row
-caller-owned table model.
+from alp_ui.components import DataTable
 
-From a development checkout:
-
-```bash
-.venv/bin/python -m gallery.main
+model = QStandardItemModel()
+model.setHorizontalHeaderLabels(["Name", "State"])
+model.appendRow([QStandardItem("Ada"), QStandardItem("Ready")])
+layout.addWidget(DataTable(model=model))
 ```
 
-On Windows, use `.venv\Scripts\python -m gallery.main`.
+## Components and Gallery
 
-### Composed application showcase
+Use `Button`, `Text`, `Card` and `Divider` for structure; `TextInput`,
+`NumberInput`, `SelectInput`, `CheckBox`, `Switch`, `FolderPicker` and
+`HelpHint` for fields; `Badge`, `Alert`, `ProgressBar` and `EmptyState`
+for feedback; and `DataTable` and `Plot` for caller-owned data.
+All remain ordinary Qt Widgets, not an application framework.
 
-For a realistic compact layout with a sidebar, header, toolbar, form Card, and
-DataTable, run:
+Explore variants, focus/validation states, and large-model tables in the native Gallery:
 
 ```bash
+python -m gallery.main
 python -m gallery.showcase
 ```
 
-The Showcase is an example composition, **not** a new navigation framework or public
-Sidebar component.
+On Windows, use the project's virtual environment from the repository root:
 
-## Gallery images
-
-These PNGs were rendered from the current PySide6 Widgets implementation on macOS;
-they are not browser mockups.
-
-Regenerate the full set from the actual Qt widgets with:
-
-```bash
-.venv/bin/python -m gallery.capture
+```powershell
+.\.venv\Scripts\python -m gallery.main
+.\.venv\Scripts\python -m gallery.showcase
 ```
 
-<img src="docs/images/showcase.png" alt="Compact composed application Showcase using the library's Components" width="100%">
-
 <p>
-  <img src="docs/images/gallery-actions.png" alt="Natural-width Button variants and Card surfaces in the native Qt Gallery" width="49%">
-  <img src="docs/images/gallery-fields.png" alt="Native Qt fields, checkbox, switch, badges, and Alerts in the Gallery" width="49%">
-</p>
-<p>
-  <img src="docs/images/gallery-feedback.png" alt="Feedback intent components and a progress bar in the Gallery" width="49%">
-  <img src="docs/images/gallery-data.png" alt="10,000-row and empty caller-owned table models in the Gallery" width="49%">
+  <img src="docs/images/gallery-actions.png" alt="Gallery buttons in four variants and styled card surfaces" width="49%">
+  <img src="docs/images/gallery-fields.png" alt="Gallery text, numeric, and selection fields and toggle controls" width="49%">
 </p>
 
-This minimal consumer uses the normal `install_theme(app)` defaults and ordinary Qt
-layouts, with no consumer stylesheet or density override:
+<details>
+<summary>More captured Qt screens</summary>
+<p>
+  <img src="docs/images/gallery-feedback.png" alt="Gallery feedback badges, alerts, progress and empty-state examples" width="49%">
+  <img src="docs/images/gallery-data.png" alt="Large and empty native Qt data tables" width="49%">
+</p>
+<img src="docs/images/consumer-default.png" alt="Independent consumer using default Alpaca Light controls" width="620">
+</details>
 
-<img src="docs/images/consumer-default.png" alt="Minimal standard-density consumer using public alp-ui Components" width="600">
+These are tracked captures of real PySide6 Widgets, not browser mockups.
+The Showcase demonstrates ordinary Qt composition, not an exported sidebar or router.
 
-## Brand assets
+## Learn more
 
-The repository logo is the owner-provided Alp-ui artwork, kept under
-[`docs/brand/`](docs/brand/README.md) with the exact original source, transparent and
-inverse lockups, wordmarks, on-background composites, and downscaled app icons
-(including the Windows `.ico`). Usage and provenance notes live beside the files.
+[Getting started](docs/getting-started.md) ·
+[Component API](docs/components.md) ·
+[Theme and density](docs/theme.md) ·
+[Installed-wheel consumer](examples/consumer_app/README.md) ·
+[Brand assets](docs/brand/README.md)
 
-## Documentation
+**Compatibility:** Python 3.11–3.13, PySide6-Essentials 6.11.x. `0.1.0a0`
+is a pre-release source candidate. Windows x86-64 is the release qualification
+target; macOS screenshots are not Windows certification. Alpaca Light is the
+only bundled theme, with no supported runtime theme switching.
 
-- [Getting started](docs/getting-started.md) explains the library's mental model,
-  installation, composition, theming, forms, and model/view usage.
-- [Component guide](docs/components.md) documents each public Component and its native
-  Qt surface.
-- [Theme guide](docs/theme.md) covers startup overrides, compact/standard density,
-  shared interaction tokens, typography roles, and original icons.
-- [Installed-wheel example](examples/consumer_app/README.md) demonstrates an
-  independent consumer with its own table model.
-
-## Current boundaries
-
-- Alpaca Light is the only included Theme; runtime Theme switching is unsupported.
-- Windows x86-64 is the release qualification target. The current candidate still
-  requires its final Windows DPI, keyboard, and Narrator review.
-- The owner-approved post-v0.1 `Plot` Component provides only native-painted numeric
-  line and categorical bar presentation. There are no charting dependencies, web
-  views, Qt Quick controls, domain models, persistence, networking, or background-job
-  abstractions.
-- Pre-1.0 versions may make breaking changes.
-
-## License
-
-The library source is MIT-licensed. PySide6/Qt and bundled fonts retain their own
-terms; see [third-party licenses and notices](docs/legal/THIRD_PARTY_NOTICES.md).
-Applications that redistribute Qt are responsible for satisfying their chosen Qt
-license and packaging obligations.
+**License:** alp-ui source is [MIT](LICENSE). Qt/PySide6 and bundled fonts
+have separate redistribution obligations; consult the
+[third-party notices](docs/legal/THIRD_PARTY_NOTICES.md) before shipping an app.

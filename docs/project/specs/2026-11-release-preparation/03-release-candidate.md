@@ -1,6 +1,6 @@
 # 03 — Prepare alp-ui's next independently tagged release
 
-**Observed baseline:** `pyproject.toml: 0.1.0a0`; no Git tags or GitHub Releases as of 2026-11-07. Existing `docs/project/reports/release-readiness.md` is historical candidate evidence, not a release. Proposal: **`v0.1.0a1`** as the next source-package prerelease after README/doc consolidation and any approved upstream API fixes. Do not label `0.1.0` stable solely from macOS gallery screenshots.
+**Observed baseline:** `pyproject.toml: 0.1.0a0`; no Git tags or GitHub Releases as of 2026-11-07. Earlier readiness reports are historical candidate evidence in Git history, not a release. Proposal: **`v0.1.0a1`** as the next source-package prerelease after README/doc consolidation and any approved upstream API fixes. Do not label `0.1.0` stable solely from macOS gallery screenshots.
 
 ## Release task sequence
 
