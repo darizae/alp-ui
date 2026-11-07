@@ -85,8 +85,8 @@ python -m gallery.showcase
 On Windows, use the project's virtual environment from the repository root:
 
 ```powershell
-.\\.venv\Scripts\python -m gallery.main
-.\\.venv\Scripts\python -m gallery.showcase
+.\.venv\Scripts\python -m gallery.main
+.\.venv\Scripts\python -m gallery.showcase
 ```
 
 <p>
