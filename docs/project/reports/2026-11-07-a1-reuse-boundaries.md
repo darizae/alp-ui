@@ -18,12 +18,18 @@ verified unrelated consumer and would expand the approved `Plot` contract.
 No WAV, FFT/STFT, spectrogram configuration/cache, playback, Review state, Results,
 image generation, domain overlay, runtime dependency, or application controller is
 moved upstream. Existing public APIs, the Gallery, documentation of Components, and
-library test behavior remain untouched. A separate CI hygiene correction sorts
-`QDialog` before `QDoubleSpinBox` in the imports of `tests/test_inputs.py`; no
-assertions or runtime behavior change.
+library test behavior remain untouched. The three CI hygiene fixes are
+`QDialog` before `QDoubleSpinBox` in `tests/test_inputs.py`, Ruff layout of
+`QFileDialog.setFilter` in `src/alp_ui/components/inputs.py`, and Ruff layout of a
+Python example in `tasks/12-lightweight-plot.md`. These do not change behavior.
 
 **Verification scope:** source/API inspection at the exact SHAs above. This is a
-no-extraction record with one test-file import-order-only fix; there are no
-new component tests to execute. CI validates existing tests, formatting, lint and builds. The focused implementation PR records the symbol-by-symbol
+no-extraction record with only Ruff import/format fixes; there are no new
+component tests to execute. GitHub Actions run
+[42395378717](https://github.com/darizae/alp-ui/actions/runs/42395378717)
+on the code-fix head `2919cc31c7b5cc24fd7ab3db938f6af13a55105f`
+passed Ruff lint, Ruff format, 101 pytest tests per Windows Python version
+3.11/3.12/3.13, wheel and sdist builds, and Twine checks of both archives.
+The final documentation-only follow-up commit requires its own CI readback before merge. The focused implementation PR records the symbol-by-symbol
 reuse inventory and requests review. Do not begin A2 until that PR is reviewed and
 merged and the resulting `main` SHA is recorded.
