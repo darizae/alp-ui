@@ -1,102 +1,88 @@
-# Project specification — alp-ui
+# Core architecture and component contract — alp-ui
 
-**Normative scope:** first public version `0.1.0`; deliver reusable PySide6 Qt Widgets styled with **Alpaca Light**. All requirements here are independent of Alpaca Desktop. `docs/project/DECISIONS.md` is the highest-level locked contract.
+[Locked product decisions](DECISIONS.md) are authoritative. The public
+[component guide](../components.md), [getting started](../getting-started.md)
+and [theme guide](../theme.md) document actual exported APIs and their use.
 
-## 1. Product and non-goals
+## Native Qt boundaries
 
-A consumer application should install a wheel, import components by stable names, apply a Theme once to its `QApplication`, add Components to ordinary Qt layouts, connect Qt signals, and supply Qt data models. It must not know how widgets are painted internally.
+- Distribution `alp-ui`, import root `alp_ui`; CPython 3.11–3.13 and
+  PySide6-Essentials 6.11.x, using QtCore/QtGui/QtWidgets only at runtime.
+- The consumer creates one `QApplication`, installs `install_theme(app)`
+  before constructing UI, and composes components in ordinary Qt layouts.
+- Preserve widget parenting, lifetimes, signals, native focus/keyboard,
+  accessible names/descriptions, enabled state and resizing behavior.
+- Application code owns business data, state, workers, networking, filesystem,
+  persistence, validation, navigation and model/view data. No implicit
+  `QApplication`, browser renderer, Qt Quick/QML, or page framework.
+- `DataTable` accepts a caller's `QAbstractItemModel`, using Qt proxy
+  models as needed rather than copying data into per-cell widgets.
+- `Plot` paints caller-owned finite numeric line series and categorical
+  bars; it performs no analysis, waveform/spectrogram, zoom or export.
+- Reuse native Qt and existing Components before new abstractions.
+  Do not add Qt Addons, science/charting, styling-framework, or
+  application-specific runtime dependencies.
 
-No page routing framework, domain data, job execution, network calls, window manager, persistence, render-to-HTML, PyQt bindings, Qt Quick/QML, dark mode, or runtime theme switching. The initial v0.1 scope excluded plots and charting; the owner-approved post-v0.1 `Plot` extension is limited to native-painted read-only numeric lines and categorical bars. Do not wrap every native Qt Widget preemptively.
+## Theme and assets
 
-## 2. Supported runtime and dependency policy
+`Theme` is immutable typed semantic tokens; `ALPACA_LIGHT` is the
+default. Use `QPalette`/`QFont` with native `QStyle`, and only measured
+local QSS or narrow custom painting. No global QSS or hot retheming.
+Interaction states are derived centrally; do not scatter hex colors
+inside Components. Consumer overrides take effect at startup.
 
-- **Runtime:** CPython 3.11–3.13, PySide6-Essentials 6.11.x, QtCore/QtGui/QtWidgets only. Build metadata should use supported-version bounds reflecting the tested line; developer tools can have dev dependencies but not leak into runtime.
-- **Target platform:** Windows x86-64 for release. Aim for portability; do not claim other platforms are certified until tested.
-- **Packaging:** standard `pyproject.toml` and wheel. Implement as one distribution under `src/alp_ui`. Avoid ad hoc import path manipulation, requirements copied from React, and bundling Qt binaries ourselves.
-- **Resources:** the wheel contains the official unmodified font binaries required to display DM Sans/JetBrains Mono offline and complete OFL notices. Build tests verify these assets are packaged and load using installed resource paths.
-- **Licenses:** `LICENSE` for MIT project source and `docs/legal/THIRD_PARTY_NOTICES.md` or equivalent for bundled licensed assets. Do not redistribute source repos or their copied components.
+The locked original Alpaca Light semantic palette:
 
-## 3. Public interface contract
+| Token | Hex | Token | Hex |
+| --- | --- | --- | --- |
+| `primary` | `#059669` | `primary_hover` | `#047857` |
+| `on_primary` | `#FFFFFF` | `secondary` | `#F59E0B` |
+| `background` | `#F8FAFC` | `surface` | `#FFFFFF` |
+| `border` | `#E2E8F0` | `text` | `#0F172A` |
+| `text_muted` | `#64748B` | `success` | `#22C55E` |
+| `warning` | `#D97706` | `danger` | `#DC2626` |
+| `info` | `#2563EB` | `shadow` | `#000000` |
 
-Initial recommended stable exports (task agents may refine **method** details only within existing semantics):
+Amber `secondary` is an accent, not an amber secondary Button.
+Use a 4-logical-pixel spacing base; standard and compact densities
+change geometry, never font sizes. Fonts: unmodified bundled
+DM Sans and JetBrains Mono with offline fallback and complete OFL
+notices. Original lightweight `make_icon` artwork uses Qt drawing.
+The [theme guide](../theme.md) covers actual density metrics, typed
+overrides, state colors, and type roles.
 
-- `alp_ui.theme`: `Theme`, `ALPACA_LIGHT`, `install_theme(app, theme=ALPACA_LIGHT)`.
-- `alp_ui.components`: `Button`, `Text`, `Card`, `Divider`, `TextInput`, `NumberInput`, `SelectInput`, `CheckBox`, `Switch`, `Badge`, `Alert`, `ProgressBar`, `DataTable`, `EmptyState`.
-- Post-v0.1: `HelpHint`; `FolderPicker`, a read-only path display plus native directory dialog; and `Plot`, a `QWidget` with `kind="line"` or `kind="bar"`. Consumer-owned finite numeric data is supplied through documented setters; these Components do not provide application controllers or analytics.
-- Class names are public, QWidget-compatible; no private Qt shims required by consumers. Fine-grained submodule imports also work and have no surprise side effects.
-- Use typed constructors or a documented bounded set of setters; rely on inherited methods for ordinary Qt behavior. Define `variant`, `size`, and `intent` consistently with `docs/project/GLOSSARY.md`/`docs/project/COMPONENT_CATALOG.md`. Invalid values fail early with actionable errors at component construction.
-- Theme install accepts the consumer-owned `QApplication`. Passing a non-QApplication or attempting installation after UI construction is documented as unsupported; reject clearly where detectable. `install_theme` must not silently construct or replace the QApplication.
-- Default theme may be used for component preview when not installed but **normal documented consumer path requires startup installation**. Avoid global singleton registries unless there is a demonstrated consumer need.
-- Public APIs must be explainable and reasonably typed. Preserve Qt signals/slots and `QObject` parenting. No async framework dependency.
+Keep accessible focus, sufficiently legible colors and text feedback
+that does not rely on hue. Project source is MIT; Qt redistribution
+and bundled fonts retain separate obligations in
+[legal notices](../legal/THIRD_PARTY_NOTICES.md). Never copy the
+historical reference applications or unlicensed icons.
 
-`HelpHint` is an explicitly owner-approved post-v0.1 extension, delivered separately
-from the initial inventory. It is a standalone `QToolButton` Component for short
-plain-text contextual explanations; it does not revise the historical v0.1 scope or
-change existing field constructors.
+## Verification and release gate
 
-`FolderPicker` is an implemented owner-approved post-v0.1 extension: a read-only
-path display plus a native-by-default directory dialog and one path-change signal. An explicit
-option uses Qt's widget dialog when hidden directories must be visible. It does not
-validate or inspect the selected folder, and it does not revise the historical v0.1
-inventory.
+Public Widgets need accurate constructor docs, Gallery examples,
+behavior tests of native interactions and accessible labels, relevant
+loading/disabled/invalid states and large-model efficiency. Run
+repository-wide Ruff, pytest, wheel/sdist build, Twine metadata and an
+isolated wheel-installed consumer. Windows x86-64 with Python
+3.11/3.12/3.13 is the release target; DPI 100%/150%, keyboard and
+screen-reader claims require native review. macOS captures and
+offscreen tests do not certify Windows. Linux/macOS are not
+release-qualified by the existing snapshots.
 
-## 4. Styling architecture
+[Gallery](../../gallery/main.py) is the component explorer;
+[Showcase](../../gallery/showcase.py) is native composition, not a
+public shell. Follow the active
+[release specs](specs/2026-11-release-preparation/README.md) and
+[version-control rules](specs/2026-11-release-preparation/VERSION_CONTROL.md)
+for sequential PRs, exact-SHA CI and promotion. Documentation
+work alone authorizes no release, tag or version bump.
 
-`Theme` maps semantic visual values to `QPalette` roles, `QFont` choices, and minimal narrowly-scoped Qt styling. Components should use Qt native `QStyle` rendering when possible, with a tiny `QProxyStyle` adapter only for measured differences; any special painting delegates must follow Qt focus, disabled, and high-DPI behavior. A one-time local QSS override is allowed only if documented in source as an exception with behavior tests. Never install a large global stylesheet.
+## A1 reuse decision — 2026-11-07
 
-Font resources must use explicit offline loading (`QFontDatabase` or appropriate Qt API), safely handle repeat use, and fall back gracefully. No `@font-face` from web is available. Browser `rem`, CSS grids, and arbitrary Tailwind classes do not transfer to Qt.
-
-`ALPACA_LIGHT` uses exact colors and salient styling in `docs/project/THEME_ALPACA_LIGHT.md`. Arbitrary consumer Themes work via semantic values rather than conditionals recognizing Alpaca. No hardcoded color hex literal in individual components besides a clearly justified UI state fallback.
-
-## 5. Component behavior
-
-`docs/project/COMPONENT_CATALOG.md` is the authoritative v0.1 inventory. Each Component's implementation must declare: native base control, bounded variants/roles, constructor/Qt signals, ownership of child widgets (if composed), label/accessibility mappings, data boundary, states, and tests. Prefer subclassing the native control when it preserves public Qt behavior; prefer composition when it must supply label/error/help content.
-
-**Forms:** Native validators, input masks, completers, and Qt spin boxes remain authoritative. A field may show error text; it does not silently alter, sanitize, or persist caller data. All errors must be accessible and visually connected to the label/control. Keyboard focus remains on the proper input widget. Consumers may update a `QCompleter` model from their own application work; the library does not fetch suggestions or own asynchronous work.
-
-**Tables:** `DataTable` is a themed `QTableView` consuming a caller-provided `QAbstractItemModel`. Sorting/selection behavior should be normal Qt behavior; do not invent the table's data format or hold redundant row copies. Header style approximates the MUI visual source; scrolling is native Qt behavior. Large models remain responsive.
-
-**Feedback:** `Badge`/`Alert` consume semantic `intent`, not product status enums. `ProgressBar` displays a value or native indefinite state; never owns a background worker.
-
-**Plot:** `Plot` accepts ordered line-series points or ordered category/value pairs and
-renders them with native `QPainter`. It preserves caller ordering, validates finite
-numeric data at its setters, and redraws only through normal Qt updates. Consumers own
-data generation, cadence, interpretation, and a readable numeric alternative; Plot
-does not offer zooming, selection, export, smoothing, multiple axes, or chart data
-models.
-
-## 6. Quality, accessibility, and supported behavior
-
-- All components render with gallery examples and tests of normal, focused, disabled, invalid, and relevant hover/pressed states.
-- Components honor high-DPI scaling, normal resizing, internationalized/long labels, keyboard navigation, tab order, native menu/focus behavior, and ordinary screen readers via Qt accessible names/descriptions.
-- No invisible focus indicators; no clickable color-only semantics for status or errors. Critical feedback includes text, not hue alone.
-- Assert theme token values and component public behaviors; avoid brittle pixel-perfect assertions that vary by OS and font renderer. Manually compare selected Windows screenshot samples against Alpaca UI inspiration.
-- Isolated consumer sample runs **from built wheel installed into fresh environment**. The source tree must not accidentally be importable.
-- Tests must not rely on networks, login, company infrastructure, or files outside the repo; packaged fonts supplied at implementation time.
-
-## 7. Documentation and gallery
-
-Gallery is a normal PySide6 application with a list/tree of component examples (not an HTML/Storybook server). It must demonstrate theme, variants, component states, field validation, large-data model/view behavior, and keyboard focus without requiring domain services. Include a gallery screenshot reference for release review and a small consumer snippet per public component. Ensure gallery itself depends on the installed library import contract in at least one CI check.
-
-## 8. Release contract and gating
-
-All delegated tasks in `docs/project/IMPLEMENTATION_PLAN.md` complete, `docs/project/QUALITY.md` gates pass, licenses/notices included, metadata/wheel validated, and a consumer example from a fresh venv runs successfully on Windows x86-64. Release only components actually implemented and tested. Missing gallery/test coverage means the component remains private or out of scope.
-
-## 9. Open implementation choices (not permission to change decisions)
-
-The implementation agent may select a standard build backend, formatter/type checker, internal file splits, and unit-test utilities. It may determine whether a certain native widget requires `QProxyStyle`, a local QSS adjustment, or a small composition **inside the locked styling architecture**. It may also derive exact focus/disabled colors from existing tokens, provided they are centralized and tested for legibility. Any change adding dependencies, dynamic theme switching, dark mode, public components beyond the owner-approved post-v0.1 `Plot`, GPL-only modules, or charting beyond the approved line/bar scope requires a decision change first.
-
-## Approved visual refinement (2026-10-18)
-
-The user requested refinement of the existing release candidate before the later Plot
-amendment, without a new framework or additional reusable navigation components. Implement shared
-control styling and density, quiet action/surface hierarchy, differentiated text
-roles, original stroke icons, and one composed real-world Showcase. The existing
-Alpaca semantic color palette, Qt Widgets foundation, licensing, and data ownership
-remain fixed. New state tokens are derived at the Theme boundary, allowing custom
-semantic color overrides to propagate automatically. The application uses Theme
-startup installation; individual widgets are not hot-rethemed.
-
-Acceptance requires the automated component/theme tests, a real Windows 100/150%
-DPI visual pass, keyboard and screen-reader checks, comparison captures, and a
-built-wheel consumer test.
+Merged [PR #2](https://github.com/darizae/alp-ui/pull/2) found no
+justified new Component. BioCall Studio uses existing public
+presentation, fields, feedback, data table and Plot APIs; its
+navigation, workflow, domain-specific `SpectrogramView`, audio/FFT,
+caching and overlays stay downstream. Extract only on evidence of
+a generic independent consumer. The detailed A1 evidence remains in
+Git history and the merged PR.

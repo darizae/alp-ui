@@ -28,11 +28,11 @@
 
 ## License decision, plainly
 
-The cleanest viable option **within the user's fixed PySide6 requirement** is: **MIT-authored widgets + unmodified PySide6-Essentials (LGPLv3 option for relevant modules) + unmodified OFL-1.1 fonts with notices**. This avoids directly depending on GPLv3 QFluentWidgets or distributing its UI code. **It does not mean there are no compliance obligations.** Qt's LGPLv3 requires notices/license text, access to corresponding Qt source, and user ability to replace/relink the relevant Qt libraries in distributed apps, subject to its conditions. Packaging into a single locked executable may interfere with these rights; review distributable installers before shipping. This document is engineering license guidance, not a legal opinion. See `references/LICENSE_AND_RESEARCH.md`.
+The cleanest viable option **within the user's fixed PySide6 requirement** is: **MIT-authored widgets + unmodified PySide6-Essentials (LGPLv3 option for relevant modules) + unmodified OFL-1.1 fonts with notices**. This avoids directly depending on GPLv3 QFluentWidgets or distributing its UI code. **It does not mean there are no compliance obligations.** Qt's LGPLv3 requires notices/license text, access to corresponding Qt source, and user ability to replace/relink the relevant Qt libraries in distributed apps, subject to its conditions. Packaging into a single locked executable may interfere with these rights; review distributable installers before shipping. This document is engineering license guidance, not a legal opinion. See `docs/legal/THIRD_PARTY_NOTICES.md` for shipped license notices.
 
 ## Scope-change procedure
 
-Document a proposed change as: problem and named consumer → investigated alternatives → effect on licenses/dependencies → minimal change → tests. Obtain owner approval before changing this file, then update specification, glossary, plan, and affected tasks in one coherent revision.
+Document a proposed change as: problem and named consumer → investigated alternatives → effect on licenses/dependencies → minimal change → tests. Obtain owner approval before changing this file, then update the specification, public guides, and affected tests in one coherent revision.
 
 ## 2026-10-18 owner-approved project rename
 

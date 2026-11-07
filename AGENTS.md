@@ -1,135 +1,53 @@
-# Agent instructions — alp-ui
+# Agent guide — alp-ui
 
-## Documentation authority
+## Routing and authority
 
-Human-facing documentation lives in `README.md` and `docs/`. Keep implementation
-contracts and agent planning under `docs/project/`; do not leak task history or source
-research into the user guide.
+1. Begin at [the project route](docs/project/README.md), then read the locked
+   [decisions](docs/project/DECISIONS.md) and core [spec](docs/project/SPEC.md).
+2. For current usage read [components](docs/components.md),
+   [getting started](docs/getting-started.md), and [theme](docs/theme.md).
+3. For staged work follow the [active specs](docs/project/specs/2026-11-release-preparation/README.md)
+   and mandatory [version-control rules](docs/project/specs/2026-11-release-preparation/VERSION_CONTROL.md).
+4. Review [legal notices](docs/legal/THIRD_PARTY_NOTICES.md) for assets and packaging.
 
-Completed quality and release evidence belongs in `docs/project/reports/`. Legal
-notices belong in `docs/legal/`.
-
-When documents disagree, follow this order:
-
-1. `docs/project/DECISIONS.md`
-2. `docs/project/SPEC.md`
-3. `docs/project/THEME_ALPACA_LIGHT.md`,
-   `docs/project/COMPONENT_CATALOG.md`, and `docs/project/QUALITY.md`
-4. The assigned file in `tasks/`
-
-`docs/project/GLOSSARY.md` governs naming everywhere. External references provide
-evidence, not an alternative contract. Do not silently change a locked decision.
-
-## Mandatory onboarding before every delegated task
-
-Read these in order:
-
-1. `docs/project/PRIMER.md`
-2. `docs/project/GLOSSARY.md`
-3. `docs/project/DECISIONS.md`
-4. `docs/project/SPEC.md`
-5. `docs/project/THEME_ALPACA_LIGHT.md` and
-   `docs/project/COMPONENT_CATALOG.md`
-6. `docs/project/QUALITY.md` and `docs/project/REPO_STRUCTURE.md`
-7. `docs/project/IMPLEMENTATION_PLAN.md`
-8. The assigned file in `tasks/`
-9. `references/SOURCE_MAP.md` and `references/LICENSE_AND_RESEARCH.md` when working
-   with styling sources, dependencies, licenses, packaging, or release
-
-## External design evidence
-
-The read-only references are `/Users/danie/Downloads/ui_library` and
-`/Users/danie/Downloads/alpaca-ui-frontend`. They are design evidence, not repositories
-to convert or sources to copy. Inspect cited originals before implementing borrowed
-behavior or design. Do not import obsolete navigation or application workflows into
-this general-purpose library.
-
-Keep file mappings, excerpts, screenshots, and inspection notes only in ignored
-`references/` or `docs/evidence.md`. Tracked documents may contain the library contract
-and independently authored implementation decisions.
+Completed task plans and reports live in Git history. No `references/` folder,
+machine-local reference tree, or second source of API documentation is required.
 
 ## Invariants
 
-- Follow `docs/project/GLOSSARY.md`; define one missing shared term instead of
-  inventing synonyms.
-- Use PySide6 Qt Widgets, not QML/Qt Quick, browser UI, React, or TypeScript.
-- The only runtime dependency is PySide6-Essentials. Do not add external UI
-  frameworks, Qt Addons, plotting, icon-pack, or networking dependencies.
-- The source is MIT-licensed; Qt and bundled fonts retain separate terms. Keep
-  `docs/legal/THIRD_PARTY_NOTICES.md` and downstream compliance guidance accurate.
-- Alpaca Light is the first Theme. Components consume semantic tokens rather than
-  embedding brand colors.
-- Keep the default desktop type scale comfortably readable. Density may change
-  control geometry and spacing, never font point sizes.
-- Prefer native Qt controls, signals, model/view interfaces, keyboard behavior, and
-  accessibility.
-- Do not create wrappers without reusable styling, behavior, or contract.
-- Do not add domain models, app controllers, persistence, routing, application status
-  enums, or pipeline assumptions.
-- No backward compatibility is required for the old TypeScript library or Alpaca UI.
-- Keep UI work on the GUI thread; widgets never own application computation.
-- Do not add public helpers or speculative options without a documented consumer.
+- Implement generic PySide6 **Qt Widgets**, not QML, browser UI, or navigation.
+  Only PySide6-Essentials is a runtime dependency.
+- Retain MIT source license and separate Qt/font notices; preserve authentic
+  original brand assets.
+- Install immutable, typed Alpaca Light Theme once before constructing widgets;
+  use semantic tokens and localized styling, never global QSS or hot retheming.
+- Preserve Qt parenting, model/view, signals, keyboard/focus and accessibility.
+  The application owns all data, controllers, workers, filesystem, networking,
+  persistence, validation rules, and navigation.
+- Do not extract a new public Component without a real second consumer,
+  architecture review, tests and Gallery example. Locked decisions need
+  explicit owner approval before they change.
 
-## Development and verification
+## Mandatory pre-push and final-head CI
 
-Use the repository environment and keep generated output in ignored locations:
+CI validates the **entire repository**, including fenced Markdown Python.
+Documentation-only edits are **not exempt**.
 
-```bash
-.venv/bin/python -m pytest
-.venv/bin/python -m ruff check .
-.venv/bin/python -m ruff format --check .
-.venv/bin/python -m build
-.venv/bin/python -m twine check dist/*
-```
+1. Record actual `main`/branch SHAs, current CI and tool versions
+   (`python -m ruff --version`), scope, and review gate before editing.
+2. From the root **before the first push and after each fix**, run
+   `python -m ruff check .`, `python -m ruff format --check .` and
+   `git diff --check`. Run scoped link/image/API-example checks as well.
+3. For code and release changes, also run `python -m pytest`,
+   `python -m build` and `python -m twine check dist/*`, with an
+   isolated installed-wheel check where relevant.
+4. If VM tools or checkout are unavailable, record exactly which checks
+   were not run. Read genuine CI results and logs, correct the root
+   cause, and rerun appropriate checks; never claim skipped tests passed.
+5. Require the **full Windows Python 3.11/3.12/3.13 matrix on the final
+   PR head SHA**, not an earlier green commit. Obtain owner/code review
+   before merge. Put CI URLs, job results, test counts and review
+   status in the PR body, avoiding post-green evidence-only commits.
 
-On Windows, use `.venv\Scripts\python`. The committed CI matrix covers Windows
-with Python 3.11, 3.12, and 3.13. `dist/`, build output, and local visual evidence are
-ignored; do not commit them.
-
-### Mandatory pre-push CI preflight (including documentation-only changes)
-
-CI validates the **entire checkout**, not just changed files: Ruff lint, Ruff
-formatting, pytest, build and Twine checks. Ruff may inspect Python code examples
-inside Markdown files. Never assume a documentation-only or no-extraction PR is
-exempt from preflight, or that unchanged files already pass.
-
-1. Before editing, record the live `main`/branch SHAs, required review gate,
-   CI commands and tool versions (`python -m ruff --version`). Use the same
-   dependency versions as CI where feasible; do not silently change/pin tooling.
-2. Before the first push and after *every* fix, run from the repository root:
-   `python -m ruff check .`, `python -m ruff format --check .`, and
-   `git diff --check`. Run task-specific tests, documentation link/example checks,
-   and build/Twine checks when in scope. A narrow local test selection does not
-   replace the repository's full Windows CI matrix on the final PR head.
-3. If tools are unavailable in the VM, state which checks were not run and let
-   real CI provide the evidence. Read the failing job log, fix the smallest
-   underlying issue, rerun all applicable preflight commands, and verify the
-   **new exact commit**; do not waive Ruff rules or claim skipped checks passed.
-4. Treat the *last successful CI head SHA* as the reviewed artifact. Record
-   per-platform outcomes, test counts, CI links and review status in the PR body
-   after checks complete. Avoid post-green commits merely to document results;
-   any new commit, even documentation-only, requires fresh CI readback.
-   Never merge without the required review and passing checks.
-
-## Executing a task
-
-1. Inspect repository state and search for existing equivalents before adding a class,
-   function, or module.
-2. Restate scope, external dependencies, changed artifacts, callers, tests, fixtures,
-   exports, and the Qt primitive being reused.
-3. Implement only the assigned work and stop at its runnable/testable seam.
-4. Test through public Component APIs and add relevant Gallery/docs coverage.
-5. Validate keyboard behavior, focus, accessibility names, layout scaling, Theme
-   colors, and packaging as applicable.
-6. Report changed files, acceptance results, tests, visual review, limitations,
-   dependency/license changes, and decisions needing owner approval.
-
-If a locked decision is unworkable, stop that portion, provide concrete evidence,
-propose the smallest correction, and request a decision. Continue independent work.
-
-## Review discipline
-
-Search first, reuse the authoritative implementation, name actual consumers, enforce
-invariants at owning boundaries, test public contracts, avoid duplicate derived state,
-and do not extract infrastructure preemptively. This repository is independent, so
-application-specific persistence and domain rules do not enter the package.
+Qt offscreen tests do not replace native visual, DPI, or screen-reader review
+when such platform qualification is claimed.
