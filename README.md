@@ -82,6 +82,13 @@ python -m gallery.main
 python -m gallery.showcase
 ```
 
+On Windows, use the project's virtual environment from the repository root:
+
+```powershell
+.\\.venv\Scripts\python -m gallery.main
+.\\.venv\Scripts\python -m gallery.showcase
+```
+
 <p>
   <img src="docs/images/gallery-actions.png" alt="Gallery buttons in four variants and styled card surfaces" width="49%">
   <img src="docs/images/gallery-fields.png" alt="Gallery text, numeric, and selection fields and toggle controls" width="49%">
