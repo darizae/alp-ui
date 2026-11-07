@@ -86,6 +86,31 @@ On Windows, use `.venv\Scripts\python`. The committed CI matrix covers Windows
 with Python 3.11, 3.12, and 3.13. `dist/`, build output, and local visual evidence are
 ignored; do not commit them.
 
+### Mandatory pre-push CI preflight (including documentation-only changes)
+
+CI validates the **entire checkout**, not just changed files: Ruff lint, Ruff
+formatting, pytest, build and Twine checks. Ruff may inspect Python code examples
+inside Markdown files. Never assume a documentation-only or no-extraction PR is
+exempt from preflight, or that unchanged files already pass.
+
+1. Before editing, record the live `main`/branch SHAs, required review gate,
+   CI commands and tool versions (`python -m ruff --version`). Use the same
+   dependency versions as CI where feasible; do not silently change/pin tooling.
+2. Before the first push and after *every* fix, run from the repository root:
+   `python -m ruff check .`, `python -m ruff format --check .`, and
+   `git diff --check`. Run task-specific tests, documentation link/example checks,
+   and build/Twine checks when in scope. A narrow local test selection does not
+   replace the repository's full Windows CI matrix on the final PR head.
+3. If tools are unavailable in the VM, state which checks were not run and let
+   real CI provide the evidence. Read the failing job log, fix the smallest
+   underlying issue, rerun all applicable preflight commands, and verify the
+   **new exact commit**; do not waive Ruff rules or claim skipped checks passed.
+4. Treat the *last successful CI head SHA* as the reviewed artifact. Record
+   per-platform outcomes, test counts, CI links and review status in the PR body
+   after checks complete. Avoid post-green commits merely to document results;
+   any new commit, even documentation-only, requires fresh CI readback.
+   Never merge without the required review and passing checks.
+
 ## Executing a task
 
 1. Inspect repository state and search for existing equivalents before adding a class,

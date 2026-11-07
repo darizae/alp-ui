@@ -15,6 +15,22 @@ Use compact standard GitHub-rendered badges with accurate destinations: MIT lice
 - Keep finished historical work in Git history, not a parallel `archive/` Markdown tree. Preserve the current specs until executed; subsequently trim these too.
 - Check local relative links, references in `AGENTS.md`/CI and public API examples after deletion. A route to a removed document is a failure.
 
+## Mandatory documentation CI gate (A2)
+
+- Begin only after the A1 implementation PR is reviewed and merged. Read back
+  the actual post-A1 `main` SHA and existing CI workflow before branching.
+- **Before the first push**, run repository-wide `python -m ruff check .` and
+  `python -m ruff format --check .` with the CI-compatible toolchain, even
+  when editing only Markdown. Ruff can format fenced Python examples in Markdown;
+  check retained snippets, including after deleting/consolidating old task files.
+  Also run the scoped broken-link/image and quickstart/API-example checks.
+- If VM tools cannot run, record the limitation explicitly and use genuine CI.
+  Do not claim a passing result from inspection alone. Require the **full Windows
+  3.11/3.12/3.13 matrix on the final PR head**, not an earlier green commit.
+  Keep CI results in the PR description to avoid unnecessary post-green commits.
+- When slimming `AGENTS.md`, **preserve its mandatory pre-push and final-head CI
+  rules**, even if obsolete onboarding routes are removed.
+
 ## Where and how
 
 **GitHub API:** list references, edit/delete Markdown and README, review PR. **ChatGPT VM:** static broken-link/image existence scanner, basic Markdown preview if available, build/wheel metadata and ordinary test commands; screenshots already exist. **Local native:** none for this editorial work.

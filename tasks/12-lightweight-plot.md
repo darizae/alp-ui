@@ -42,10 +42,12 @@ Proposed signatures, subject to evidence-backed refinement **before implementati
 from alp_ui.components import Plot
 
 line = Plot(kind="line", x_label="Time (s)", y_label="Value")
-line.setLines({
-    "Series A": [(0.0, 0.3), (1.0, 0.4), (2.0, 0.7)],
-    "Series B": [(0.0, 0.5), (1.0, 0.45), (2.0, 0.55)],
-})
+line.setLines(
+    {
+        "Series A": [(0.0, 0.3), (1.0, 0.4), (2.0, 0.7)],
+        "Series B": [(0.0, 0.5), (1.0, 0.45), (2.0, 0.55)],
+    }
+)
 
 bars = Plot(kind="bar", x_label="Category", y_label="Value")
 bars.setBars([("A", 0.62), ("B", 0.24), ("C", 0.14)])

@@ -469,9 +469,7 @@ class FolderPicker(QWidget):
         dialog.setOption(QFileDialog.Option.DontUseNativeDialog, True)
         dialog.setOption(QFileDialog.Option.ShowDirsOnly, True)
         dialog.setFileMode(QFileDialog.FileMode.Directory)
-        dialog.setFilter(
-            QDir.Filter.AllDirs | QDir.Filter.NoDotAndDotDot | QDir.Filter.Hidden
-        )
+        dialog.setFilter(QDir.Filter.AllDirs | QDir.Filter.NoDotAndDotDot | QDir.Filter.Hidden)
         dialog.setWindowTitle("Choose folder")
         if self._folder_path:
             dialog.setDirectory(self._folder_path)
