@@ -20,3 +20,7 @@ Use compact standard GitHub-rendered badges with accurate destinations: MIT lice
 **GitHub API:** list references, edit/delete Markdown and README, review PR. **ChatGPT VM:** static broken-link/image existence scanner, basic Markdown preview if available, build/wheel metadata and ordinary test commands; screenshots already exist. **Local native:** none for this editorial work.
 
 **Acceptance:** brand artwork visible on GitHub light/dark themes; images are authentic and legible; license/status claims are true; one quickstart runs against public API; materially fewer live documentation files and no broken routes; no functional code changes merely to satisfy prose.
+
+## Branch, PR and synchronization
+
+Follow [VERSION_CONTROL.md](VERSION_CONTROL.md). Start from the reviewed **post-01 `main`**; use `docs/alp-ui-02-human-readme`, not the existing long-lived spec branch. Keep all authentic images/legal content in the reviewed changeset, run link/API/docs checks, then merge the README/docs PR to `main` **before** the release branch begins. Record merged-`main` SHA and close obsolete references; do not postpone documentation cleanup to after tagging.
