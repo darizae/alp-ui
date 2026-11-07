@@ -10,6 +10,21 @@
 4. On **verified `main` only**, create an **annotated** tag `v0.1.0a1` at that exact SHA (not from the current planning branch). Draft a concise GitHub prerelease with the installed-wheel snippet and verified wheel/sdist files. No PyPI publishing without a separate explicit decision.
 5. Confirm tag SHA, release URLs/assets/checksums, and source documentation. Never move the tag to fix an error; use a new version.
 
+## Mandatory candidate and release CI gate (A3)
+
+- Start only from the *verified merged* post-A2 `main`, and record that SHA.
+  Before the first candidate push, run repository-wide Ruff lint and formatting
+  with a CI-compatible toolchain (also check Markdown Python examples), plus
+  task-scoped tests, packaging validation and isolated wheel smoke as applicable.
+- Require all Windows Python 3.11/3.12/3.13 CI jobs to pass on the **final
+  release-prep PR head**. Review and merge that PR before release qualification.
+  Only the **merged main** SHA may be frozen as `ALP_RELEASE_SHA`; rerun the
+  owning test/build/wheel-install checks against precisely that SHA.
+- Record the passing CI links, actual test counts, wheel/sdist hashes and
+  review/owner promotion decision in PR/release evidence. A post-green commit
+  (even release notes) changes the tested SHA and triggers new qualification;
+  never reuse old CI/artifact evidence or tag a PR head.
+
 ## Tool allocation and gates
 
 - **GitHub API:** change metadata/docs, prepare PR, inspect CI, check existing tags/releases and draft notes.
