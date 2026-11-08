@@ -71,11 +71,10 @@ release-qualified by the existing snapshots.
 
 [Gallery](../../gallery/main.py) is the component explorer;
 [Showcase](../../gallery/showcase.py) is native composition, not a
-public shell. Follow the active
-[release specs](specs/2026-11-release-preparation/README.md) and
-[version-control rules](specs/2026-11-release-preparation/VERSION_CONTROL.md)
-for sequential PRs, exact-SHA CI and promotion. Documentation
-work alone authorizes no release, tag or version bump.
+public shell. The shipped `v0.1.0a1` pre-release provenance is in
+[GitHub Releases](https://github.com/darizae/alp-ui/releases); follow the
+reviewed-PR delivery convention in [AGENTS.md](../../AGENTS.md) for later
+changes. Documentation work alone authorizes no release, tag or version bump.
 
 ## A1 reuse decision — 2026-11-07
 

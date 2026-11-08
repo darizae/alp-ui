@@ -6,9 +6,12 @@
    [decisions](docs/project/DECISIONS.md) and core [spec](docs/project/SPEC.md).
 2. For current usage read [components](docs/components.md),
    [getting started](docs/getting-started.md), and [theme](docs/theme.md).
-3. For staged work follow the [active specs](docs/project/specs/2026-11-release-preparation/README.md)
-   and mandatory [version-control rules](docs/project/specs/2026-11-release-preparation/VERSION_CONTROL.md).
-4. Review [legal notices](docs/legal/THIRD_PARTY_NOTICES.md) for assets and packaging.
+3. Review [legal notices](docs/legal/THIRD_PARTY_NOTICES.md) for assets and packaging.
+
+The shipped `v0.1.0a1` pre-release provenance lives in [GitHub
+Releases](https://github.com/darizae/alp-ui/releases) and the
+[README compatibility note](README.md#learn-more); the completed 2026-11
+release-preparation series is preserved in Git history and at the release tag.
 
 Completed task plans and reports live in Git history. No `references/` folder,
 machine-local reference tree, or second source of API documentation is required.

@@ -9,8 +9,8 @@ For visual provenance, see [brand assets](../brand/README.md).
 For distribution obligations, see
 [third-party notices](../legal/THIRD_PARTY_NOTICES.md).
 
-The [current specs](specs/2026-11-release-preparation/README.md) and
-[version-control contract](specs/2026-11-release-preparation/VERSION_CONTROL.md)
-govern sequencing, PR reviews, CI and any later release.
-Finished task plans, redundant catalogs and historical reports are
+The shipped `v0.1.0a1` pre-release and its provenance live in
+[GitHub Releases](https://github.com/darizae/alp-ui/releases); the completed
+2026-11 release-preparation series is preserved in Git history and at the
+release tag. Finished task plans, redundant catalogs and historical reports are
 preserved in Git history rather than kept as competing live routes.
