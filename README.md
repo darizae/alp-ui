@@ -123,3 +123,7 @@ only bundled theme, with no supported runtime theme switching.
 **License:** alp-ui source is [MIT](LICENSE). Qt/PySide6 and bundled fonts
 have separate redistribution obligations; consult the
 [third-party notices](docs/legal/THIRD_PARTY_NOTICES.md) before shipping an app.
+
+## Agent-assisted setup
+
+[Open the agent setup page](https://darizae.github.io/alp-ui/) or [copy the plain-text prompt](docs/agent-setup.txt) into your coding agent. Review its proposed changes and verification results.
